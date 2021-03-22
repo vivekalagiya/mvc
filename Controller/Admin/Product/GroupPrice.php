@@ -10,7 +10,7 @@ namespace Controller\Admin\Product;
 
 class GroupPrice extends \Controller\Core\Admin{
 
-    public function addAction() {
+    public function editAction() {
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
 
@@ -52,7 +52,7 @@ class GroupPrice extends \Controller\Core\Admin{
             print_r($model);
             $model->save();
         }
-        $this->redirect('','add',['id' => $product_id, 'tab' => 'groupPrice']);
+        $this->redirect('','edit',['id' => $product_id, 'tab' => 'groupPrice']);
     }
 
 }

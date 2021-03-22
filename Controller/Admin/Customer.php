@@ -21,40 +21,37 @@ class Customer extends \Controller\Core\Admin{
 
     }
 
-    public function editAction() {
+    public function editAction() {  
+        try {
+            $id = $this->getRequest()->getGet('id');
+            $customer = \Mage::getModel('Model_Customer');
+            if($id) {
+                $customer = \Mage::getModel('Model_Customer')->load($id);
+                if(!$customer) {
+                    throw new \Exception("Invalid Id", 1);
+                }
+            }
+            
+            $layout = $this->getLayout();
+            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            $content = $layout->getContent();
+            $customerEdit = \Mage::getBlock('Block_Admin_Customer_Edit')->setCustomer($customer);
+            $content->addChild($customerEdit, 'customerEdit');
+            
+            $leftBar = $layout->getLeftBar();
+            $tab = \Mage::getBlock('Block_Admin_Customer_Edit_Tabs');
+            $leftBar->addChild($tab, 'tab');
+            $this->renderLayout();
+            
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('Admin_Customer','index');
+            exit(0);
         
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-        $id = $this->getRequest()->getGet('id');
-        $customer = \Mage::getModel('Model_Customer')->load($id);
-        $content = $layout->getContent();
-        $customerEdit = \Mage::getBlock('Block_Admin_Customer_Edit')->setCustomer($customer);
-        $content->addChild($customerEdit, 'customerEdit');
-
-        $leftBar = $layout->getChild('leftBar');
-        $tab = \Mage::getBlock('Block_Admin_Customer_Edit_Tabs');
-        $leftBar->addChild($tab, 'tab');
-
-        $this->renderLayout();      
+        }
     }
     
-    public function addAction() {
-
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-        $content = $layout->getContent();
-        $customerEdit = \Mage::getBlock('Block_Admin_Customer_Edit');
-        $content->addChild($customerEdit, 'customerEdit');
-
-        $leftBar = $layout->getChild('leftBar');
-        $tab = \Mage::getBlock('Block_Admin_Customer_Edit_Tabs');
-        $leftBar->addChild($tab, 'tab');
-        
-        $this->renderLayout();
-    }
-
     // public function groupAction()
     // {
     //     $layout = $this->getLayout();

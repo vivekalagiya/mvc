@@ -11,7 +11,7 @@ $products = $this->getproducts();
 <body>
         <div style = "display:flex">
            <div><h1>Product Table</h1></div>
-           <div class="add"><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_product', 'add'); ?>>Add Product</a></div>
+           <div class="add"><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_product', 'edit'); ?>>Add Product</a></div>
         </div>     
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -66,4 +66,47 @@ $products = $this->getproducts();
 </body>
 
 
+
+
+
+
+<?php
+
+
+/*
+
 </html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script>
+
+$('.mydiv').click(function(){
+    var id = $(this).data(id);
+    alert($(this).data(id))
+    var status = $(this).data(status);
+console.log(id+status);
+return false;
+    $.confirm({
+    title: 'Confirm!',
+    content: 'Simple confirm!',
+    buttons: {
+        confirm: function () {
+            $.ajax({
+            url: '<?php echo $this->getUrl()->getUrl('Admin_Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>',
+            data : {
+                id : 1
+            }
+            dataType : 'json',
+        });
+        },
+        cancel: function () {
+            
+        }
+    }
+});
+});
+
+</script>
+ */
+
+?>

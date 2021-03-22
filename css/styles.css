@@ -48,6 +48,10 @@ body {
   .form-group {
     margin: 10px 0px 10px 0px;
   }
+  
+  .form-control {
+    margin: 4px 0px 4px 10px;
+  }
   /* .form-group label {
     display: block;
     text-align: left;

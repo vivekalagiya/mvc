@@ -19,30 +19,30 @@
           <tr class="form-group">
             <td><label>shipping Name</label></td>
             <td>
-                <input type="text" name="shipping[methodName]" value="<?php echo $shipping->methodName ?>" required>
+                <input class="form-control" type="text" name="shipping[methodName]" value="<?php echo $shipping->methodName ?>" required>
             </td>
   	    </tr>
         <tr class="form-group">
             <td><label>Code</label></td>
             <td>
-                <input type="text" name="shipping[code]" value="<?php echo $shipping->code ?>" required>
+                <input class="form-control" type="text" name="shipping[code]" value="<?php echo $shipping->code ?>" required>
             </td>
   	    </tr>
           <tr class="form-group">
             <td><label>Amount</label></td>
             <td>
-                <input type="text" name="shipping[amount]" value="<?php echo $shipping->amount ?>"  required>
+                <input class="form-control" type="text" name="shipping[amount]" value="<?php echo $shipping->amount ?>"  required>
             </td>
   	    </tr>
           <tr class="form-group">
             <td><label>Description</label></td>
-            <td><textarea name="shipping[description]" ><?php echo $shipping->description ?></textarea>
+            <td><textarea class="form-control" name="shipping[description]" ><?php echo $shipping->description ?></textarea>
             </td>
         </tr>
         <tr class="form-group">
             <td><label for="status">Status</label></td>
             <td>
-              <select name="shipping[status]" id="status">
+              <select class="form-control" name="shipping[status]" id="status">
                 <option value="enabled" <?php if($shipping->status == 1) { ?> selected <?php } ?>>Enabled</option> 
                 <option value="disabled" <?php if($shipping->status == 0) { ?> selected <?php } ?>>Disabled</option>
               </select>

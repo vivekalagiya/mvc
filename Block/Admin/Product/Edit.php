@@ -18,6 +18,18 @@ class Edit extends \Block\Core\Template
         $this->setTemplate('View/Admin/Product/edit.php');
     }
 
+    public function setProduct(\Model\Product $product) {
+        $this->product = $product;
+        return $this;
+    }
+
+    public function getProduct() {
+        if(!$this->product) {
+            return Null;
+        }
+        return $this->product;
+    }
+
     public function getTabContent()
     {
         $tabBlock = \Mage::getBlock('Block_Admin_Product_Edit_Tabs');
@@ -27,6 +39,6 @@ class Edit extends \Block\Core\Template
             return Null;
         }
         $block = $tabs[$tab]['block'];
-        echo $block->toHtml();
+        return $block->toHtml();
     }
 }

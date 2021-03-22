@@ -12,7 +12,7 @@
  
         <h1>Payment Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_payment', 'add'); ?>>Add Payment</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_payment', 'edit'); ?>>Add Payment</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">

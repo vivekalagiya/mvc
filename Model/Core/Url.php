@@ -53,7 +53,7 @@ class Url
         $queryString = http_build_query($final);
         unset($final);
         
-        return "http://localhost/projects/Cybercom/php-application/?{$queryString}";
+        return "http://localhost/projects/mvc/?{$queryString}";
     }
 
 }

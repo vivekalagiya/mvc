@@ -4,6 +4,11 @@
         <td height='100px' colspan='3'><?php require_once 'View/Admin/Templates/header.php' ?></td>
     </tr>
     <tr>
+        <td>
+            <?php  echo $this->createBlock('Block_Core_Layout_Message')->toHtml(); ?>
+        </td>
+    </tr>
+    <tr>
         <td height='500px' width='15%'>2</td>
         <td><pre><?php echo $this->getContent()->toHtml(); ?></pre></td>
         <td width='15%'>4</td>

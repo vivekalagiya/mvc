@@ -20,17 +20,6 @@ class CustomerGroup extends \Controller\Core\Admin{
 
     }
 
-    public function addAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-        $content = $layout->getContent();
-        $customerGroup = \Mage::getBlock('Block_Admin_Customer_CustomerGroup_Edit');
-        $content->addChild($customerGroup, 'customerGroup');
-        
-        $this->renderLayout();
-            
-    }
 
     public function editAction() {
         $layout = $this->getLayout();

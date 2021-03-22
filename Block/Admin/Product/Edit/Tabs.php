@@ -15,12 +15,13 @@ class Tabs extends \Block\Core\Template
     
     public function prepareTab()    
     {
-        $this->addTab('productInformation', ['label' => 'Product Information', 'url' => $this->getUrl()->getUrl('Admin_product','add', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'productInformation']), 'block' => \Mage::getBlock('Block_Admin_Product_Edit_Tabs_Form')]);
+        $this->addTab('productInformation', ['label' => 'Product Information', 'url' => $this->getUrl()->getUrl('Admin_product','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'productInformation']), 'block' => \Mage::getBlock('Block_Admin_Product_Edit_Tabs_Form')]);
         $this->addTab('productMedia', ['label' => 'Media ', 'url' => $this->getUrl()->getUrl('Admin_product','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'productMedia']), 'block' => \Mage::getBlock('Block_Admin_Product_Edit_Tabs_Media')]);
         $this->addTab('groupPrice', ['label' => 'Group Price ', 'url' => $this->getUrl()->getUrl('Admin_product','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'groupPrice']), 'block' => \Mage::getBlock('Block_Admin_Product_Edit_Tabs_groupPrice')]);
+        $this->addTab('attributes', ['label' => 'Attributes ', 'url' => $this->getUrl()->getUrl('Admin_product','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'attributes']), 'block' => \Mage::getBlock('Block_Admin_Product_Edit_Tabs_Attributes')]);
         $this->setDefaultTab('productInformation');
         return $this;
-    }
+    }       
     
     public function setDefaultTab($defaultTab)  
     {

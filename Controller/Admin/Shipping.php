@@ -19,23 +19,32 @@ class Shipping extends \Controller\Core\Admin{
         $this->renderLayout();
     }
 
-    public function editAction() {
+    public function editAction() {  
+        try {
+            $id = $this->getRequest()->getGet('id');
+            $shipping = \Mage::getModel('Model_Shipping');
+            if($id) {
+                $shipping = \Mage::getModel('Model_Shipping')->load($id);
+                if(!$shipping) {
+                    throw new \Exception("Invalid Id", 1);
+                }
+            }
+            
+            $layout = $this->getLayout();
+            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            $content = $layout->getContent();
+            $shippingEdit = \Mage::getBlock('Block_Admin_Shipping_Edit')->setShipping($shipping);
+            $content->addChild($shippingEdit, 'shippingEdit');
+            
+            $this->renderLayout();
+            
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('Admin_Shipping','index');
+            exit(0);
         
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $shippingEdit = \Mage::getBlock('Block_Admin_Shipping_Edit');
-        $content->addChild($shippingEdit, 'shippingEdit');
-        $this->renderLayout();
-    }
-
-    public function addAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $shippingEdit = \Mage::getBlock('Block_Admin_Shipping_Edit');
-        $content->addChild($shippingEdit, 'shippingEdit');
-        $this->renderLayout();
+        }
     }
 
     public function saveAction() {

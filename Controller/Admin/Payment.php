@@ -19,23 +19,35 @@ class Payment extends \Controller\Core\Admin{
         $this->renderLayout();
     }
 
-    public function editAction() {
+    public function editAction() {  
+        try {
+            $id = $this->getRequest()->getGet('id');
+            $payment = \Mage::getModel('Model_Payment');
+            if($id) {
+                $payment = \Mage::getModel('Model_Payment')->load($id);
+                if(!$payment) {
+                    throw new \Exception("Invalid Id", 1);
+                }
+            }
+            
+            $layout = $this->getLayout();
+            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            $content = $layout->getContent();
+            $paymentEdit = \Mage::getBlock('Block_Admin_Payment_Edit')->setPayment($payment);
+            $content->addChild($paymentEdit, 'paymentEdit');
+            
+            $leftBar = $layout->getLeftBar();
+            $tab = \Mage::getBlock('Block_Admin_Payment_Edit_Tabs');
+            $leftBar->addChild($tab, 'tab');
+            $this->renderLayout();
+            
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('Admin_Payment','index');
+            exit(0);
         
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $paymentEdit = \Mage::getBlock('Block_Admin_Payment_Edit');
-        $content->addChild($paymentEdit, 'paymentEdit');
-        $this->renderLayout();
-    }
-
-    public function addAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $paymentForm = \Mage::getBlock('Block_Admin_Payment_Edit');
-        $content->addChild($paymentForm, 'paymentForm');
-        $this->renderLayout();
+        }
     }
 
     public function saveAction() {

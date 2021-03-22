@@ -19,23 +19,36 @@ class Attribute extends \Controller\Core\Admin{
         $this->renderLayout();
     }
 
-    public function editAction() {
+    public function editAction() {  
+        try {
+            
+            $id = $this->getRequest()->getGet('id');
+            $attribute = \Mage::getModel('Model_Attribute');
+            if($id) {
+                $attribute = \Mage::getModel('Model_Attribute')->load($id);
+                if(!$attribute) {
+                    throw new \Exception("Invalid Id", 1);
+                }
+            }
+            
+            $layout = $this->getLayout();
+            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            $content = $layout->getContent();
+            $attributeEdit = \Mage::getBlock('Block_Admin_Attribute_Edit')->setAttribute($attribute);
+            $content->addChild($attributeEdit, 'attributeEdit');
+            
+            $leftBar = $layout->getLeftBar();
+            $tab = \Mage::getBlock('Block_Admin_Attribute_Edit_Tabs');
+            $leftBar->addChild($tab, 'tab');
+            $this->renderLayout();
+            
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('Admin_Attribute','index');
+            exit(0);
         
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $attributeEdit = \Mage::getBlock('Block_Admin_Attribute_Edit');
-        $content->addChild($attributeEdit, 'AttributeEdit');
-        $this->renderLayout();
-    }
-
-    public function addAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $attributeEdit = \Mage::getBlock('Block_Admin_Attribute_Edit');
-        $content->addChild($attributeEdit, 'AttributeEdit');
-        $this->renderLayout();
+        }
     }
 
     public function saveAction() {
@@ -45,12 +58,16 @@ class Attribute extends \Controller\Core\Admin{
             if(!$this->request->isPost()) {
                 throw new \Exception("Invalid Save Request.");
             }
-            $id = $this->getRequest()->getGet('id');
-            $attribute = \Mage::getModel('Model_attribute')->load($id);
+            $product_id = $this->getRequest()->getGet('id');
+            $attribute = \Mage::getModel('Model_attribute')->load($product_id);
             $postData = $this->getRequest()->getPost('attribute');
             $attribute->setData($postData);
+            if($attribute->attribute_id) {
+                $query = "ALTER TABLE `{$attribute->entityType_id}` CHANGE `{$attribute->code}` `{$attribute->code}` {$attribute->backendType} NULL DEFAULT NULL";
+            } else {
+                $query = "ALTER TABLE `{$attribute->entityType_id}` ADD `{$attribute->code}` {$attribute->backendType} ";
+            }   
             $attribute->save();
-            $query = "ALTER TABLE `{$attribute->entityType_id}` ADD `{$attribute->code}` {$attribute->backendType} ";
             $attribute->insert($query);
 
             $this->redirect('Admin_attribute','index');

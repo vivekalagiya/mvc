@@ -50,7 +50,7 @@ class Attribute extends \Model\Core\Table {
     }
     
 }
-
+    
 
 
 ?>

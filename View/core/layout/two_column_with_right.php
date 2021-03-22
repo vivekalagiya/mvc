@@ -4,7 +4,8 @@
         <td height='100px' colspan='3'><?php require_once 'View/Admin/Templates/header.php' ?></td>
     </tr>
     <tr>
-        <td><pre><?php print_r($this->getContent()->toHtml()); ?></pre></td>
+    <?php  echo $this->createBlock('Block_Core_Layout_Message')->toHtml(); ?>
+        <td><?php echo $this->getContent()->toHtml(); ?></td>
         <td height='500px' width='20%'>2</td>
     </tr>
     <tr>

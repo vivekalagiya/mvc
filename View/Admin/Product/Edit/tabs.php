@@ -3,8 +3,7 @@
 <?php $tabs = $this->getTabs(); ?>
 
 <?php foreach ($tabs as $key => $tab) : ?>
-    <?php if($key == 'productMedia' || $key == 'groupPrice') : ?>
-
+    <?php if($key != 'productInformation') : ?>
     <?php if($this->getRequest()->getGet('id')) : ?>
     <a class="btn" href="<?php echo $tab['url'] ?>"><?php echo $tab['label'] ?></a><br><br>
     <?php endif; ?>

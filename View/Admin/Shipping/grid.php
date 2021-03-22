@@ -12,7 +12,7 @@
  
         <h1>Shipping Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Shipping', 'add'); ?>>Add shipping</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Shipping', 'edit'); ?>>Add shipping</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">

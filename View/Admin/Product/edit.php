@@ -1,5 +1,5 @@
 
 <?php
-$this->getTabContent(); 
+echo $this->getTabContent(); 
 ?>
 

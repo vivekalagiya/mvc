@@ -8,7 +8,7 @@
 <body>
         <h1>Category Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_category', 'add'); ?>>Add Category</a><br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_category', 'edit'); ?>>Add Category</a><br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">

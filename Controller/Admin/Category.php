@@ -41,13 +41,12 @@ class Category extends \Controller\Core\Admin{
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            if(!$id) {
-                throw new \Exception("Invalid Id", 1);
-            }
-            $category = \Mage::getModel('Model_Category')->load($id);
-    
-            if(!$category) {
-                throw new \Exception("Invalid Id", 1);
+            $category = \Mage::getModel('Model_Category');
+            if($id) {
+                $category = \Mage::getModel('Model_Category')->load($id);
+                if(!$category) {
+                    throw new \Exception("Invalid Id", 1);
+                }
             }
             
             $layout = $this->getLayout();

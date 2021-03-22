@@ -13,44 +13,43 @@ class Product extends \Controller\Core\Admin{
     public function indexAction() {
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent( );
-        $productGrid = \Mage::getBlock('Block_Admin_Product_grid');
+        $content = $layout->getContent();
+        $productGrid = \Mage::getBlock('Block_Admin_Product_grid'); 
         $content->addChild($productGrid, 'productGrid');
         $this->renderLayout();
     }
 
-    public function editAction() {
-        
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-        $content = $layout->getContent();
-        $productEdit = \Mage::getBlock('Block_Admin_Product_Edit');
-        $content->addChild($productEdit, 'productEdit');
-        
-        if($this->getRequest()->getGet('id')) {
-            $leftBar = $layout->getChild('leftBar');
+    public function editAction() {  
+        try {
+            $id = $this->getRequest()->getGet('id');
+            $product = \Mage::getModel('Model_Product');
+            if($id) {
+                $product = \Mage::getModel('Model_Product')->load($id);
+                if(!$product) {
+                    throw new \Exception("Invalid Id", 1);
+                }
+            }
+            
+            $layout = $this->getLayout();
+            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            $content = $layout->getContent();
+            $productEdit = \Mage::getBlock('Block_Admin_Product_Edit')->setProduct($product);
+            $content->addChild($productEdit, 'productEdit');
+            
+            $leftBar = $layout->getLeftBar();
             $tab = \Mage::getBlock('Block_Admin_Product_Edit_Tabs');
             $leftBar->addChild($tab, 'tab');
-         }
-        $this->renderLayout();      
-    }
-
-    public function addAction() {
-
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-        $content = $layout->getContent();
-        $productEdit = \Mage::getBlock('Block_Admin_Product_Edit');
-        $content->addChild($productEdit, 'productEdit');
-
-        $leftBar = $layout->getChild('leftBar');
-        $tab = \Mage::getBlock('Block_Admin_Product_Edit_Tabs');
-        $leftBar->addChild($tab, 'tab');
+            $this->renderLayout();
+            
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('Admin_Product','index');
+            exit(0);
         
-        $this->renderLayout();
+        }
     }
+
 
     public function saveAction() {
 
@@ -117,8 +116,7 @@ class Product extends \Controller\Core\Admin{
 
     public function statusAction() {
         try {
-            $this->setRequest();
-            $product_id = ( int) $this->request->getGet('id');
+            $product_id = (int) $this->getRequest()->getGet('id');
             if(!$product_id) {
                 throw new \Exception("Invalid Request.");
             }

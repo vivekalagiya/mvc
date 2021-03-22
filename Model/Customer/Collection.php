@@ -1,6 +1,6 @@
 <?php
 
-namespace Model_Customer;
+namespace Model\Customer;
 
 class Collection 
 {

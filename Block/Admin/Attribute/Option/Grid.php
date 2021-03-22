@@ -20,8 +20,8 @@ class Grid extends \Block\Core\Template
         $this->attribute = $attribute;
         return $this;
     }
-
-    public function getAttribute()
+    
+    public function getAttribute() 
     {
         if(!$this->attribute) {
             $this->setAttribute();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Model_Attribute;
+namespace Model\Attribute;
 
 \Mage::loadFileByClassName('Model_Core_Table');
 

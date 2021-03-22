@@ -19,23 +19,32 @@ class Admin extends \Controller\Core\Admin{
         $this->renderLayout();
     }
 
-    public function editAction() {
-        
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $adminEdit = \Mage::getBlock('Block_Admin_Admin_Edit');
-        $content->addChild($adminEdit, 'adminEdit');
-        $this->renderLayout();
-    }
+    public function editAction() {  
+        try {
+            $id = $this->getRequest()->getGet('id');
+            $admin = \Mage::getModel('Model_Admin');
+            if($id) {
+                $admin = \Mage::getModel('Model_Admin')->load($id);
+                if(!$admin) {
+                    throw new \Exception("Invalid Id", 1);
+                }
+            }
 
-    public function addAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-        $content = $layout->getContent();
-        $adminForm = \Mage::getBlock('Block_Admin_Admin_Edit');
-        $content->addChild($adminForm, 'adminForm');
-        $this->renderLayout();
+            $layout = $this->getLayout();
+            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            $content = $layout->getContent();
+            $adminEdit = \Mage::getBlock('Block_Admin_Admin_Edit')->setAdmin($admin);
+            $content->addChild($adminEdit, 'adminEdit');
+            
+            $this->renderLayout();
+            
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('Admin_Admin','index');
+            exit(0);
+        
+        }
     }
 
     public function saveAction() {

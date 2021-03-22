@@ -1,5 +1,4 @@
 <?php $product = $this->getProduct(); ?>
-<?php //echo '<pre>'; print_r($product->status); die; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,7 @@
   <div class=" head container">
   	<h2>Manage Product</h2>
   </div>
-  <form class="form" name='form' method="post" action="<?php echo $this->getUrl()->getUrl('','save',['id' => $product->product_id])  ?>" >
+  <form class="form" name='form' method="post" action="<?php echo $this->getUrl()->getUrl('','save',['id' => $product->product_id]) ?>" >
     <table>
   	  	<tr class="form-group">
             <td><label>SKU</label></td>
@@ -50,7 +49,7 @@
         <tr class="form-group">
             <td><label for="product[status]">Status</label></td>
             <td>
-              <select name="product[status]" id="status">
+              <select class="form-control" name="product[status]" id="status">
               <?php foreach ($product->getStatusOption() as $key => $value) : ?>
                 <option value="<?php echo $key; ?>" <?php if($product->status == $key): ?> selected <?php endif; ?>><?php echo $value; ?></option>
               <?php endforeach; ?>

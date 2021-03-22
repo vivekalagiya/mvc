@@ -13,12 +13,14 @@
  
         <h1>Option Table</h1>
         <form method="post" action="<?php echo $this->getUrl()->getUrl('Admin_Attribute_Option', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
-        <input type="submit" class="btn" value="Update"> <br><br>
+        <input type="submit" class="btn" value="Update"> 
         
         
                 <a class="btn" onclick="addRow()">Add Option</a> <br><br>
                 <?php if(!$option) : ?>
-                <a class="btn" onclick="addRow()">Add Option</a> <br><br>
+                    <table class="table" id="existingOption">
+                        <tr><td></td></tr>
+                    </table>
                 <?php else : ?>
                 <?php foreach ($option as $key => $option) : ?>
                     <table class="table" id="existingOption">
@@ -26,18 +28,19 @@
                         <tr>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][name]" value="<?php echo $option->name; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][sortOrder]" value="<?php echo $option->sortOrder; ?>"></td>
-                            <td><a class="btn" name="removeOption" onclick="removeRow(this)">Remove</a></td>
+                            <td><a class="btn" name="removeOption" href="<?php echo $this->geturl()->getUrl('Admin_Attribute_Option', 'delete', ['option_id' => $option->option_id, 'attribute_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
                         </tr>
                         </tbody>
                     </table>
                 <?php endforeach; ?>
                 <?php endif; ?>   
+    </form>
 
     <div style="display:none">
         <table class="table" id="newOption">
             <tr>
-                <td><input type="text" name ="new[][name]" value=""></td>
-                <td><input type="text" name ="new[][sortOrder]" value=""></td>
+                <td><input type="text" name ="new[name][]" value=""></td>
+                <td><input type="text" name ="new[sortOrder][]" value=""></td>
                 
                 <td><a class="btn" onclick="removeRow(this)">Remove</a></td>
             </tr>
@@ -45,7 +48,6 @@
     </div>
     
 </body>
-</form>
 <script>
 
 function addRow() {
