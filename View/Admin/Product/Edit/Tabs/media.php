@@ -1,7 +1,7 @@
 <?php $images = $this->getImage(); ?>
 
 
-<form action="<?php echo $this->getUrl()->getUrl('Admin_Product_ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>"  method="post">
+<form action="<?php echo $this->getUrl()->getUrl('Product\ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>"  method="post">
 <input type="submit" class="btn" value="Update" </a>
 <input type="submit" class="btn" value="Remove" </a>
 <table class="table table-striped">
@@ -36,7 +36,7 @@
 </table>
 </form>
 <div>
-    <form class="form" action="<?php echo $this->getUrl()->getUrl('Admin_Product_ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>" enctype="multipart/form-data" method="post">
+    <form class="form" action="<?php echo $this->getUrl()->getUrl('Product\ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>" enctype="multipart/form-data" method="post">
         <div>
             <input type="file" class="btn" name="image"><br>
             <input type="submit" class="btn" name="upload" value="upload">
@@ -49,7 +49,7 @@
 <script>
     function submitForm(button) {
         var form = $(button).closest('form');
-        form.attr('action',"<?php echo $this->getUrl()->getUrl('Admin_Product_ProductMedia', 'save')?>");
+        form.attr('action',"<?php echo $this->getUrl()->getUrl('Product\ProductMedia', 'save')?>");
         form.submit();
         e.preventDefault();
     }

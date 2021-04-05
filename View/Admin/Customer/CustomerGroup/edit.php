@@ -10,7 +10,7 @@
   	<h2>Customer Group</h2>
   </div>
 	
-  <form class="form" name='form' method="POST" action="<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerGroup', 'save', ['id' => $customerGroup->group_id ]) ?>">
+  <form class="form" name='form' method="POST" action="<?php echo $this->getUrl()->getUrl('Customer\CustomerGroup', 'save', ['id' => $customerGroup->group_id ]) ?>">
     <table>
     
   	  	<tr class="form-group">

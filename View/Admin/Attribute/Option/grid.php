@@ -1,5 +1,5 @@
 <?php $option = $this->getAttribute()->getOptions();?>
-<?php //echo '<pre>'; print_r($option); ?>
+<?php // echo '<pre>'; print_r($option); ?>
 
 <html>
 
@@ -12,23 +12,25 @@
 <body>
  
         <h1>Option Table</h1>
-        <form method="post" action="<?php echo $this->getUrl()->getUrl('Admin_Attribute_Option', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
+        <form method="post" action="<?php echo $this->getUrl()->getUrl('Attribute\Option', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
         <input type="submit" class="btn" value="Update"> 
         
         
                 <a class="btn" onclick="addRow()">Add Option</a> <br><br>
                 <?php if(!$option) : ?>
                     <table class="table" id="existingOption">
-                        <tr><td></td></tr>
+                        <tbody>
+                            <tr><td></td></tr>
+                        </tbody>
                     </table>
                 <?php else : ?>
-                <?php foreach ($option as $key => $option) : ?>
+                <?php foreach ($option->getData() as $key => $option) : ?>
                     <table class="table" id="existingOption">
                         <tbody>
                         <tr>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][name]" value="<?php echo $option->name; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][sortOrder]" value="<?php echo $option->sortOrder; ?>"></td>
-                            <td><a class="btn" name="removeOption" href="<?php echo $this->geturl()->getUrl('Admin_Attribute_Option', 'delete', ['option_id' => $option->option_id, 'attribute_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
+                            <td><a class="btn" name="removeOption" href="<?php echo $this->geturl()->getUrl('Attribute\Option', 'delete', ['option_id' => $option->option_id, 'attribute_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -53,7 +55,6 @@
 function addRow() {
    var newOptionTable = document.getElementById('newOption');
    var existingOptionTable = document.getElementById('existingOption').children[0];
-   console.log(newOptionTable.children[0].children[0]);
    existingOptionTable.prepend(newOptionTable.children[0].children[0].cloneNode(true));
 }
 

@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-  <form class="form" name='form' method="POST" action="<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerAddresses', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
+  <form class="form" name='form' method="POST" action="<?php echo $this->getUrl()->getUrl('Customer\CustomerAddresses', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
   <table>
         <tr>
           <td colspan="2"><h2>Shipping Address</h2></td>

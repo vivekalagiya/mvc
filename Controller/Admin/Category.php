@@ -2,12 +2,6 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Model_Core_Message');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
-\Mage::loadFiLeByClassName('Model_Category');
-
 
 class Category extends \Controller\Core\Admin{
 
@@ -16,54 +10,35 @@ class Category extends \Controller\Core\Admin{
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $categoryGrid = \Mage::getBlock('Block_Admin_Category_grid');
+        $categoryGrid = \Mage::getBlock('Block\Admin\Category\grid');
         $content->addChild($categoryGrid, 'categoryGrid');
         $this->renderLayout();
 
     }
 
-    public function addAction() {              
-        
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-        $content = $layout->getContent();
-        $categoryEdit = \Mage::getBlock('Block_Admin_Category_Edit');
-        $content->addChild($categoryEdit, 'categoryEdit');
-        
-        $leftBar = $layout->getLeftBar();
-        $tab = \Mage::getBlock('Block_Admin_Category_Edit_Tabs');
-        $leftBar->addChild($tab, 'tab');
-        
-        $this->renderLayout();
-    }
-
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            $category = \Mage::getModel('Model_Category');
+            $category = \Mage::getModel('Model\category');
             if($id) {
-                $category = \Mage::getModel('Model_Category')->load($id);
+                $category = \Mage::getModel('Model\category')->load($id);
                 if(!$category) {
                     throw new \Exception("Invalid Id", 1);
                 }
             }
             
             $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+            $layout->setTemplate('./View/core/layout/one_column.php');
     
             $content = $layout->getContent();
-            $categoryEdit = \Mage::getBlock('Block_Admin_Category_Edit')->setCategory($category);
+            $categoryEdit = \Mage::getBlock('Block\Admin\Category\Edit')->setTableRow($category);
             $content->addChild($categoryEdit, 'categoryEdit');
             
-            $leftBar = $layout->getLeftBar();
-            $tab = \Mage::getBlock('Block_Admin_Category_Edit_Tabs');
-            $leftBar->addChild($tab, 'tab');
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Category','index');
+            $this->redirect('Category','index');
             exit(0);
         
         }
@@ -75,7 +50,8 @@ class Category extends \Controller\Core\Admin{
             if(!$this->getRequest()->isPost()) {
                 throw new \Exception("Invalid Save Request.");
             }
-            $category = \Mage::getBlock('Block_Admin_Category_Edit')->getCategory();
+            $category_id = $this->getRequest()->getGet('id');
+            $category = \Mage::getModel('Model\category')->load($category_id);
             if(!$category) {
                 throw new \Exception("Invalid Id.");
             }
@@ -87,13 +63,13 @@ class Category extends \Controller\Core\Admin{
             $path_id = $category->path_id;            
             $category->updatePathId($category);
             $category->updateChildrenPathId($path_id);
-            $this->redirect('Admin_Category','index');
+            $this->redirect('Category','index');
             exit(0);                 
         }
         
         catch(\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Category','index');
+            $this->redirect('Category','index');
             exit(0);
         }
         
@@ -106,18 +82,18 @@ class Category extends \Controller\Core\Admin{
                 throw new \Exception("Invalid delete Request.");
             }
             
-            $category = \Mage::getModel('Model_Category')->load($category_id);
+            $category = \Mage::getModel('Model\category')->load($category_id);
             $parent_id = $category->parent_id;
             $path_id = $category->path_id;
             $category->updateChildrenPathId($path_id, $parent_id);
             $category->delete($category_id);
 
             $this->getMessage()->setSuccess('Record Deleted Successfully.');
-            $this->redirect('Admin_category','index');
+            $this->redirect('Category','index');
         }
         catch(\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_category','index');
+            $this->redirect('Category','index');
         }
     }
     
@@ -140,12 +116,12 @@ class Category extends \Controller\Core\Admin{
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);   
             $this->getMessage()->setSuccess('Status Change Successfully.');
-            $this->redirect('Admin_category','index');
+            $this->redirect('Category','index');
             exit(0);
         }
         catch(\Exception $e) {   
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_category','index');   
+            $this->redirect('Category','index');   
         }
     }
             

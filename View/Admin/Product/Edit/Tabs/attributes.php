@@ -1,6 +1,6 @@
-<?php $attributes = $this->getAttributes(); ?>
-<?php //echo '<pre>'; print_r($attributes); ?>
-    <form class="form" method="post" action="<?= $this->getUrl()->getUrl('Admin_Product_Attributes', 'save', ['id' => $this->getRequest()->getGet('id') ]) ?>">
+<?php $attributes = $this->getAttributes()->getData(); ?>
+<?php //echo '<pre>'; print_r($this->getValue()); ?>
+    <form class="form" method="post" action="<?= $this->getUrl()->getUrl('Product\Attributes', 'save', ['id' => $this->getRequest()->getGet('id') ]) ?>">
     <table class="table">
      <?php foreach ($attributes as $key => $attribute) : ?>
     <?php //print_r($options = $attribute->getOptions()); ?>
@@ -11,8 +11,8 @@
                 <td><label><?= $attribute->name ?></label></td>
                 <td>    
                     <select class="form-control" name="<?= $attribute->name ?>" id="<?= $attribute->name ?>">
-                        <?php foreach($options as $option) : ?>
-                        <option name="<?= $attribute->name ?>[]" ><?= $option->name ?></option>
+                        <?php foreach($options->getData() as $option) : ?>
+                        <option name="<?= $attribute->name ?>[]" <?php  if($this->getValue($attribute->name) == $option->name) : ?> selected <?php endif; ?>><?= $option->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </td>
@@ -23,7 +23,7 @@
             <tr class="form-group">
                 <td><label><?= $attribute->name ?></label></td>
                 <td>    
-                    <input class="form-control" type="text" name="<?= $attribute->name ?>" id="<?= $attribute->name ?>">
+                    <input class="form-control" type="text" name="<?= $attribute->name ?>" id="<?= $attribute->name ?>" value="<?= $this->getValue($attribute->name) ?>">
                 </td>
             </tr>
         <?php endif; ?>
@@ -32,7 +32,7 @@
             <tr class="form-group">
                 <td><label><?= $attribute->name ?></label></td>
                 <td>    
-                    <textarea class="form-control" name="<?= $attribute->name ?>" id="<?= $attribute->name ?>"></textarea>
+                    <textarea class="form-control" name="<?= $attribute->name ?>" id="<?= $attribute->name ?>"><?= $this->getValue($attribute->name) ?></textarea>
                 </td>
             </tr>
         <?php endif; ?>
@@ -41,9 +41,9 @@
             <tr class="form-group">
                 <td><label><?= $attribute->name ?></label></td>
                 <td>  
-                    <?php foreach ($options as $key => $option) : ?>
-                        <input type="checkbox"  name="<?= $attribute->name ?>[<?= $option->option_id ?>]"  value="<?= $option->name ?>">
-                        <label for="<?= $option->option_id ?>"><?= $option->name ?></label><br>
+                    <?php foreach ($options->getData() as $key => $option) : ?>
+                        <input type="checkbox"  name="<?= $attribute->name ?>[<?= $option->option_id ?>]"  value="<?= $option->name ?>" <?php  if(strpos($this->getValue($attribute->name), $option->name) === false) : else : ?> checked <?php endif; ?>>
+                        <label for="<?= $attribute->name ?>[<?= $option->option_id ?>]"><?= $option->name ?></label><br>
                     <?php endforeach; ?>
                 </td>
             </tr>
@@ -53,9 +53,9 @@
             <tr class="form-group">
                 <td><label><?= $attribute->name ?></label></td>
                 <td>  
-                    <?php foreach ($options as $key => $option) : ?>
-                        <input type="radio"  name="<?= $attribute->name ?>" id="<?= $attribute->option_id ?>"  value="<?= $option->name ?>">
-                        <label for="<?= $option->option_id ?>"><?= $option->name ?></label><br>
+                    <?php foreach ($options->getData() as $key => $option) : ?>
+                        <input type="radio"  name="<?= $attribute->name ?>" id="<?= $attribute->option_id ?>"  value="<?= $option->name ?>" <?php  if($this->getValue($attribute->name) == $option->name) : ?> checked <?php endif; ?>>
+                        <label for="<?= $option->option_id ?>" ><?= $option->name ?></label><br>
                     <?php endforeach; ?>
                 </td>
             </tr>

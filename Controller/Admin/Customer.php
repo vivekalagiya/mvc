@@ -2,10 +2,10 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Model_Core_Message');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
+
+
+
 
 
 class Customer extends \Controller\Core\Admin{
@@ -15,7 +15,7 @@ class Customer extends \Controller\Core\Admin{
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $customerGrid = \Mage::getBlock('Block_Admin_Customer_grid');
+        $customerGrid = \Mage::getBlock('Block\Admin\Customer\grid');
         $content->addChild($customerGrid, 'customerGrid');
         $this->renderLayout();
 
@@ -24,66 +24,31 @@ class Customer extends \Controller\Core\Admin{
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            $customer = \Mage::getModel('Model_Customer');
+            $customer = \Mage::getModel('Model\Customer');
             if($id) {
-                $customer = \Mage::getModel('Model_Customer')->load($id);
+                $customer = \Mage::getModel('Model\Customer')->load($id);
                 if(!$customer) {
                     throw new \Exception("Invalid Id", 1);
                 }
             }
             
             $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+            $layout->setTemplate('./View/core/layout/one_column.php');
     
             $content = $layout->getContent();
-            $customerEdit = \Mage::getBlock('Block_Admin_Customer_Edit')->setCustomer($customer);
+            $customerEdit = \Mage::getBlock('Block\Admin\Customer\Edit')->setTableRow($customer);
             $content->addChild($customerEdit, 'customerEdit');
             
-            $leftBar = $layout->getLeftBar();
-            $tab = \Mage::getBlock('Block_Admin_Customer_Edit_Tabs');
-            $leftBar->addChild($tab, 'tab');
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Customer','index');
+            $this->redirect('Customer','index');
             exit(0);
         
         }
     }
     
-    // public function groupAction()
-    // {
-    //     $layout = $this->getLayout();
-    //     $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-    //     $content = $layout->getContent();
-    //     $customerGroup = \Mage::getBlock('Block_Admin_Customer_Group');
-    //     $content->addChild($customerForm, 'customerGroup');
-
-    //     $leftBar = $layout->getChild('leftBar');
-    //     $tab = \Mage::getBlock('Block_Admin_Customer_Edit_Tabs');
-    //     $leftBar->addChild($tab, 'tab');
-        
-    //     $this->renderLayout();
-    // }
-
-    // public function addressAction()
-    // {
-    //     $layout = $this->getLayout();
-    //     $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-
-    //     $content = $layout->getContent();
-    //     $customerAddress = \Mage::getBlock('Block_Admin_Customer_Address');
-    //     $content->addChild($customerForm, 'customerAddress');
-
-    //     $leftBar = $layout->getChild('leftBar');
-    //     $tab = \Mage::getBlock('Block_Admin_Customer_Edit_Tabs');
-    //     $leftBar->addChild($tab, 'tab');
-        
-    //     $this->renderLayout();
-    // }
-
     public function saveAction() {
 
         try {
@@ -92,7 +57,7 @@ class Customer extends \Controller\Core\Admin{
             }
             
             $customer_id = $this->getRequest()->getGet('id');
-            $customer = \Mage::getModel('Model_Customer')->load($customer_id);
+            $customer = \Mage::getModel('Model\Customer')->load($customer_id);
 
             if(!$customer) {
                throw new \Exception("Invalid Id.");
@@ -113,16 +78,16 @@ class Customer extends \Controller\Core\Admin{
             $customer->updatedDate = $updatedDate;
 
             $customer->save();
-            $this->redirect('Admin_Customer','index');
+            $this->redirect('Customer','index');
             exit(0);    
             
         }
         catch(\Exception $e) {
             // echo $e->getMessage();
-            $customer = \Mage::getModel('Model_Admin_Message');
+            $customer = \Mage::getModel('Model\Admin\Message');
             $customer->start();
             $customer->setFailure($e->getMessage());
-            $this->redirect('Admin_Customer','index');
+            $this->redirect('Customer','index');
             exit(0);
         }
     }
@@ -137,17 +102,17 @@ class Customer extends \Controller\Core\Admin{
             $query = "DELETE FROM `customers` WHERE `customers`.`customer_id` = {$customer_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $customer = \Mage::getModel('Model_Core_Message');
+            $customer = \Mage::getModel('Model\Core\Message');
             $customer->start();
             $customer->setSuccess('Record Deleted Successfully.');
-            $this->redirect('Admin_customer','index');
+            $this->redirect('Customer','index');
         }
         catch(\Exception $e) {
             //echo $e->getMessage();
-            $customer = \Mage::getModel('Model_Core_Message');
+            $customer = \Mage::getModel('Model\Core\Message');
             $customer->start();
             $customer->setFailure($e->getMessage());
-            $this->redirect('Admin_customer','index');
+            $this->redirect('Customer','index');
         }
 
     }
@@ -172,18 +137,18 @@ class Customer extends \Controller\Core\Admin{
 
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $customer = \Mage::getModel('Model_Core_Message');
+            $customer = \Mage::getModel('Model\Core\Message');
             $customer->start();
             $customer->setSuccess('Status Change Successfully.');
-            $this->redirect('Admin_customer','index');
+            $this->redirect('Customer','index');
             exit(0);
         }
         catch(\Exception $e) {
             // $e->getMessage();
-            $customer = \Mage::getModel('Model_Core_Message');
+            $customer = \Mage::getModel('Model\Core\Message');
             $customer->start();
             $customer->setFailure($e->getMessage());
-            $this->redirect('Admin_customer','index');
+            $this->redirect('Customer','index');
             
         }
         

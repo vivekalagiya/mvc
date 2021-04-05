@@ -2,7 +2,7 @@
 
 namespace Block\Admin\Shipping;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 
 class Grid extends \Block\Core\Template 
@@ -19,7 +19,7 @@ class Grid extends \Block\Core\Template
 
     public function setShippings($shippings = Null) {
         if(!$shippings) {
-            $shipping = \Mage::getModel('Model_Shipping');
+            $shipping = \Mage::getModel('Model\Shipping');
             $shippings = $shipping->fetchAll();
         }
         $this->shippings = $shippings;

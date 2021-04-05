@@ -1,5 +1,5 @@
 <?php 
-    $model = \Mage::getModel('Model_Admin_Message');
+    $model = \Mage::getModel('Model\Admin\Message');
     $model->start();
 ?>
 <?php if($this->getMessage()->getSuccess()) : ?>

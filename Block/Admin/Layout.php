@@ -2,7 +2,6 @@
 
 namespace \Block\Admin;
 
-\Mage::loadFileByClassName('Block_Core_Layout');
 
 class Layout extends \Block\Core\Layout 
 {

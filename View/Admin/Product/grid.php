@@ -1,5 +1,7 @@
 <?php 
-$products = $this->getproducts();
+// echo '<pre>';
+$products = $this->getproducts()->getData();
+// print_r($_SESSION);
 ?>
 <html>
 <head>
@@ -11,7 +13,7 @@ $products = $this->getproducts();
 <body>
         <div style = "display:flex">
            <div><h1>Product Table</h1></div>
-           <div class="add"><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_product', 'edit'); ?>>Add Product</a></div>
+           <div class="add"><a class="btn" href=<?php echo $this->getUrl()->getUrl('Product', 'edit'); ?>>Add Product</a></div>
         </div>     
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -44,15 +46,16 @@ $products = $this->getproducts();
                             <td><?php echo $product->description; ?></td>
                             <td>
                                 <?php if(!$product->status) { ?>    
-                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Admin_Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>>Enable</a></td>
+                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>>Enable</a></td>
                                 <?php } else { ?>
-                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Admin_Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>>Disable</a></td>
                                 <?php } ?>
                             </td>
                             <td><?php echo $product->createdDate; ?></td>
                             <td><?php echo $product->updatedDate; ?></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Admin_Product','edit', ['id' => $product->product_id]); ?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Admin_Product','delete', ['id' => $product->product_id]); ?>>delete</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Product','edit', ['id' => $product->product_id]); ?> >edit</a></td>
+                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Product','delete', ['id' => $product->product_id]); ?>>delete</a></td>
+                            <td><a class="btn btn-primary" href=<?php echo $this->getUrl()->getUrl('cart','addToCart', ['id' => $product->product_id]); ?>>Add To Cart</a></td>
                             
                         </tr>
               <?php }
@@ -92,7 +95,7 @@ return false;
     buttons: {
         confirm: function () {
             $.ajax({
-            url: '<?php echo $this->getUrl()->getUrl('Admin_Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>',
+            url: '<?php echo $this->getUrl()->getUrl('Product','status', ['id' => $product->product_id, 'status' => $product->status]); ?>',
             data : {
                 id : 1
             }

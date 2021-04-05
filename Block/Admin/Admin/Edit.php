@@ -1,7 +1,6 @@
 <?php
 
 namespace Block\Admin\Admin;
-\Mage::loadFileByClassName('Block_Core_Template');
 
 
 class Edit extends \Block\Core\Template  
@@ -18,7 +17,7 @@ class Edit extends \Block\Core\Template
     public function setAdmin($admin = Null) {
         if(!$admin) {
             $id = $this->getRequest()->getGet('id');
-            $admin = \Mage::getModel('Model_Admin');
+            $admin = \Mage::getModel('Model\Admin');
             $admin = $admin->load($id);
         }
         $this->admin = $admin;

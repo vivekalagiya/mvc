@@ -2,9 +2,9 @@
 
 namespace Block\Admin\Customer\Edit\Tabs;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Addresses extends \Block\Core\Template
+
+class Addresses extends \Block\Admin\Customer\Edit
 {
     protected $shipping = null;
     protected $billing = null;
@@ -17,7 +17,7 @@ class Addresses extends \Block\Core\Template
     public function setShipping($shipping = Null)
     {
         if(!$shipping) {
-            $shipping = \Mage::getModel('Model_Customer_customerAddresses');
+            $shipping = \Mage::getModel('Model\Customer\customerAddresses');
             $id = (int) $this->getRequest()->getGet('id');
             if($id) {
                 $query = "SELECT * FROM `customerAddresses` WHERE `customer_id` = $id AND `addressType` = 'shipping' ";
@@ -41,7 +41,7 @@ class Addresses extends \Block\Core\Template
     public function setBilling($billing = Null)
     {
         if(!$billing) {
-            $billing = \Mage::getModel('Model_Customer_customerAddresses');
+            $billing = \Mage::getModel('Model\Customer\customerAddresses');
             $id = (int) $this->getRequest()->getGet('id');
             if($id) {
                 $query = "SELECT * FROM `customerAddresses` WHERE `customer_id` = $id AND `addressType` = 'billing' ";

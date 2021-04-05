@@ -6,7 +6,7 @@
     <tr>
         <td style="background-color:rgba(0,0,0,0.2)" height='500px' width='20%'><?php echo $this->getChild('leftBar')->toHtml(); ?></td>
         <td>
-            <?php  echo $this->createBlock('Block_Core_Layout_Message')->toHtml(); ?>
+            <?php  echo $this->createBlock('Block\Core\Layout\Message')->toHtml(); ?>
             <?php echo $this->getContent()->toHtml(); ?>
         </td>
     </tr>

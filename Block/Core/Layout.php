@@ -2,9 +2,7 @@
 
 namespace Block\Core;
 
-\Mage::loadFiLeByClassName('Block_Core_Template');
-\Mage::loadFiLeByClassName('Block_Core_Layout_Content');
-\Mage::loadFiLeByClassName('Block_Core_Layout_Left');
+
 
 class Layout extends Template 
 {
@@ -16,8 +14,8 @@ class Layout extends Template
 
     public function prepareChildren()
     {
-        $this->addChild($this->createBlock('Block_Core_Layout_Content'), 'content');
-        $this->addChild($this->createBlock('Block_Core_Layout_Left'), 'leftBar');
+        $this->addChild($this->createBlock('Block\Core\Layout\Content'), 'content');
+        $this->addChild($this->createBlock('Block\Core\Layout\Left'), 'leftBar');
     }
 
     public function getContent()

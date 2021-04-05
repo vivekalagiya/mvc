@@ -1,7 +1,7 @@
-<?php $customerGroups = $this->getCustomerGroup(); ?>
-<?php $product = $this->getProduct(); ?>
+<?php $customerGroups = $this->getCustomerGroup()->getData(); ?>
+<?php $product = $this->getTableRow(); ?>
 
-<form action="<?php echo $this->getUrl()->getUrl('Admin_Product_GroupPrice','save', ['id' => $this->getRequest()->getGet('id')]); ?>"  method="post">
+<form action="<?php echo $this->getUrl()->getUrl('Product\GroupPrice','save', ['id' => $this->getRequest()->getGet('id')]); ?>"  method="post">
 
 <table class="table table-striped">
     <tr>

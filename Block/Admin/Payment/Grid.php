@@ -2,7 +2,7 @@
 
 namespace Block\Admin\Payment;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 
 class Grid extends \Block\Core\Template 
@@ -18,7 +18,7 @@ class Grid extends \Block\Core\Template
 
     public function setPayments($payments = Null) {
         if(!$payments) {
-            $payments = \Mage::getModel('Model_Payment');
+            $payments = \Mage::getModel('Model\Payment');
             $payments = $payments->fetchAll();
         }
         $this->payments = $payments;

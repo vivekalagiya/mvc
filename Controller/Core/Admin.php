@@ -2,8 +2,6 @@
 
 namespace Controller\Core;
 
-\Mage::loadFileByClassName('Model_Core_Request');
-// \Mage::loadFileByClassName('Block_Core_Layout');
 
 class Admin {
 
@@ -18,7 +16,7 @@ class Admin {
     public function setLayout(\Block\Core\Layout $layout = Null)
     {
         if(!$layout) {
-            $layout = \Mage::getBlock('Block_Core_Layout');
+            $layout = \Mage::getBlock('Block\Core\Layout');
         }
         $this->layout = $layout;
         return $this;       
@@ -39,21 +37,21 @@ class Admin {
 
     public function setRequest()
     {
-        $this->request = \Mage::getModel('Model_Core_Request');
+        $this->request = \Mage::getModel('Model\Core\Request');
         return $this;
     }
 
     public function getRequest()    
     {
         if(!$this->request) {
-            $this->request = \Mage::getModel('Model_Core_Request');
+            $this->request = \Mage::getModel('Model\Core\Request');
         }
         return $this->request;
     }
 
     public function setMessage()
     {
-        $this->message = \Mage::getModel('Model_Admin_Message');
+        $this->message = \Mage::getModel('Model\Admin\Message');
         return $this;
     }
 

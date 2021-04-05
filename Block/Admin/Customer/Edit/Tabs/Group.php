@@ -2,9 +2,9 @@
 
 namespace Block\Admin\Customer\Edit\Tabs;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Group extends \Block\Core\Template
+
+class Group extends \Block\Admin\Customer\Edit
 {
     public $customerGroup = Null;
 
@@ -15,7 +15,7 @@ class Group extends \Block\Core\Template
         
     public function setCustomerGroup($customerGroup = Null) {
         if(!$customerGroup) {
-            $customerGroup = \Mage::getModel('Model_Customer_CustomerGroup');
+            $customerGroup = \Mage::getModel('Model\Customer\CustomerGroup');
             $customerGroup_id = (int) $this->getRequest()->getGet('id');
             if($customerGroup_id){
                 $customerGroup = $customerGroup->load($customerGroup_id);

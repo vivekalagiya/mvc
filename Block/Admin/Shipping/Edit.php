@@ -2,7 +2,7 @@
 
 namespace Block\Admin\Shipping;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 
 class Edit extends \Block\Core\Template 
@@ -18,7 +18,7 @@ class Edit extends \Block\Core\Template
 
     public function setShipping($shipping = Null) {
         if(!$shipping) {
-            $shipping = \Mage::getModel('Model_Shipping');
+            $shipping = \Mage::getModel('Model\Shipping');
             if($id = $shipping->getGet('id')) {
                 $shipping->load($id);
             }

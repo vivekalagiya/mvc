@@ -12,14 +12,14 @@ class Url
     
     public function setRequest()
     {
-        $this->request = \Mage::getModel('Model_Core_Request');
+        $this->request = \Mage::getModel('Model\Core\Request');
         return $this;
     }
 
     public function getRequest()    
     {
         if(!$this->request) {
-            $this->request = \Mage::getModel('Model_Core_Request');
+            $this->request = \Mage::getModel('Model\Core\Request');
         }
         return $this->request;
     }

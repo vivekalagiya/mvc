@@ -12,7 +12,7 @@
  
         <h1>Attribute Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Attribute', 'edit'); ?>>Add Attribute</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Attribute', 'edit'); ?>>Add Attribute</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -32,7 +32,7 @@
                 <?php if(!$attribute) : ?>
                 <tr><td colspan="7">No records found.</td></tr>
                 <?php else : ?>
-                <?php foreach ($attribute as $key => $attribute) : ?>
+                <?php foreach ($attribute->getData() as $key => $attribute) : ?>
                         <tr>
                             <td><?php echo $attribute->attribute_id; ?></td>
                             <td><?php echo $attribute->entityType_id; ?></td>
@@ -42,9 +42,9 @@
                             <td><?php echo $attribute->backendType; ?></td>
                             <td><?php echo $attribute->sortOrder; ?></td>
                             <td><?php echo $attribute->backendModel; ?></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Attribute','edit', ['id' => $attribute->attribute_id]); ?> >edit</a></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Attribute','delete', ['id' => $attribute->attribute_id, 'entityType_id' => $attribute->entityType_id, 'code' => $attribute->code]); ?>>delete</a></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Attribute','option', ['id' => $attribute->attribute_id]); ?>>Option</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Attribute','edit', ['id' => $attribute->attribute_id]); ?> >edit</a></td>
+                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Attribute','delete', ['id' => $attribute->attribute_id, 'entityType_id' => $attribute->entityType_id, 'code' => $attribute->code]); ?>>delete</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Attribute','option', ['id' => $attribute->attribute_id]); ?>>Option</a></td>
 
                         </tr>
                 <?php endforeach; ?>

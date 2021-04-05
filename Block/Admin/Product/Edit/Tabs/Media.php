@@ -2,9 +2,9 @@
 
 namespace Block\Admin\Product\Edit\Tabs;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Media extends \Block\Core\Template
+
+class Media extends \Block\Admin\Product\Edit
 {
     protected $image = null;
 
@@ -17,7 +17,7 @@ class Media extends \Block\Core\Template
     {
         if(!$image) {
             $id = $this->getRequest()->getGet('id');
-            $image = \Mage::getModel('Model_Product_ProductMedia');
+            $image = \Mage::getModel('Model\Product\ProductMedia');
             $image = $image->loadImage($id);
             // $query = "SELECT * FROM `{$image->getTableName()}` WHERE `product_id` = '{$id}' ";
             // $data = $image->fetchAll($query);

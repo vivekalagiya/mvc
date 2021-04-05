@@ -4,7 +4,7 @@
 
 <head>
     <title>Payment Table</title>
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">       
 
 </head>
 
@@ -12,7 +12,7 @@
  
         <h1>Payment Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_payment', 'edit'); ?>>Add Payment</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Payment', 'edit'); ?>>Add Payment</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -30,8 +30,8 @@
                 </tr>
             </thead>
             <tbody>
-                <?php 
-                    foreach ($payments as $key => $value) { ?>
+                <?php if($payments) : ?>
+                <?php foreach ($payments->getData() as $key => $value) : ?>
                         <tr>
                             <td><?php echo $value->payment_id; ?></td>
                             <td><?php echo $value->paymentName; ?></td>
@@ -39,18 +39,20 @@
                             <td><?php echo $value->description; ?></td>
                             <td>
                                 <?php if(!$value->status) { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Payment','status', ['id' => $value->payment_id, 'status' => $value->status]); ?>>Enable</a></td>
+                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Payment','status', ['id' => $value->payment_id, 'status' => $value->status]); ?>>Enable</a></td>
                                 <?php } else { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Payment','status', ['id' => $value->payment_id, 'status' => $value->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Payment','status', ['id' => $value->payment_id, 'status' => $value->status]); ?>>Disable</a></td>
                                 <?php } ?>
                             </td>
                             <td><?php echo $value->createdDate; ?></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Payment','edit', ['id' => $value->payment_id]); ?> >edit</a></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Payment','delete', ['id' => $value->payment_id]); ?>>delete</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Payment','edit', ['id' => $value->payment_id]); ?> >edit</a></td>
+                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Payment','delete', ['id' => $value->payment_id]); ?>>delete</a></td>
 
                         </tr>
-              <?php }
-                 ?>   
+                <?php endforeach; ?> 
+                <?php else : ?>
+                <tr><td>No records found.</td></tr>
+                <?php endif; ?>   
             </tbody>
         </table>
 

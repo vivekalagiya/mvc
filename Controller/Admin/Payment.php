@@ -2,9 +2,9 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
+
+
 
 
 class Payment extends \Controller\Core\Admin{
@@ -14,7 +14,7 @@ class Payment extends \Controller\Core\Admin{
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $paymentGrid = \Mage::getBlock('Block_Admin_Payment_grid');
+        $paymentGrid = \Mage::getBlock('Block\Admin\Payment\grid');
         $content->addChild($paymentGrid, 'paymentGrid');
         $this->renderLayout();
     }
@@ -22,9 +22,9 @@ class Payment extends \Controller\Core\Admin{
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            $payment = \Mage::getModel('Model_Payment');
+            $payment = \Mage::getModel('Model\Payment');
             if($id) {
-                $payment = \Mage::getModel('Model_Payment')->load($id);
+                $payment = \Mage::getModel('Model\Payment')->load($id);
                 if(!$payment) {
                     throw new \Exception("Invalid Id", 1);
                 }
@@ -34,17 +34,14 @@ class Payment extends \Controller\Core\Admin{
             $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
             $content = $layout->getContent();
-            $paymentEdit = \Mage::getBlock('Block_Admin_Payment_Edit')->setPayment($payment);
+            $paymentEdit = \Mage::getBlock('Block\Admin\Payment\Edit')->setPayment($payment);
             $content->addChild($paymentEdit, 'paymentEdit');
             
-            $leftBar = $layout->getLeftBar();
-            $tab = \Mage::getBlock('Block_Admin_Payment_Edit_Tabs');
-            $leftBar->addChild($tab, 'tab');
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Payment','index');
+            $this->redirect('Payment','index');
             exit(0);
         
         }
@@ -60,7 +57,7 @@ class Payment extends \Controller\Core\Admin{
 
             $id = $this->getRequest()->getGet('id');
             $postData = $this->getRequest()->getPost('payment');
-            $payment = \Mage::getModel('Model_Payment')->load($id);
+            $payment = \Mage::getModel('Model\Payment')->load($id);
             $payment->setData($postData );
 
             if($payment->status == 'enabled') {
@@ -69,7 +66,7 @@ class Payment extends \Controller\Core\Admin{
                 $payment->status = 0;
             }
             $payment->save();
-            $this->redirect('Admin_Payment','index');
+            $this->redirect('Payment','index');
             exit(0);
         }
         catch(\Exception $e) {
@@ -90,7 +87,7 @@ class Payment extends \Controller\Core\Admin{
             $query = "DELETE FROM `payments` WHERE `payments`.`payment_id` = {$payment_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_Payment','index');
+            $this->redirect('Payment','index');
         }
         catch(\Exception $e) {
             echo $e->getMessage();
@@ -121,7 +118,7 @@ class Payment extends \Controller\Core\Admin{
                      WHERE `payments`.`payment_id` = {$payment_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_Payment','index');
+            $this->redirect('Payment','index');
             exit(0);
 
         } catch(\Exception $e) {
@@ -145,7 +142,7 @@ class Payment extends \Controller\Core\Admin{
             $query = "UPDATE `payments` SET `payment_id` = '{$payment_id}', `status` = '{$status}' WHERE `payments`.`payment_id` = {$payment_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_Payment','index');
+            $this->redirect('Payment','index');
             exit(0);
         }
         catch(\Exception $e) {

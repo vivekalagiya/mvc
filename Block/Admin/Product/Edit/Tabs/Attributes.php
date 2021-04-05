@@ -2,9 +2,9 @@
 
 namespace Block\Admin\Product\Edit\Tabs;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Attributes extends \Block\Core\Template
+
+class Attributes extends \Block\Admin\Product\Edit
 {
     protected $attributes = [];
 
@@ -16,13 +16,13 @@ class Attributes extends \Block\Core\Template
     public function setAttributes($attributes = [])
     {
         if(!$attributes) {
-            $query = "SELECT * FROM `attribute` WHERE `attribute`.`entityType_id` = 'products' ";
-            $attributes = \Mage::getModel('Model_Attribute')->fetchAll($query);
+            $query = "SELECT * FROM `attribute` WHERE `entityType_id` = 'products' ";
+            $attributes = \Mage::getModel('Model\Attribute')->fetchAll($query);
         }
         $this->attributes = $attributes;
         return $this;
     }
-
+    
     public function getAttributes()
     {
         if(!$this->attributes) {
@@ -30,6 +30,14 @@ class Attributes extends \Block\Core\Template
         }
         return $this->attributes;
     }
+    
+    public function getValue($attributeName)
+    {
+        $product_id = $this->getRequest()->getGet('id');
+        $query = "SELECT `{$attributeName}` FROM `products` WHERE `products`.`product_id` = '{$product_id}' ";
+        return \Mage::getModel('Model\Product')->fetchRow($query)->$attributeName;
+    }
+
 
 }
 

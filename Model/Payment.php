@@ -2,7 +2,7 @@
 
 namespace Model;
 
-\Mage::loadFileByClassName('Model_Core_Table');
+
 
 class Payment extends \Model\Core\Table {
 

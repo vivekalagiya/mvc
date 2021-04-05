@@ -2,7 +2,6 @@
 
 namespace Model;
 
-\Mage::loadFileByClassName('Model_Core_Table');
 
 class Category extends \Model\Core\Table {
 
@@ -28,7 +27,7 @@ class Category extends \Model\Core\Table {
         if(!$category->parent_id) {
             $path_id = $category->category_id;
         } else {
-            $parent = \Mage::getModel('Model_Category')->load($category->parent_id);
+            $parent = \Mage::getModel('Model\category')->load($category->parent_id);
             $path_id = $parent->path_id.'='.$category->category_id;
         }
         $category->path_id = $path_id;
@@ -41,7 +40,7 @@ class Category extends \Model\Core\Table {
         $query = "SELECT * FROM `category` WHERE `path_id` LIKE '{$categoryPathId}%' ORDER BY `path_id` ASC ";
         $categories = $this->getAdapter()->fetchAll($query);
         foreach ($categories as $key => $category) {
-            $category = \Mage::getModel('Model_Category')->load($category['category_id']);
+            $category = \Mage::getModel('Model\category')->load($category['category_id']);
             if($parent_id) {
                 $category->parent_id = $parent_id;
             }

@@ -2,19 +2,22 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
-
-
 class Attribute extends \Controller\Core\Admin{
+
+    public function testAction()
+    {
+        echo '<pre>';
+        $query = "SELECT * FROM `attribute` WHERE `entityType_id` = 'products' ";
+        $attributes = \Mage::getModel('Model\Attribute')->fetchAll($query);
+        print_r($attributes);
+    }
 
     public function indexAction() {
 
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $attributeGrid = \Mage::getBlock('Block_Admin_Attribute_grid');
+        $attributeGrid = \Mage::getBlock('Block\Admin\Attribute\grid');
         $content->addChild($attributeGrid, 'AttributeGrid');
         $this->renderLayout();
     }
@@ -23,9 +26,9 @@ class Attribute extends \Controller\Core\Admin{
         try {
             
             $id = $this->getRequest()->getGet('id');
-            $attribute = \Mage::getModel('Model_Attribute');
+            $attribute = \Mage::getModel('Model\Attribute');
             if($id) {
-                $attribute = \Mage::getModel('Model_Attribute')->load($id);
+                $attribute = \Mage::getModel('Model\Attribute')->load($id);
                 if(!$attribute) {
                     throw new \Exception("Invalid Id", 1);
                 }
@@ -35,17 +38,14 @@ class Attribute extends \Controller\Core\Admin{
             $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
             $content = $layout->getContent();
-            $attributeEdit = \Mage::getBlock('Block_Admin_Attribute_Edit')->setAttribute($attribute);
+            $attributeEdit = \Mage::getBlock('Block\Admin\Attribute\Edit')->setAttribute($attribute);
             $content->addChild($attributeEdit, 'attributeEdit');
-            
-            $leftBar = $layout->getLeftBar();
-            $tab = \Mage::getBlock('Block_Admin_Attribute_Edit_Tabs');
-            $leftBar->addChild($tab, 'tab');
+              
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Attribute','index');
+            $this->redirect('Attribute','index');
             exit(0);
         
         }
@@ -59,7 +59,7 @@ class Attribute extends \Controller\Core\Admin{
                 throw new \Exception("Invalid Save Request.");
             }
             $product_id = $this->getRequest()->getGet('id');
-            $attribute = \Mage::getModel('Model_attribute')->load($product_id);
+            $attribute = \Mage::getModel('Model\Attribute')->load($product_id);
             $postData = $this->getRequest()->getPost('attribute');
             $attribute->setData($postData);
             if($attribute->attribute_id) {
@@ -67,10 +67,10 @@ class Attribute extends \Controller\Core\Admin{
             } else {
                 $query = "ALTER TABLE `{$attribute->entityType_id}` ADD `{$attribute->code}` {$attribute->backendType} ";
             }   
-            $attribute->save();
             $attribute->insert($query);
+            $attribute->save();
 
-            $this->redirect('Admin_attribute','index');
+            $this->redirect('Attribute','index');
             exit(0);
         }
         catch(\Exception $e) {
@@ -94,7 +94,7 @@ class Attribute extends \Controller\Core\Admin{
             
             $query =  "ALTER TABLE `{$entityType_id}` DROP `{$code}`;";
             $adapter->insert($query);
-            $this->redirect('Admin_attribute','index');
+            $this->redirect('Attribute','index');
         }
         catch(\Exception $e) {
             echo $e->getMessage();
@@ -108,20 +108,20 @@ class Attribute extends \Controller\Core\Admin{
             if(!$attribute_id) {
                 throw new \Exception("Invalid Request.");
             }
-            $attribute = \Mage::getModel('Model_Attribute')->load($attribute_id);
+            $attribute = \Mage::getModel('Model\Attribute')->load($attribute_id);
 
             
             $layout = $this->getLayout();
             $layout->setTemplate('./View/core/layout/one_column.php');
             $content = $layout->getContent();
-            $optionBlock = \Mage::getBlock('Block_Admin_Attribute_Option_Grid')->setAttribute($attribute);
+            $optionBlock = \Mage::getBlock('Block\Admin\Attribute\Option\Grid')->setAttribute($attribute);
             // echo '<pre>';
             // print_r($optionBlock);die;
             $content->addChild($optionBlock, 'optionBlock');
             $this->renderLayout();
             
         } catch (\Exception $e) {
-            echo $e->getMesage();
+            echo $e->getMessage();
         }
     }
     

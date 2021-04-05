@@ -2,43 +2,15 @@
 
 namespace Block\Admin\Product;
 
-// \\Mage::loadFileByClassName('Controller_Core_Admin');
-// \\Mage::loadFileByClassName('Model_Admin_Message');
-// \\Mage::loadFileByClassName('Model_Product');
 
-
-class Edit extends \Block\Core\Template 
+class Edit extends \Block\Core\Edit 
 {
 
-    public $product = Null;
-
-    
     public function __construct()
     {
-        $this->setTemplate('View/Admin/Product/edit.php');
+        parent::__construct();  
+        $this->setTabClass('Block\Admin\Product\Edit\Tabs');
     }
 
-    public function setProduct(\Model\Product $product) {
-        $this->product = $product;
-        return $this;
-    }
-
-    public function getProduct() {
-        if(!$this->product) {
-            return Null;
-        }
-        return $this->product;
-    }
-
-    public function getTabContent()
-    {
-        $tabBlock = \Mage::getBlock('Block_Admin_Product_Edit_Tabs');
-        $tabs = $tabBlock->getTabs();
-        $tab = $this->getRequest()->getGet('tab', $tabBlock->getDefaultTab());
-        if(!array_key_exists($tab, $tabs)) {
-            return Null;
-        }
-        $block = $tabs[$tab]['block'];
-        return $block->toHtml();
-    }
+    
 }

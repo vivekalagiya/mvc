@@ -2,7 +2,7 @@
 
 namespace Model\Product;
 
-\Mage::loadFileByClassName('Model_Core_Table');
+
 
 class groupPrice extends \Model\Core\Table {
 

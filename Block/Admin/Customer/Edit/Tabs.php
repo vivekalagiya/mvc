@@ -2,36 +2,25 @@
 
 namespace Block\Admin\Customer\Edit;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Tabs extends \Block\Core\Template
+
+class Tabs extends \Block\Core\Edit\Tabs
 {
     protected $defaultTab = Null;
 
     public function __construct()
     {
-        $this->setTemplate('View/Admin/Customer/edit/tabs.php');
+        parent::__construct();
         $this->prepareTab();
     }
 
     public function prepareTab()    
     {
-        $this->addTab('customerInformation', ['label' => 'Customer Information', 'url' => $this->getUrl()->getUrl('Admin_Customer','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'customerInformation']), 'block' => \Mage::getBlock('Block_Admin_Customer_Edit_Tabs_Form')]);
-        $this->addTab('customerAddresses', ['label' => 'Addresses ', 'url' => $this->getUrl()->getUrl('Admin_Customer','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'customerAddresses']), 'block' => \Mage::getBlock('Block_Admin_Customer_Edit_Tabs_Addresses')]);
-        $this->addTab('attributes', ['label' => 'Attributes ', 'url' => $this->getUrl()->getUrl('Admin_Customer','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'attributes']), 'block' => \Mage::getBlock('Block_Admin_Customer_Edit_Tabs_Attributes')]);
+        $this->addTab('customerInformation', ['label' => 'Customer Information', 'url' => $this->getUrl()->getUrl('Customer','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'customerInformation']), 'block' => \Mage::getBlock('Block\Admin\Customer\Edit\Tabs\Form')]);
+        $this->addTab('customerAddresses', ['label' => 'Addresses ', 'url' => $this->getUrl()->getUrl('Customer','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'customerAddresses']), 'block' => \Mage::getBlock('Block\Admin\Customer\Edit\Tabs\Addresses')]);
+        $this->addTab('attributes', ['label' => 'Attributes ', 'url' => $this->getUrl()->getUrl('Customer','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'attributes']), 'block' => \Mage::getBlock('Block\Admin\Customer\Edit\Tabs\Attributes')]);
         $this->setDefaultTab('customerInformation');
         return $this;
-    }
-    
-    public function setDefaultTab($defaultTab)  
-    {
-        $this->defaultTab = $defaultTab;
-        return $this;
-    }
-
-    public function getDefaultTab()  
-    {
-        return $this->defaultTab;
     }
 
 

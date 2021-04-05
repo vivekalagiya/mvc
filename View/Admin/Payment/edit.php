@@ -11,7 +11,7 @@
   	<h2>Edit Payment</h2>
   </div>
 	
-  <form class="form" name='payment[form]' method="POST" action="<?php echo $this->getUrl()->getUrl('Admin_payment', 'save', ['id' => $payment->payment_id ]) ?>" >
+  <form class="form" name='payment[form]' method="POST" action="<?php echo $this->getUrl()->getUrl('Payment', 'save', ['id' => $payment->payment_id ]) ?>" >
     <table>
       
         

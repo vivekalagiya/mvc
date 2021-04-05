@@ -2,7 +2,7 @@
 
 namespace Block\Admin\Customer;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 
 class Grid extends \Block\Core\Template 
@@ -18,7 +18,7 @@ class Grid extends \Block\Core\Template
 
     public function setCustomers($customers = Null) {
         if(!$customers) {
-            $customer = \Mage::getModel('Model_Customer');
+            $customer = \Mage::getModel('Model\Customer');
             $customers = $customer->fetchAll();
         }
         $this->customers = $customers;

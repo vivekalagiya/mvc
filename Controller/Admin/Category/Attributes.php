@@ -2,10 +2,10 @@
 
 namespace Controller\Admin\Category;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Model_Core_Message');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
+
+
+
 
 
 class Attributes extends \Controller\Core\Admin{
@@ -19,10 +19,10 @@ class Attributes extends \Controller\Core\Admin{
           $option = implode(', ', $option);
         }
       }
-      $model = \Mage::getModel('Model_Category')->load($category_id);
+      $model = \Mage::getModel('Model\category')->load($category_id);
       $model->setData($postData);
       $model->save();
-      $this->redirect('Admin_Category','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'attributes']);
+      $this->redirect('Category','edit', ['id' => $this->getRequest()->getGet('id'), 'tab' => 'attributes']);
     }
 
 }

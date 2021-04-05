@@ -1,4 +1,4 @@
-<?php $product = $this->getProduct(); ?>
+<?php $product = $this->getTableRow(); ?>
 <!DOCTYPE html>
 <html>
 <head>

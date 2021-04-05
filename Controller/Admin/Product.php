@@ -2,19 +2,27 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model\Core\Adapter');
-\Mage::loadFiLeByClassName('Model_Core_Message');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
-
 
 class Product extends \Controller\Core\Admin{
+
+    public function testAction()
+    {
+        $query = "SELECT * FROM `products` WHERE 1";
+        $product = \Mage::getModel('Model\Product')->fetchRow($query);
+        $product->productName = 'Mi Tv';
+        $product->sku = 456;
+        echo '<pre>';
+        print_r($product);
+        $product->save();
+        print_r($product);
+        
+    }
 
     public function indexAction() {
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $productGrid = \Mage::getBlock('Block_Admin_Product_grid'); 
+        $productGrid = \Mage::getBlock('Block\Admin\Product\grid'); 
         $content->addChild($productGrid, 'productGrid');
         $this->renderLayout();
     }
@@ -22,29 +30,26 @@ class Product extends \Controller\Core\Admin{
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            $product = \Mage::getModel('Model_Product');
+            $product = \Mage::getModel('Model\Product');
             if($id) {
-                $product = \Mage::getModel('Model_Product')->load($id);
+                $product = \Mage::getModel('Model\Product')->load($id);
                 if(!$product) {
                     throw new \Exception("Invalid Id", 1);
                 }
             }
             
             $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+            $layout->setTemplate('./View/core/layout/one_column.php');
     
             $content = $layout->getContent();
-            $productEdit = \Mage::getBlock('Block_Admin_Product_Edit')->setProduct($product);
+            $productEdit = \Mage::getBlock('Block\Admin\Product\Edit')->setTableRow($product);
             $content->addChild($productEdit, 'productEdit');
-            
-            $leftBar = $layout->getLeftBar();
-            $tab = \Mage::getBlock('Block_Admin_Product_Edit_Tabs');
-            $leftBar->addChild($tab, 'tab');
+
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Product','index');
+            $this->redirect('Product','index');
             exit(0);
         
         }
@@ -60,7 +65,7 @@ class Product extends \Controller\Core\Admin{
             }
             $product_id = $request->getGet('id');
             $postData = $request->getPost('product');
-            $model = \Mage::getModel('Model_Product')->load($product_id);
+            $model = \Mage::getModel('Model\Product')->load($product_id);
             $model->setData($postData);
             
             if($model->status == 'enabled') {
@@ -75,16 +80,16 @@ class Product extends \Controller\Core\Admin{
             $model->createdDate = $createdDate;
             $model->updatedDate = $updatedDate;
             $model->save();
-            $this->redirect('Admin_Product','index');
+            $this->redirect('Product','index');
             exit(0);    
             
         }
         catch(\Exception $e) {
             // echo $e->getMessage();
-            $model = \Mage::getModel('Model_Admin_Message');
+            $model = \Mage::getModel('Model\Admin\Message');
             $model->start();
             $model->setFailure($e->getMessage());
-            $this->redirect('Admin_Product','index');
+            $this->redirect('Product','index');
             exit(0);
         }
     }
@@ -99,17 +104,17 @@ class Product extends \Controller\Core\Admin{
             $query = "DELETE FROM `products` WHERE `products`.`product_id` = {$product_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $model = \Mage::getModel('Model_Core_Message');
+            $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setSuccess('Record Deleted Successfully.');
-            $this->redirect('Admin_Product','index');
+            $this->redirect('Product','index');
         }
         catch(\Exception $e) {
             //echo $e->getMessage();
-            $model = \Mage::getModel('Model_Core_Message');
+            $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setFailure($e->getMessage());
-            $this->redirect('Admin_product','index');
+            $this->redirect('Product','index');
         }
 
     }
@@ -132,18 +137,18 @@ class Product extends \Controller\Core\Admin{
                       WHERE `products`.`product_id` = {$product_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);   
-            $model = \Mage::getModel('Model_Core_Message');
+            $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setSuccess('Status Change Successfully.');
-            $this->redirect('Admin_Product','index');
+            $this->redirect('Product','index');
             exit(0);
         }
         catch(\Exception $e) {
             // $e->getMessage();
-            $model = \Mage::getModel('Model_Core_Message');
+            $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setFailure($e->getMessage());
-            $this->redirect('Admin_product','index');
+            $this->redirect('Product','index');
             
         }
         

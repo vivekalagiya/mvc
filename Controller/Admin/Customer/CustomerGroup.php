@@ -2,10 +2,10 @@
 
 namespace Controller\Admin\Customer;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Model_Core_Message');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
+
+
+
 
 class CustomerGroup extends \Controller\Core\Admin{
 
@@ -14,7 +14,7 @@ class CustomerGroup extends \Controller\Core\Admin{
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $customerGroup = \Mage::getBlock('Block_Admin_Customer_CustomerGroup_Grid');
+        $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Grid');
         $content->addChild($customerGroup, 'customerGroup');
         $this->renderLayout();
 
@@ -26,7 +26,7 @@ class CustomerGroup extends \Controller\Core\Admin{
         $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
 
         $content = $layout->getContent();
-        $customerGroup = \Mage::getBlock('Block_Admin_Customer_CustomerGroup_Edit');
+        $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Edit');
         $content->addChild($customerGroup, 'customerGroup');
         
         $this->renderLayout();
@@ -42,7 +42,7 @@ class CustomerGroup extends \Controller\Core\Admin{
             }
             
             $group_id = $this->getRequest()->getGet('id');
-            $customerGroup = \Mage::getModel('Model_Customer_CustomerGroup')->load($group_id);
+            $customerGroup = \Mage::getModel('Model\Customer\CustomerGroup')->load($group_id);
             if(!$customerGroup) {
                throw new \Exception("Invalid Id.");
             }
@@ -50,11 +50,11 @@ class CustomerGroup extends \Controller\Core\Admin{
             $customerGroup->setData($postData);
             
             $customerGroup->save();
-            $this->redirect('Admin_Customer_CustomerGroup','index');
+            $this->redirect('Customer\CustomerGroup','index');
             
         }
         catch(\Exception $e) {
-            $customerGroup = \Mage::getModel('Model_Admin_Message');
+            $customerGroup = \Mage::getModel('Model\Admin\Message');
             $customerGroup->start();
             $customerGroup->setFailure($e->getMessage());
         }
@@ -70,17 +70,17 @@ class CustomerGroup extends \Controller\Core\Admin{
             $query = "DELETE FROM `customerGroup` WHERE `customerGroup`.`group_id` = {$group_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->delete($query);
-            $customerGroup = \Mage::getModel('Model_Core_Message');
+            $customerGroup = \Mage::getModel('Model\Core\Message');
             $customerGroup->start();
             $customerGroup->setSuccess('Record Deleted Successfully.');
-            $this->redirect('Admin_Customer_customerGroup','index');
+            $this->redirect('Customer\CustomerGroup','index');
         }
         catch(\Exception $e) {
             //echo $e->getMessage();
-            $customerGroup = \Mage::getModel('Model_Core_Message');
+            $customerGroup = \Mage::getModel('Model\Core\Message');
             $customerGroup->start();
             $customerGroup->setFailure($e->getMessage());
-            $this->redirect('Admin_Customer_customerGroup','index');
+            $this->redirect('Customer\CustomerGroup','index');
         }
 
     }
@@ -109,18 +109,18 @@ class CustomerGroup extends \Controller\Core\Admin{
                       WHERE `customerGroup`.`group_id` = '{$group_id}'";
             $adapter->update($query);
 
-            $customerGroup = \Mage::getModel('Model_Core_Message');
+            $customerGroup = \Mage::getModel('Model\Core\Message');
             $customerGroup->start();
             $customerGroup->setSuccess('Make default Successfully.');
-            $this->redirect('Admin_Customer_customerGroup','index');
+            $this->redirect('Customer\CustomerGroup','index');
             exit(0);
         }
         catch(\Exception $e) {
             // $e->getMessage();
-            $customerGroup = \Mage::getModel('Model_Core_Message');
+            $customerGroup = \Mage::getModel('Model\Core\Message');
             $customerGroup->start();
             $customerGroup->setFailure($e->getMessage());
-            $this->redirect('Admin_Customer_customerGroup','index');
+            $this->redirect('Customer\CustomerGroup','index');
             
         }
     }

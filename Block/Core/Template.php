@@ -2,7 +2,6 @@
 
 namespace Block\Core;
 
-\Mage::loadFileByClassName('Model_Core_Url');
 
 class Template 
 {
@@ -73,7 +72,7 @@ class Template
     public function setRequest($request = null)
     {
         if(!$request) {
-            $request = \Mage::getModel('Model_Core_Request');
+            $request = \Mage::getModel('Model\Core\Request');
         }
         $this->request = $request;
         return $this;
@@ -100,13 +99,13 @@ class Template
 
     public function getMessage()
     {
-        return \Mage::getModel('Model_Admin_Message');
+        return \Mage::getModel('Model\Admin\Message');
     }
 
     public function setUrl($url = null)
     {
         if(!$url) {
-            $url = \Mage::getModel('Model_Core_Url');
+            $url = \Mage::getModel('Model\Core\Url');
         }
         $this->url = $url;
         return $this;
@@ -137,13 +136,13 @@ class Template
         return $this;
     }
 
-    public function getTab($key)
-    {
-        if(!array_key_exists($key, $this->tabs)) {
-            return Null;
-        }
-        return $this->tabs[$key];
-    }
+    // public function getTab($key)
+    // {
+    //     if(!array_key_exists($key, $this->tabs)) {
+    //         return Null;
+    //     }
+    //     return $this->tabs[$key];
+    // }
 
     public function removeTab($key)
     {

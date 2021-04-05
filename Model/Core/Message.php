@@ -2,8 +2,6 @@
 
 namespace Model\Core;
 
-\Mage::loadFileByClassName('Model_Core_Session');
-
 class Message extends Session
 {
 

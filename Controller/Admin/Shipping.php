@@ -2,9 +2,9 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
+
+
 
 
 class Shipping extends \Controller\Core\Admin{
@@ -14,7 +14,7 @@ class Shipping extends \Controller\Core\Admin{
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $shippingGrid = \Mage::getBlock('Block_Admin_Shipping_grid');
+        $shippingGrid = \Mage::getBlock('Block\Admin\Shipping\grid');
         $content->addChild($shippingGrid, 'shippingGrid');
         $this->renderLayout();
     }
@@ -22,9 +22,9 @@ class Shipping extends \Controller\Core\Admin{
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            $shipping = \Mage::getModel('Model_Shipping');
+            $shipping = \Mage::getModel('Model\Shipping');
             if($id) {
-                $shipping = \Mage::getModel('Model_Shipping')->load($id);
+                $shipping = \Mage::getModel('Model\Shipping')->load($id);
                 if(!$shipping) {
                     throw new \Exception("Invalid Id", 1);
                 }
@@ -34,14 +34,14 @@ class Shipping extends \Controller\Core\Admin{
             $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
             $content = $layout->getContent();
-            $shippingEdit = \Mage::getBlock('Block_Admin_Shipping_Edit')->setShipping($shipping);
+            $shippingEdit = \Mage::getBlock('Block\Admin\Shipping\Edit')->setShipping($shipping);
             $content->addChild($shippingEdit, 'shippingEdit');
             
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Shipping','index');
+            $this->redirect('Shipping','index');
             exit(0);
         
         }
@@ -55,7 +55,7 @@ class Shipping extends \Controller\Core\Admin{
                 throw new \Exception("Invalid Save Request.");
             }
             $id = $this->getRequest()->getGet('id');
-            $shipping = \Mage::getModel('Model_shipping')->load($id);
+            $shipping = \Mage::getModel('Model\Shipping')->load($id);
             $postData = $this->getRequest()->getPost('shipping');
             $shipping->setData($postData);
             if($shipping->status == 'enabled') {
@@ -65,7 +65,7 @@ class Shipping extends \Controller\Core\Admin{
             }
             $shipping->createdDate = date('Y-m-d h:i:s');
             $shipping->save();
-            $this->redirect('Admin_shipping','index');
+            $this->redirect('Shipping','index');
             exit(0);
         }
         catch(\Exception $e) {
@@ -86,7 +86,7 @@ class Shipping extends \Controller\Core\Admin{
             $query = "DELETE FROM `shippings` WHERE `shippings`.`shipping_id` = {$shipping_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_shipping','index');
+            $this->redirect('Shipping','index');
         }
         catch(\Exception $e) {
             echo $e->getMessage();
@@ -118,7 +118,7 @@ class Shipping extends \Controller\Core\Admin{
                      WHERE `shippings`.`shipping_id` = {$shipping_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_Shipping','index');
+            $this->redirect('Shipping','index');
             exit(0);
 
         } catch(\Exception $e) {
@@ -143,7 +143,7 @@ class Shipping extends \Controller\Core\Admin{
                       WHERE `shippings`.`shipping_id` = {$shipping_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_Shipping','index');
+            $this->redirect('Shipping','index');
             exit(0);
         }
         catch(\Exception $e) {

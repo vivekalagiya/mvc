@@ -1,19 +1,16 @@
 <?php 
 namespace Model\Core;
 
-\Mage::loadFileByClassName('Model_Core_Adapter');
-\Mage::loadFileByClassName('Model_Core_Request'); 
-\Mage::loadFileByClassName('Model_Core_Message'); 
-
-class Table extends Request {
+class Table extends \Model\Core\Table\Collection {
 
     const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 0;
 
     protected $tableName = Null;
     protected $primaryKey = Null;
-    protected $data = [];
     protected $adapter = Null;
+    protected $data = [];
+    protected $originalData = [];
 
     public function setTableName($tableName = Null)
     {
@@ -35,6 +32,24 @@ class Table extends Request {
     public function getPrimaryKey()
     {
         return $this->primaryKey;
+    }
+
+    public function setOriginalData(array $originalData)
+    {
+        $this->originalData = array_merge($this->originalData, $originalData);
+        return $this;
+    }
+
+    public function getOriginalData($key = Null)
+    {
+        if(!$key){
+            return $this->originalData;
+        }
+        if(!array_key_exists($key, $this->originalData)) {
+            return null;
+        }
+        return $this->originalData[$key];
+        
     }
 
     public function setData(array $data)
@@ -75,6 +90,11 @@ class Table extends Request {
         return $this;
     }
 
+    public function resetData()
+    {
+        $this->data = [];
+    }
+
     public function __set($key = Null, $data)
     {
         $this->data[$key] = $data;
@@ -83,10 +103,14 @@ class Table extends Request {
     
     public function __get($key = Null)
     {
-        if(!$this->data) {
-            return null;
+        if(array_key_exists($key, $this->data)) {
+            return $this->data[$key];
         }
-        return $this->data[$key];
+        if(array_key_exists($key, $this->originalData)) {
+            return $this->originalData[$key];
+        }                                  
+            
+        return null;
     }
 
     public function setAdapter($adapter = Null)
@@ -124,13 +148,11 @@ class Table extends Request {
         }
         $query = "SELECT * FROM `{$this->getTableName()}` WHERE `{$columnName}` = '{$id}' ";
         $row = $this->getAdapter()->fetchRow($query);
-        // $rowObject = new $this;
-        // $rowObject->setData($row);
-        // return $rowObject;
         if(!$row) {
             return false;
         }
-        $this->setData($row); 
+        $this->setOriginalData($row); 
+        $this->resetData(); 
         return $this;
     }
 
@@ -140,13 +162,9 @@ class Table extends Request {
         if(!$row) {
             return null;
         }
-        $row = $this->setData($row);
+        $row = $this->setOriginalData($row);
         return $this;
-
-        // $collectionClassName = get_class($this).'_Collection';
-        // $collection = \Mage::getModel($collectionClassName);
-        // $collection->setData($rowArray);
-        // return $collection;
+        
     }
 
     public function fetchAll($query = Null)
@@ -160,21 +178,26 @@ class Table extends Request {
         }    
         foreach ($rows as $key => &$row) {
             $rowObject = new $this;
-            $row = $rowObject->setData($row);
+            $row = $rowObject->setOriginalData($row);
         }
-        $this->setData($rows);
-        return $rows;
 
-        // $collectionClassName = get_class($this).'_Collection';
-        // $collection = \Mage::getModel($collectionClassName);
-        // $collection->setData($rowArray);
-        // return $collection;
+        $collectionClassName = get_class($this).'\Collection';
+        $collection = \Mage::getModel($collectionClassName);
+        $collection->setData($rows);
+        return $collection;
     }
 
-    
-
     public function save($query = Null) {
-        if(!$this->getData($this->getPrimaryKey())){
+        if(array_key_exists($this->getPrimaryKey(), $this->data)) {
+            unset($this->data[$this->getPrimaryKey()]);
+        }
+        if(!$this->data) {
+            return false;
+        }
+
+        $id = (int) $this->getOriginalData($this->getPrimaryKey());
+        
+        if(!$id){
             return $this->insert($query);
         }
         return $this->update($query);
@@ -182,43 +205,45 @@ class Table extends Request {
     
     public function insert($query) {
         if(!$query) {
-        foreach ($this->data as $key => $value) {
-            $keys[] = '`'.$key.'`';
-            $values[] = '\''.$value.'\'';
-        }
-        $keys = implode(', ', $keys);
-        $values = implode(', ', $values);
-        
-        $query = "INSERT INTO `{$this->getTableName()}` ($keys)
-         VALUES ($values)";
+            foreach ($this->data as $key => $value) {
+                $keys[] = '`'.$key.'`';
+                $values[] = '\''.$value.'\'';
+            }
+            $keys = implode(', ', $keys);
+            $values = implode(', ', $values);
+            
+            $query = "INSERT INTO `{$this->getTableName()}` ($keys)
+            VALUES ($values)";
         }
         $id = $this->getAdapter()->insert($query);
         $this->load($id);
         if($id) {
-            $model = \Mage::getModel('Model_Admin_Message');
+            $model = \Mage::getModel('Model\Admin\Message');
             $model->setSuccess('Record Add Successfully.');
         }
         return $id;
     }
     
     public function update($query) {
+        $id = $this->getOriginalData($this->getPrimaryKey());
         if(!$query) {
-        foreach ($this->data as $key => $value) {
-            $key = str_replace("'", "`", $key);
-            $set[] = " `$key` = '$value'";
-        }
-        $set = implode(', ', $set);
-        
-        $query = "UPDATE
-                `{$this->getTableName()}` 
-                SET 
-                $set
-                WHERE
-                `{$this->getTableName()}`.`{$this->getPrimaryKey()}` = '{$this->getData($this->getPrimaryKey())}' ";
+            foreach ($this->data as $key => $value) {
+                $key = str_replace("'", "`", $key);
+                $set[] = " `$key` = '$value'";
+            }
+            $set = implode(', ', $set);
+            
+            $query = "UPDATE
+            `{$this->getTableName()}` 
+            SET
+            $set
+            WHERE
+            `{$this->getTableName()}`.`{$this->getPrimaryKey()}` = '{$id}' ";
         }
         $result = $this->getAdapter()->update($query);
+        $this->load($id);
         if($result) {
-            $model = \Mage::getModel('Model_Admin_Message');
+            $model = \Mage::getModel('Model\Admin\Message');
             $model->setSuccess('Record Update Successfully.');
         }
         return $result;
@@ -231,7 +256,7 @@ class Table extends Request {
         $adapter = new \Model\Core\Adapter();
         $result = $adapter->delete($query);
         if($result) {
-            $model = \Mage::getModel('Model_Admin_Message');
+            $model = \Mage::getModel('Model\Admin\Message');
             $model->setSuccess('Record Delete Successfully.');
         }
         return $result;

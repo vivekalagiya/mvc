@@ -2,9 +2,6 @@
 
 namespace Block\Admin\Category;
 
-\Mage::loadFileByClassName('Controller_Core_Admin');
-\Mage::loadFileByClassName('Model_Category');
-\Mage::loadFileByClassName('Block_Core_Template');
 
 
 class Grid extends \Block\Core\Template 
@@ -22,7 +19,7 @@ class Grid extends \Block\Core\Template
 
     public function setCategories($categories = Null) {
         if(!$categories) {
-            $categories = \Mage::getModel('Model_Category');
+            $categories = \Mage::getModel('Model\category');
             $query = "SELECT * FROM `category`";
             $categories = $categories->fetchAll($query);
         }
@@ -46,7 +43,7 @@ class Grid extends \Block\Core\Template
                 return $this;
             }
             
-            $category = \Mage::getModel('Model_Category');
+            $category = \Mage::getModel('Model\category');
             $query = "SELECT `category_id`,`categoryName` FROM `category` ";
             $options = $category->getAdapter()->fetchPairs($query);
             

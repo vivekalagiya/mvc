@@ -2,9 +2,8 @@
 
 namespace Block\Admin\Category\Edit\Tabs;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Attributes extends \Block\Core\Template
+class Attributes extends \Block\Admin\Category\Edit  
 {
     protected $attributes = [];
 
@@ -17,7 +16,7 @@ class Attributes extends \Block\Core\Template
     {
         if(!$attributes) {
             $query = "SELECT * FROM `attribute` WHERE `attribute`.`entityType_id` = 'category' ";
-            $attributes = \Mage::getModel('Model_Attribute')->fetchAll($query);
+            $attributes = \Mage::getModel('Model\Attribute')->fetchAll($query);
         }
         $this->attributes = $attributes;
         return $this;

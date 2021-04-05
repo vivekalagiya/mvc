@@ -2,7 +2,7 @@
 
 namespace Controller\Admin\Attribute;
 
-\Mage::loadFileByClassName('Controller_Core_Admin');
+
 
 class Option extends \Controller\Core\Admin
 {
@@ -21,7 +21,7 @@ class Option extends \Controller\Core\Admin
         foreach ($newOption as $name => $sortOrder) {
             $query = "INSERT INTO `attributeoption` ( `name`, `attribute_id`, `sortOrder`) VALUES 
             ('{$name}', '{$attribute_id}', '{$sortOrder}') ";
-            $option = \Mage::getModel('Model_Attribute_Option')->insert($query);
+            $option = \Mage::getModel('Model\Attribute\Option')->insert($query);
         }
         
         foreach ($existOption as $option_id => $value) {
@@ -30,17 +30,17 @@ class Option extends \Controller\Core\Admin
             $query = "UPDATE `attributeOption` 
                 SET `name`='{$name}', `sortOrder`='{$sortOrder}'
                 WHERE `option_id` = '{$option_id}' AND `attribute_id`='{$attribute_id}' ";   
-            $option = \Mage::getModel('Model_Attribute_Option')->update($query);
+            $option = \Mage::getModel('Model\Attribute\Option')->update($query);
         }
-        $this->redirect('Admin_Attribute','Option',['id' => $attribute_id]);
+        $this->redirect('Attribute','Option',['id' => $attribute_id]);
     }
     
     public function deleteAction()
     {
         $attribute_id = $this->getRequest()->getGet('attribute_id');
         $option_id = $this->getRequest()->getGet('option_id');
-        $option = \Mage::getModel('Model_Attribute_Option')->delete($option_id);
-        $this->redirect('Admin_Attribute','Option',['id' => $attribute_id]);
+        $option = \Mage::getModel('Model\Attribute\Option')->delete($option_id);
+        $this->redirect('Attribute','Option',['id' => $attribute_id]);
         
     }   
 }

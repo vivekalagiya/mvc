@@ -1,4 +1,4 @@
-<?php $customers = $this->getCustomers(); ?>
+<?php $customers = $this->getCustomers()->getData(); ?>
     
 <html>
 
@@ -12,7 +12,7 @@
  
         <h1>Customer Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_customer', 'edit'); ?>>Add Customer</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('customer', 'edit'); ?>>Add Customer</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -43,15 +43,15 @@
                             <td><?php echo $value->password; ?></td>
                             <td>
                                 <?php if(!$value->status) { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_customer','status', ['id' => $value->customer_id, 'status' => $value->status]) ?>>Enable</a></td>
+                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('customer','status', ['id' => $value->customer_id, 'status' => $value->status]) ?>>Enable</a></td>
                                 <?php } else { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_customer','status', ['id' => $value->customer_id, 'status' => $value->status]) ?>>Disable</a></td>
+                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('customer','status', ['id' => $value->customer_id, 'status' => $value->status]) ?>>Disable</a></td>
                                 <?php } ?>
                             </td>
                             <td><?php echo $value->createdDate; ?></td>
                             <td><?php echo $value->updatedDate; ?></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_customer','edit', ['id' => $value->customer_id]); ?> >edit</a></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_customer','delete', ['id' => $value->customer_id]); ?>>delete</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('customer','edit', ['id' => $value->customer_id]); ?> >edit</a></td>
+                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('customer','delete', ['id' => $value->customer_id]); ?>>delete</a></td>
 
                         </tr>
               <?php }

@@ -1,7 +1,7 @@
 <?php  
 namespace Block\Core\Layout;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 class Message extends \Block\Core\Template     
 {

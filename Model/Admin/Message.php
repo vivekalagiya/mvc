@@ -2,8 +2,6 @@
 
 namespace Model\Admin;
 
-\Mage::loadFileByClassName('Model_Admin_Session');
-
 class Message extends Session
 {
 

@@ -2,8 +2,8 @@
 
 namespace Block\Admin\Product;
 
-\Mage::loadFileByClassName('Controller_Core_Admin');
-\Mage::loadFileByClassName('Block_Core_Template');
+
+
 
 
 class Grid extends \Block\Core\Template  
@@ -19,7 +19,7 @@ class Grid extends \Block\Core\Template
 
     public function setProducts($products = Null) {
         if(!$products) {
-            $products = \Mage::getModel('Model_Product');
+            $products = \Mage::getModel('Model\Product');
             $products = $products->fetchAll();
         }
         $this->products = $products;

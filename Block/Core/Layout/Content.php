@@ -2,7 +2,7 @@
 
 namespace Block\Core\Layout;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 class Content extends \Block\Core\Template
 {

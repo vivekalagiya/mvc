@@ -2,24 +2,24 @@
 
 namespace Controller\Admin\Product;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Model_Core_Message');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
+
+
+
 
 
 class ProductMedia extends \Controller\Core\Admin{
 
-    public function addAction() {
+    public function editAction() {
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
 
         $content = $layout->getContent();
-        $productEdit = \Mage::getBlock('Block_Admin_Product_Edit_Tabs_Media');
+        $productEdit = \Mage::getBlock('Block\Admin\Product\Edit\Tabs\Media');
         $content->addChild($productEdit, 'productEdit');
 
         $leftBar = $layout->getChild('leftBar');
-        $tab = \Mage::getBlock('Block_Admin_Product_Edit_Tabs');
+        $tab = \Mage::getBlock('Block\Admin\Product\Edit\Tabs');
         $leftBar->addChild($tab, 'tab');
         
         $this->renderLayout();
@@ -33,7 +33,7 @@ class ProductMedia extends \Controller\Core\Admin{
         
         if($data) {
             
-            $productMedia = \Mage::getModel('Model_Product_ProductMedia');
+            $productMedia = \Mage::getModel('Model\Product\ProductMedia');
             $productMedia->setData($data);
             $productMedia->product_id = $this->getRequest()->getGet('id');
             $data = $productMedia->getData();
@@ -84,12 +84,12 @@ class ProductMedia extends \Controller\Core\Admin{
             $this->imageUpload();
         }
         // $productMedia->save();
-        $this->redirect('Admin_Product_ProductMedia', 'add', ['id' => $productMedia->product_id]);
+        $this->redirect('Product\ProductMedia', 'edit', ['id' => $productMedia->product_id]);
         
     }
 
     public function imageUpload() {
-        $productMedia = \Mage::getModel('Model_Product_ProductMedia');
+        $productMedia = \Mage::getModel('Model\Product\ProductMedia');
         // echo '<pre>';
         // print_r($_FILES['image']);die;
         if($_FILES['image']) {
@@ -103,7 +103,7 @@ class ProductMedia extends \Controller\Core\Admin{
             $productMedia->product_id = $this->getRequest()->getGet('id');
             $productMedia->save();
         }
-        // $this->redirect('Admin_Product_ProductMedia', 'add', ['id' => $productMedia->product_id]);
+        // $this->redirect('Product\ProductMedia', 'edit', ['id' => $productMedia->product_id]);
     }
     
     public function deleteAction() {

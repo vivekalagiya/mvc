@@ -92,6 +92,7 @@ class Adapter {
             $this->connection();
         }
         $result = $this->getConnect()->query($query);
+        
         $row = $result->fetch_assoc();
         if(!$row) {
             return false;

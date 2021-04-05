@@ -2,9 +2,7 @@
 
 namespace Controller\Admin;
 
-\Mage::loadFiLeByClassName('Model_Core_Adapter');
-\Mage::loadFiLeByClassName('Controller_Core_Admin');
-\Mage::loadFiLeByClassName('Block_Core_Template');
+
 
 
 class Admin extends \Controller\Core\Admin{
@@ -14,7 +12,7 @@ class Admin extends \Controller\Core\Admin{
         $layout = $this->getLayout();
         $layout->setTemplate('./View/core/layout/one_column.php');
         $content = $layout->getContent();
-        $adminGrid = \Mage::getBlock('Block_Admin_Admin_grid');
+        $adminGrid = \Mage::getBlock('Block\Admin\Admin\grid');
         $content->addChild($adminGrid, 'adminGrid');
         $this->renderLayout();
     }
@@ -22,9 +20,9 @@ class Admin extends \Controller\Core\Admin{
     public function editAction() {  
         try {
             $id = $this->getRequest()->getGet('id');
-            $admin = \Mage::getModel('Model_Admin');
+            $admin = \Mage::getModel('Model\Admin');
             if($id) {
-                $admin = \Mage::getModel('Model_Admin')->load($id);
+                $admin = \Mage::getModel('Model\Admin')->load($id);
                 if(!$admin) {
                     throw new \Exception("Invalid Id", 1);
                 }
@@ -34,14 +32,14 @@ class Admin extends \Controller\Core\Admin{
             $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
             $content = $layout->getContent();
-            $adminEdit = \Mage::getBlock('Block_Admin_Admin_Edit')->setAdmin($admin);
+            $adminEdit = \Mage::getBlock('Block\Admin\Admin\Edit')->setAdmin($admin);
             $content->addChild($adminEdit, 'adminEdit');
             
             $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Admin_Admin','index');
+            $this->redirect('Admin','index');
             exit(0);
         
         }
@@ -55,7 +53,7 @@ class Admin extends \Controller\Core\Admin{
                 throw new \Exception("Invalid Save Request.");
             }
             $postData = $this->getRequest()->getPost('admin');
-            $admin = \Mage::getModel('Model_Admin')->load($admin_id);
+            $admin = \Mage::getModel('Model\Admin')->load($admin_id);
             $admin->setData($postData);
             if($admin->status == 'enabled') {
                 $admin->status = 1;
@@ -64,7 +62,7 @@ class Admin extends \Controller\Core\Admin{
             }
             $admin->createdDate = date('Y-m-d h:i:s');
             $admin->save();
-            $this->redirect('Admin_admin','index');
+            $this->redirect('Admin','index');
             exit(0);
         }
         catch(\Exception $e) {
@@ -85,7 +83,7 @@ class Admin extends \Controller\Core\Admin{
             $query = "DELETE FROM `admin` WHERE `admin`.`admin_id` = {$admin_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_admin','index');
+            $this->redirect('Admin','index');
         }
         catch(\Exception $e) {
             echo $e->getMessage();
@@ -109,7 +107,7 @@ class Admin extends \Controller\Core\Admin{
                       WHERE `admin`.`admin_id` = {$admin_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Admin_Admin','index');
+            $this->redirect('Admin','index');
             exit(0);
         }
         catch(\Exception $e) {

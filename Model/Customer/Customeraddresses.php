@@ -2,7 +2,7 @@
 
 namespace Model\Customer;
 
-\Mage::loadFileByClassName('Model_Core_Table');
+
 
 class Customeraddresses extends \Model\Core\Table {
 

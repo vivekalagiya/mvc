@@ -11,7 +11,7 @@
   	<h2>Edit Shipping</h2>
   </div>
 	
-  <form class="form" name='shipping[form]' method="POST" action="<?php echo $this->getUrl()->getUrl('Admin_shipping', 'save', ['id' => $shipping->shipping_id ]) ?>" >
+  <form class="form" name='shipping[form]' method="POST" action="<?php echo $this->getUrl()->getUrl('Shipping', 'save', ['id' => $shipping->shipping_id ]) ?>" >
     <table>
       
         

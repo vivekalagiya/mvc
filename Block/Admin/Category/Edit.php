@@ -2,51 +2,27 @@
 
 namespace Block\Admin\Category;
 
-\Mage::loadFileByClassName('Model_Admin_Message');
-\Mage::loadFileByClassName('Model_category');
-\Mage::loadFileByClassName('Block_Core_Template');
-\Mage::loadFileByClassName('Model_Core_Request');
 
-
-class Edit extends \Block\Core\Template 
+class Edit extends \Block\Core\Edit
 {
 
-    protected $category = Null;
     protected $categoryOptions = [];
 
     
     public function __construct()
     {
-        $this->setTemplate('View/Admin/Category/edit.php');
-    }
-
-   
-    public function setCategory($category = Null) {
-        if(!$category) {
-            $category = \Mage::getModel('Model_Category');
-            if($id = $category->getGet('id')) {
-                $category = $category->load($id);
-            }
-        }
-        $this->category = $category;
-        return $this;
-    }
-
-    public function getCategory() {
-        if(!$this->category) {
-            $this->setCategory();
-        }
-        return $this->category;
+        parent::__construct();
+        $this->setTabClass('Block\Admin\Category\Edit\Tabs');
     }
 
     public function setCategoryOptions($categoryPathId = Null) {
         try {
             $categoryPathId = $categoryPathId.'=';
             $query = "SELECT `category_id`,`categoryName` FROM `category` ";
-            $options = $this->getCategory()->getAdapter()->fetchPairs($query);
+            $options = $this->getTableRow()->getAdapter()->fetchPairs($query);
             
             $query = "SELECT `category_id`,`path_id` FROM `category`  WHERE `path_id` NOT LIKE '{$categoryPathId}%'";
-            $categoryOptions = $this->getCategory()->getAdapter()->fetchPairs($query);
+            $categoryOptions = $this->getTableRow()->getAdapter()->fetchPairs($query);
             
             if($categoryOptions) {
                 foreach ($categoryOptions as $category_id => &$path_id) {

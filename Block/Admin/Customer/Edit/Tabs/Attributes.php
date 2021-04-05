@@ -2,9 +2,9 @@
 
 namespace Block\Admin\Customer\Edit\Tabs;
 
-\Mage::loadFileByClassName('Block_Core_Template');
 
-class Attributes extends \Block\Core\Template
+
+class Attributes extends \Block\Admin\Customer\Edit
 {
     protected $attributes = [];
 
@@ -17,7 +17,7 @@ class Attributes extends \Block\Core\Template
     {
         if(!$attributes) {
             $query = "SELECT * FROM `attribute` WHERE `attribute`.`entityType_id` = 'customers' ";
-            $attributes = \Mage::getModel('Model_Attribute')->fetchAll($query);
+            $attributes = \Mage::getModel('Model\Attribute')->fetchAll($query);
         }
         $this->attributes = $attributes;
         return $this;

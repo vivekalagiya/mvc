@@ -1,5 +1,9 @@
+invisible
 
-<?php
-echo $this->getTabContent(); 
-?>
+
+
+
+
+
+
 

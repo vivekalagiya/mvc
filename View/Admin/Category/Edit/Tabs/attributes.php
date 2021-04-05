@@ -1,6 +1,6 @@
-<?php $attributes = $this->getAttributes(); ?>
+<?php $attributes = $this->getAttributes()->getData(); ?>
 <?php //echo '<pre>'; print_r($attributes); ?>
-    <form class="form" method="post" action="<?= $this->getUrl()->getUrl('Admin_Category_Attributes', 'save', ['id' => $this->getRequest()->getGet('id') ]) ?>">
+    <form class="form" method="post" action="<?= $this->getUrl()->getUrl('Category\Attributes', 'save', ['id' => $this->getRequest()->getGet('id') ]) ?>">
     <table class="table" border="1">
      <?php foreach ($attributes as $key => $attribute) : ?>
     <?php //print_r($options = $attribute->getOptions()); ?>

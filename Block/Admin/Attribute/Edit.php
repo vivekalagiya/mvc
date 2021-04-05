@@ -2,8 +2,6 @@
 
 namespace Block\Admin\Attribute;
 
-\Mage::loadFileByClassName('Block_Core_Template');
-
 
 class Edit extends \Block\Core\Template   
 {
@@ -19,7 +17,7 @@ class Edit extends \Block\Core\Template
     public function setAttribute($attribute = Null) {
         if(!$attribute) {
             $id = $this->getRequest()->getGet('id');
-            $attribute = \Mage::getModel('Model_Attribute');
+            $attribute = \Mage::getModel('Model\Attribute');
             $attribute = $attribute->load($id);
         }
         $this->attribute = $attribute;

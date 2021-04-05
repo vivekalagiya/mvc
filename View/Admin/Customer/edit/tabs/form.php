@@ -1,4 +1,4 @@
-<?php $customer = $this->getCustomer(); ?>
+<?php $customer = $this->getTableRow(); ?>
 <?php // echo '<pre>'; var_dump($customer->customer_id);die; ?>
 <!DOCTYPE html>
 <html>

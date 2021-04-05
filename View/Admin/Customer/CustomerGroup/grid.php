@@ -1,4 +1,5 @@
-<?php $customerGroups = $this->getCustomerGroups(); ?>
+<?php $customerGroups = $this->getCustomerGroups()->getData(); ?>
+
     
 <html>
 
@@ -12,7 +13,7 @@
  
         <h1>Customer Group</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerGroup', 'add'); ?>>Add Customer Group</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Customer\CustomerGroup', 'edit'); ?>>Add Customer Group</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -34,14 +35,14 @@
                             <td><?php echo $value->groupName; ?></td>
                             <td>
                                 <?php if(!$value->default) { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerGroup','default', ['id' => $value->group_id, 'default' => $value->default]); ?>>Make Default</a></td>
+                                    <a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Customer\CustomerGroup','default', ['id' => $value->group_id, 'default' => $value->default]); ?>>Make Default</a></td>
                                 <?php } else { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerGroup','default', ['id' => $value->group_id, 'default' => $value->default]); ?>>Default</a></td>
+                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Customer\CustomerGroup','default', ['id' => $value->group_id, 'default' => $value->default]); ?>>Default</a></td>
                                 <?php } ?>
                             </td>
                             <td><?php echo $value->createdDate; ?></td> 
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerGroup','edit', ['id' => $value->group_id]); ?> >edit</a></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Customer_CustomerGroup','delete', ['id' => $value->group_id]); ?>>delete</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Customer\CustomerGroup','edit', ['id' => $value->group_id]); ?> >edit</a></td>
+                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Customer\CustomerGroup','delete', ['id' => $value->group_id]); ?>>delete</a></td>
 
                         </tr>
               <?php }

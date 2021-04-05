@@ -2,7 +2,6 @@
 
 namespace Model;
 
-\Mage::loadFileByClassName('Model_Core_Table');
 
 class Admin extends \Model\Core\Table {
 

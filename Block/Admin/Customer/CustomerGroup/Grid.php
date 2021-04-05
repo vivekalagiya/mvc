@@ -2,7 +2,7 @@
 
 namespace Block\Admin\Customer\CustomerGroup;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 class Grid extends \Block\Core\Template
 {
@@ -15,7 +15,7 @@ class Grid extends \Block\Core\Template
         
     public function setCustomerGroups($customerGroups = Null) {
         if(!$customerGroups) {
-            $customerGroups = \Mage::getModel('Model_Customer_CustomerGroup');
+            $customerGroups = \Mage::getModel('Model\Customer\CustomerGroup');
             $customerGroups = $customerGroups->fetchAll();
         }
         $this->customerGroups = $customerGroups;

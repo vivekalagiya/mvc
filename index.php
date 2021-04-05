@@ -1,10 +1,12 @@
 <?php
 
+spl_autoload_register(__NAMESPACE__ .'\Mage::loadFileByClassName'); 
+
 class Mage {
 
-    public function loadFileByClassName($className)
+    public static function loadFileByClassName($className)
     {
-        $className = str_replace('_',  ' ', $className);
+        $className = str_replace('\\',  ' ', $className);
         $className = ucwords($className);
         $className = str_replace(' ',  '\\', $className);
         $className = $className.'.php';
@@ -13,7 +15,6 @@ class Mage {
     }
     
     public static function init() {
-        self::loadFileByClassName('Controller_Core_Front');
         \Controller\Core\Front::init();
     }
 
@@ -21,8 +22,7 @@ class Mage {
     
     public function getController($className)
     {
-        self::loadFileByClassName($className);
-        $className = str_replace('_',  ' ', $className);
+        $className = str_replace('\\',  ' ', $className);
         $className = ucwords($className);
         $className = str_replace(' ',  '\\', $className);
         
@@ -32,8 +32,7 @@ class Mage {
 
     public function getModel($className)
     {
-        self::loadFileByClassName($className);
-        $className = str_replace('_',  ' ', $className);
+        $className = str_replace('\\',  ' ', $className);
         $className = ucwords($className);
         $className = str_replace(' ',  '\\', $className);
         
@@ -43,8 +42,7 @@ class Mage {
 
     public function getBlock($className)
     {
-        self::loadFileByClassName($className);
-        $className = str_replace('_',  ' ', $className);
+        $className = str_replace('\\',  ' ', $className);
         $className = ucwords($className);
         $className = str_replace(' ',  '\\', $className);
         

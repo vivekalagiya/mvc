@@ -1,7 +1,6 @@
 <?php 
 
 namespace Block\Admin\Attribute\Option;
-\Mage::loadFileByClassName('Block_Core_Template');
 
 class Grid extends \Block\Core\Template 
 {
@@ -15,7 +14,7 @@ class Grid extends \Block\Core\Template
     public function setAttribute($attribute = Null)
     {
         if(!$attribute) {
-            $attribute = \Mage::getModel('Model_Attribute_Option')->fetchAll();
+            $attribute = \Mage::getModel('Model\Attribute');
         }
         $this->attribute = $attribute;
         return $this;

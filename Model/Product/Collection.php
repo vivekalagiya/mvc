@@ -2,23 +2,7 @@
 
 namespace Model\Product;
 
-class Model_Product_Collection 
+class Collection extends \Model\Core\Table\Collection
 {
-    protected $data = [];
-
-    public function setData(array $data)
-    {
-        $this->data = $data;
-        return $this;
-    }
-
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    public function count()
-    {
-        return count($this->data);
-    }
+   
 }

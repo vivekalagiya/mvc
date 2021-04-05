@@ -1,4 +1,4 @@
-<?php $admin = $this->getAdmin();?>
+<?php $admin = $this->getAdmin()->getData();?>
 
 <html>
 
@@ -12,7 +12,7 @@
  
         <h1>Admin Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Admin', 'edit'); ?>>Add Admin</a> <br><br>
+        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin', 'edit'); ?>>Add Admin</a> <br><br>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -33,14 +33,14 @@
                             <td><?php echo $value->password; ?></td>
                             <td>
                                 <?php if(!$value->status) { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Admin','status', ['id' => $value->admin_id, 'status' => $value->status]); ?>>Enable</a></td>
+                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Admin','status', ['id' => $value->admin_id, 'status' => $value->status]); ?>>Enable</a></td>
                                 <?php } else { ?>
-                                    <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Admin','status', ['id' => $value->admin_id, 'status' => $value->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Admin','status', ['id' => $value->admin_id, 'status' => $value->status]); ?>>Disable</a></td>
                                 <?php } ?>
                             </td>
                             <td><?php echo $value->createdDate; ?></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Admin','edit', ['id' => $value->admin_id]); ?> >edit</a></td>
-                            <td><a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin_Admin','delete', ['id' => $value->admin_id]); ?>>delete</a></td>
+                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Admin','edit', ['id' => $value->admin_id]); ?> >edit</a></td>
+                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Admin','delete', ['id' => $value->admin_id]); ?>>delete</a></td>
 
                         </tr>
               <?php }

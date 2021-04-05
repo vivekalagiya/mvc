@@ -14,7 +14,7 @@
 <tbody>
 <tr>
     <td>
-        <?php  echo $this->createBlock('Block_Core_Layout_Message')->toHtml(); ?>
+        <?php  echo $this->createBlock('Block\Core\Layout\Message')->toHtml(); ?>
     </td>
 </tr>
     <tr>

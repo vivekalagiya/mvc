@@ -2,7 +2,7 @@
 
 namespace Block\Core\Layout;
 
-\Mage::loadFileByClassName('Block_Core_Template');
+
 
 class Left extends \Block\Core\Template
 {
