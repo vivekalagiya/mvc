@@ -11,6 +11,9 @@ class Checkout extends \Controller\Core\Admin
         $layout->setTemplate('View/core/layout/one_column.php');
         $content = $layout->getContent();
         $cart = \Mage::getModel('Model\Cart')->load($cart_id);
+        if(!$cart) {
+            $cart = \Mage::getModel('Model\Cart');
+        }
         if(!$cart->getItems()) {
             $this->getMessage()->setFailure('select atleast one item.');
             $this->redirect('cart', 'index', ['id' => $cart_id]);
@@ -28,6 +31,9 @@ class Checkout extends \Controller\Core\Admin
         $cart = \Mage::getModel('Model\Cart')->load($cart_id);
         
         $billingAddress = $cart->getBillingAddress();
+        if(!$billingAddress) {
+            $billingAddress = \Mage::getModel('Model\Cart\Address');
+        }
         $billingAddress->setData($billing);
         $billingAddress->cart_id = $cart_id;
         $billingAddress->addressType = 'billing';
@@ -39,6 +45,9 @@ class Checkout extends \Controller\Core\Admin
             $shipping = $billing;
         }
         $shippingAddress = $cart->getShippingAddress();
+        if(!$shippingAddress) {
+            $shippingAddress = \Mage::getModel('Model\Cart\Address');
+        }
         $shippingAddress->setData($shipping);
         $shippingAddress->cart_id = $cart_id;
         $shippingAddress->addressType = 'shipping';

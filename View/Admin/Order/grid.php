@@ -1,5 +1,5 @@
-<?php $order = $this->getOrder(); ?>
-<?php echo '<pre>'; print_r($order); die;  ?>
+<?php $orderItems = $this->getOrder()->getItems(); ?>
+<?php // echo '<pre>'; print_r($orderItems); die;  ?>
 
 <html>
 
@@ -18,30 +18,26 @@
                 <tr>
                     
                     <th>Order Id</th>
-                    <th>Customer Id</th>
-                    <th>Order Total</th>
-                    <th>Total Discount</th>
-                    <th>Payment Id</th>
-                    <th>Payment Code</th>
-                    <th>Shipping Id</th>
-                    <th>Shipping Code</th>
-                    <th>Shipping Amount</th>
+                    <th>Product Id</th>
+                    <th>Sku</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discount</th>
 
                 </tr>
             </thead>
             <tbody>
-                <?php if($orders) : ?>
-                <?php foreach ($orders->getData() as $key => $order) : ?>
+                <?php if($orderItems) : ?>
+                <?php foreach ($orderItems->getData() as $key => $orderItem) : ?>
                         <tr>
-                            <td><?php echo $order->order_id; ?></td>
-                            <td><?php echo $order->customer_id; ?></td>
-                            <td><?php echo $order->orderTotal; ?></td>
-                            <td><?php echo $order->totalDiscount; ?></td>
-                            <td><?php echo $order->payment_id; ?></td>
-                            <td><?php echo $order->paymentCode; ?></td>
-                            <td><?php echo $order->shipping_id; ?></td>
-                            <td><?php echo $order->shippingCode; ?></td>
-                            <td><?php echo $order->shippingAmount; ?></td>
+                            <td><?php echo $orderItem->order_id; ?></td>
+                            <td><?php echo $orderItem->product_id; ?></td>
+                            <td><?php echo $orderItem->sku; ?></td>
+                            <td><?php echo $orderItem->productName; ?></td>
+                            <td><?php echo $orderItem->quantity; ?></td>
+                            <td><?php echo $orderItem->price; ?></td>
+                            <td><?php echo $orderItem->discount; ?></td>
                         </tr>
                 <?php endforeach; ?> 
                 <?php else : ?>

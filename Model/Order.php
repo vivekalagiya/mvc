@@ -13,7 +13,7 @@ class Order extends \Model\Core\Table {
 
     }
 
-    public function setItems(\Model\cart\Item\Collection $items)
+    public function setItems(\Model\Order\Item\Collection $items)
     {
         $this->items = $items;
         return $this;
@@ -21,11 +21,11 @@ class Order extends \Model\Core\Table {
 
     public function getItems()
     {
-        if(!$this->cart_id) {
+        if(!$this->order_id) {
             return false;   
         }
-        $query = "SELECT * FROM `cartItem` WHERE cart_id = '{$this->cart_id}' ";
-        $items = \Mage::getModel('Model\Cart\Item')->fetchAll($query);
+        $query = "SELECT * FROM `orderItem` WHERE order_id = '{$this->order_id}' ";
+        $items = \Mage::getModel('Model\Order\Item')->fetchAll($query);
         if(!$items) {
             return null;
         }
@@ -33,9 +33,8 @@ class Order extends \Model\Core\Table {
         return $this->items;
     }
 
-    public function addItemToOrder($cart)
+    public function addItemToOrder($items)
     {
-        $items = $cart->getItems();
         if($items) {
             foreach ($items->getData() as $key => $item) {
                 
@@ -48,12 +47,42 @@ class Order extends \Model\Core\Table {
                 $orderItem->quantity = $item->quantity;
                 $orderItem->price = $item->price;
                 $orderItem->discount = $item->discount;
-                // echo '<pre>';
-                // print_r($items);die;
                 $orderItem->save();
             }
         }
     }
+
+    public function setOrderBillingAddress($address)
+    {
+        $orderAddress = \Mage::getModel('Model\Order\Address');
+        $orderAddress->order_id = $this->order_id;
+        $orderAddress->addressType = $address->addressType;
+        $orderAddress->address = $address->address;
+        $orderAddress->city = $address->city;
+        $orderAddress->state = $address->state;
+        $orderAddress->country = $address->country;
+        $orderAddress->zipCode = $address->zipCode;
+        $orderAddress->sameAsBilling = $address->sameAsBilling;
+        $orderAddress->save();
+
+    }
+    
+    public function setOrderShippingAddress($address)
+    {
+        $orderAddress = \Mage::getModel('Model\Order\Address');
+        $orderAddress->order_id = $this->order_id;
+        $orderAddress->addressType = $address->addressType;
+        $orderAddress->address = $address->address;
+        $orderAddress->city = $address->city;
+        $orderAddress->state = $address->state;
+        $orderAddress->country = $address->country;
+        $orderAddress->zipCode = $address->zipCode;
+        $orderAddress->sameAsBilling = $address->sameAsBilling;
+        $orderAddress->save();
+
+    }
+
+
 }
 
 

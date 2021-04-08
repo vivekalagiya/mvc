@@ -2,9 +2,6 @@
 
 namespace Controller\Admin;
 
-
-
-
 class Admin extends \Controller\Core\Admin{
 
     public function indexAction() {

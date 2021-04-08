@@ -114,17 +114,16 @@ class Attribute extends \Controller\Core\Admin{
             $layout = $this->getLayout();
             $layout->setTemplate('./View/core/layout/one_column.php');
             $content = $layout->getContent();
-            $optionBlock = \Mage::getBlock('Block\Admin\Attribute\Option\Grid')->setAttribute($attribute);
+            $option = \Mage::getBlock('Block\Admin\Attribute\Option\Grid')->setAttribute($attribute);
             // echo '<pre>';
-            // print_r($optionBlock);die;
-            $content->addChild($optionBlock, 'optionBlock');
+            // print_r($option);die;
+            $content->addChild($option, 'option');
             $this->renderLayout();
             
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
-    }
-    
+    }    
 }
 
 

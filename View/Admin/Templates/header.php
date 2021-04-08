@@ -24,6 +24,7 @@
       <li><a class="btn" href=<?php echo $controller->getUrl('Admin', 'index','',true) ?> >Admin</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('Customer', 'index','',true) ?> >Customer</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('Customer\CustomerGroup', 'index','',true) ?> >Customer Group</a></li>
+      <li><a class="btn" href=<?php echo $controller->getUrl('Brand', 'index','',true) ?> >Brand</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('Product', 'index','',true) ?> >Products</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('Category', 'index','',true) ?> >Category</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('Shipping', 'index','',true) ?> >Shipping Method</a></li>
@@ -31,6 +32,7 @@
       <li><a class="btn" href=<?php echo $controller->getUrl('Cms', 'index','',true) ?> >Cms</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('Attribute', 'index','',true) ?> >Attribute</a></li>
       <li><a class="btn" href=<?php echo $controller->getUrl('ConfigGroup', 'index','',true) ?> >Configuration</a></li>
+      <li><a class="btn" href=<?php echo $controller->getUrl('cart', 'index','',true) ?> >Go to Cart</a></li>
     </ul>
   </div>
 </nav>

@@ -2,8 +2,6 @@
 
 namespace Controller\Admin\ConfigGroup;
 
-
-
 class Config extends \Controller\Core\Admin
 {
 

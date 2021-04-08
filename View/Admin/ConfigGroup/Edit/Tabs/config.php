@@ -16,14 +16,7 @@
         <input type="submit" class="btn" value="Update"> 
         
                 <a class="btn" onclick="addRow()">Add Config</a> <br><br>
-                <table class="table" >
-                  <tbody>
-                    <tr>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-
+                
                 <?php if(!$configs) : ?>
                     <table class="table" id="existingConfig">
                       <thead>
@@ -41,7 +34,6 @@
                       </tbody>
                     </table>    
                 <?php else : ?>
-                <?php foreach ($configs->getData() as $key => $config) : ?>
                     <table class="table" id="existingConfig">
                         <thead>
                           <tr>
@@ -52,15 +44,16 @@
                           </tr>
                         </thead>
                         <tbody>
+                <?php foreach ($configs->getData() as $key => $config) : ?>
                         <tr>
                             <td><input type="text" name ="exist[<?php echo $config->config_id; ?>][title]" value="<?php echo $config->title; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $config->config_id; ?>][code]" value="<?php echo $config->code; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $config->config_id; ?>][value]" value="<?php echo $config->value; ?>"></td>
                             <td><a class="btn" name="removeConfig" href="<?php echo $this->geturl()->getUrl('ConfigGroup\config', 'delete', ['config_id' => $config->config_id, 'group_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
                         </tr>
+                <?php endforeach; ?>
                         </tbody>
                     </table>
-                <?php endforeach; ?>
                 <?php endif; ?>   
     </form>
 

@@ -30,6 +30,7 @@ class Cart extends \Controller\core\Admin
             if(!$addItem) {
                 throw new \Exception("Unable to add item.");
             }
+            
 
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
@@ -61,15 +62,32 @@ class Cart extends \Controller\core\Admin
 
     public function updateAction()
     {
-        $cart = $this->getCart();
-        $itemQuantity = $this->getRequest()->getPost('quantity');
-        foreach ($itemQuantity as $item_id => $quantity) {
-            $cartItem = \Mage::getModel('Model\Cart\Item')->load($item_id);
-            $cartItem->quantity = $quantity;
-            $cartItem->save();
+        try {
+            $cart = $this->getCart();
+            $itemQuantity = $this->getRequest()->getPost('quantity');
+            foreach ($itemQuantity as $item_id => $quantity) {
+                if($quantity == 0) {
+                    $cartItem = \Mage::getModel('Model\Cart\Item')->load($item_id);
+                    $cartItem->delete($item_id);
+                } elseif ($quantity < 0 ) {
+                    throw new \Exception("Quantity can not be negative!", 1);
+                } else {
+                    $cartItem = \Mage::getModel('Model\Cart\Item')->load($item_id);
+                    $product = $cartItem->getProduct();
+                    $cartItem->quantity = $quantity;
+                    $cartItem->baseprice = $product->price * $quantity;
+                    $cartItem->price = $product->price * $quantity;
+                    $cartItem->discount = $product->discount * $quantity;
+                    $cartItem->save();
+                }
+                $cart->updateCart();
+            }
+            $this->getMessage()->setSuccess('Item update Successfully.');
+            $this->redirect('cart', 'index');
+        } catch (\Exception $e) {
+            $this->getMessage()->setFailure($e->getMessage());
+            $this->redirect('cart', 'index');
         }
-        $this->getMessage()->setSuccess('Item update Successfully.');
-        $this->redirect('cart', 'index');
     }
 
     public function deleteAction()
@@ -77,6 +95,7 @@ class Cart extends \Controller\core\Admin
         $cartItem_id = $this->getRequest()->getGet('id');
         $cartItem = \Mage::getModel('Model\Cart\Item');
         $cartItem->delete($cartItem_id);
+        $cartItem->getCart()->updateCart(); 
         $this->getMessage()->setSuccess('Item delete Successfully.');
         $this->redirect('cart', 'index');
     }

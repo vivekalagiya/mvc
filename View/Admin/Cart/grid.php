@@ -43,11 +43,11 @@
                         <tr>
                             <td><?php echo $item->cart_id; ?></td>
                             <td><?php echo $item->product_id; ?></td>
-                            <td><?php echo $item->price; ?></td>
+                            <td><?php echo $item->price / $item->quantity; ?></td>
                             <td><input type="number" name="quantity[<?= $item->cartItem_id ?>]" value = "<?= $item->quantity; ?>"></td>
-                            <td><?php echo $totalPrice = $item->price * $item->quantity; ?></td>
-                            <td><?php echo $discount = $item->discount * $item->quantity; ?></td>
-                            <td><?php echo $totalPrice - $discount; ?></td>
+                            <td><?php echo $item->price; ?></td>
+                            <td><?php echo $item->discount; ?></td>
+                            <td><?php echo $item->price - $item->discount; ?></td>
                             <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('','delete', ['id' => $item->cartItem_id]);?>>delete</a></td>
                         </tr>
                 <?php endforeach; ?> 

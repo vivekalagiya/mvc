@@ -6,10 +6,13 @@ class Test
 {
     public function testAction()
     {
-        $number = '4567';
+        $number = 4567;
         $factor = 6;
 
-        echo $number[0];
+        echo $length = strlen($number);
+        
+
+        
     }
 }
 

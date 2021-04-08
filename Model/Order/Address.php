@@ -5,40 +5,31 @@ namespace Model\Order;
 
 class Address extends \Model\Core\Table 
 {
-    protected $cart = Null;
+    protected $order = Null;
     
     public function __construct()
     {
-        $this->setTableName('cartAddress');
-        $this->setPrimaryKey('cartAddress_id');
+        $this->setTableName('orderAddress');
+        $this->setPrimaryKey('orderAddress_id');
     }
     
-    public function setCart(\Model\Cart $cart)
+    public function setOrder(\Model\Order $order)
     {
-        $this->cart = $cart;
+        $this->order = $order;
         return $this;
     }
 
-    public function getCart()
+    public function getOrder()
     {
-        if(!$this->cart_id) {
+        if(!$this->order_id) {
             return false;
         }
 
-        $cart = \Mage::getModel('\Model\Cart')->load($this->cart_id);
-        $this->setCart($cart);
-        return $this->cart;
+        $order = \Mage::getModel('Model\Order')->load($this->order_id);
+        $this->setOrder($order);
+        return $this->order;
     }
 
-    public function setCustomerBillingAddress($billingAddress)
-    {
-        $this->customerBillingAddress = $billingAddress;
-    }
-
-    public function getCustomerBillingAddress()
-    {
-        print_r($this->getCart());
-    }
 
 }
 

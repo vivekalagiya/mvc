@@ -31,22 +31,6 @@ class Item extends \Model\Core\Table
         return $this->order;
     }
 
-    // public function setProduct(\Model\product $product)
-    // {
-    //     $this->product = $product;
-    //     return $this;
-    // }
-
-    // public function getProduct()
-    // {
-    //     if(!$this->product_id) {
-    //         return false;
-    //     }
-
-    //     $product = \Mage::getModel('\Model\product')->load($this->product_id);
-    //     $this->setProduct($product);
-    //     return $this->product;
-    // }
 
 }
 

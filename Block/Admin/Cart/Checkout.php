@@ -64,10 +64,9 @@ class Checkout extends \Block\Core\Template
         $items = $this->getCart()->getItems();
         $price = 0;
         foreach ($items->getData() as $key => $item) {
-            $price += ($item->price - $item->discount) * $item->quantity;
+            $price += $item->price - $item->discount;
         }
         return $price;
-
     }
 
     public function getTotalDiscount()
@@ -75,7 +74,7 @@ class Checkout extends \Block\Core\Template
         $items = $this->getCart()->getItems();
         $discount = 0;
         foreach ($items->getData() as $key => $item) {
-            $discount += $item->discount * $item->quantity;
+            $discount += $item->discount;
         }
         return $discount;
     }

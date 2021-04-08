@@ -44,8 +44,12 @@ class Attribute extends \Model\Core\Table {
 
     public function getOptions()
     {
-        $query = "SELECT * FROM `attributeOption` WHERE `attribute_id` = $this->attribute_id ORDER BY `sortOrder` ASC";
-        return  $this->fetchAll($query);
+
+        $options = \Mage::getModel($this->backendModel)->setAttribute($this)->getOptions();
+        if(!$options) {
+            return Null;
+        }
+        return $options;
     }
     
 }

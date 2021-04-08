@@ -10,6 +10,10 @@ class Order extends \Controller\core\Admin
         $layout = $this->getlayout();
         $layout->setTemplate('View/core/layout/one_column.php');
         $grid = \Mage::getBlock('Block\Admin\Order\Grid');
+
+        $order_id = $this->getRequest()->getGet('id');
+        $order = \Mage::getModel('Model\Order')->load($order_id);
+        $grid->setOrder($order);
         $content = $layout->getContent()->addChild($grid);
         $this->renderlayout();
         
@@ -29,8 +33,8 @@ class Order extends \Controller\core\Admin
         
         $order = \Mage::getModel('Model\Order');
         $order->customer_id = $cart->customer_id;
-        $order->orderTotal = $checkout->getCartTotal();
-        $order->totalDiscount = $checkout->getTotalDiscount();
+        $order->orderTotal = $cart->total;
+        $order->totalDiscount = $cart->discount;
         $order->payment_id = $payment_id;
         $order->paymentCode = $payment->code;
         $order->shipping_id = $shipping_id;
@@ -38,13 +42,20 @@ class Order extends \Controller\core\Admin
         $order->shippingAmount = $shipping->amount;
         $order->save();
 
-        $addItem = $order->addItemToOrder($cart);
+        $items = $cart->getItems();
+        $order->addItemToOrder($items);
 
+        $billingAddress = $cart->getBillingAddress();
+        $shippingAddress = $cart->getShippingAddress();
+        // echo '<pre>';
+        // print_r($billingAddress);die;
+        $order->setOrderBillingAddress($billingAddress);
+        $order->setOrderShippingAddress($shippingAddress);   
+        $cart->delete($cart_id);  
 
         $this->getMessage()->setSuccess('Order Placed Successfully.');
         $this->redirect('', 'index', ['id' => $order->order_id]);
     }
-
 
 }
 

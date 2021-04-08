@@ -19,22 +19,38 @@
                 <a class="btn" onclick="addRow()">Add Option</a> <br><br>
                 <?php if(!$option) : ?>
                     <table class="table" id="existingOption">
-                        <tbody>
-                            <tr><td></td></tr>
-                        </tbody>
+                      <thead>
+                        <tr>
+                          <td>option</td>
+                          <td>Sort Order</td>
+                          <td>Action</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td colspan="4"></td>
+                        </tr>
+                      </tbody>
                     </table>
                 <?php else : ?>
-                <?php foreach ($option->getData() as $key => $option) : ?>
                     <table class="table" id="existingOption">
+                    <thead>
+                          <tr>
+                            <td>Option</td>
+                            <td>Sort Order</td>
+                            <td>Action</td>
+                          </tr>
+                        </thead>
                         <tbody>
+                <?php foreach ($option->getData() as $key => $option) : ?>
                         <tr>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][name]" value="<?php echo $option->name; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][sortOrder]" value="<?php echo $option->sortOrder; ?>"></td>
                             <td><a class="btn" name="removeOption" href="<?php echo $this->geturl()->getUrl('Attribute\Option', 'delete', ['option_id' => $option->option_id, 'attribute_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
                         </tr>
+                <?php endforeach; ?>
                         </tbody>
                     </table>
-                <?php endforeach; ?>
                 <?php endif; ?>   
     </form>
 
@@ -54,7 +70,7 @@
 
 function addRow() {
    var newOptionTable = document.getElementById('newOption');
-   var existingOptionTable = document.getElementById('existingOption').children[0];
+   var existingOptionTable = document.getElementById('existingOption').children[1];
    existingOptionTable.prepend(newOptionTable.children[0].children[0].cloneNode(true));
 }
 

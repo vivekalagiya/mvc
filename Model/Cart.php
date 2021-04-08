@@ -94,7 +94,7 @@ class Cart extends Core\Table
         $query = "SELECT * FROM `cartAddress` WHERE `cart_id` = '{$this->cart_id}' AND `addressType` = 'billing' ";
         $billingAddress = \Mage::getModel('Model\Cart\Address')->fetchRow($query);
         if(!$billingAddress) {
-            return $billingAddress = \Mage::getModel('Model\Cart\Address');
+            return null;
         }
         $this->setbillingAddress($billingAddress);
         return $this->billingAddress;
@@ -114,7 +114,7 @@ class Cart extends Core\Table
         $query = "SELECT * FROM `cartAddress` WHERE `cart_id` = '{$this->cart_id}' AND `addressType` = 'shipping' ";
         $shippingAddress = \Mage::getModel('Model\Cart\Address')->fetchRow($query);
         if(!$shippingAddress) {
-            return $billingAddress = \Mage::getModel('Model\Cart\Address');
+            return null;
         }
         $this->setShippingAddress($shippingAddress);
         return $this->shippingAddress;
@@ -130,7 +130,10 @@ class Cart extends Core\Table
         $cartItem = $cartItem->fetchRow($query);
         if($cartItem) {
             $cartItem->quantity += $quantity;
+            $cartItem->price = $product->price * $cartItem->quantity;
+            $cartItem->discount = $product->discount * $cartItem->quantity;
             $cartItem->save();
+            $this->updateCart();
             return true;
         }
         
@@ -138,12 +141,42 @@ class Cart extends Core\Table
         $cartItem->cart_id = $this->cart_id;
         $cartItem->product_id = $product->product_id;
         $cartItem->quantity = $quantity;
-        $cartItem->basePrice = $product->price;
-        $cartItem->price = $product->price;
-        $cartItem->discount = $product->discount;
+        $cartItem->basePrice = $product->price * $quantity;
+        $cartItem->price = $product->price * $quantity;
+        $cartItem->discount = $product->discount * $quantity;
         $cartItem->createdDate = date('Y-m-d H:i:s');
         $cartItem->save();
+
+        $this->updateCart();
+        
         return true;
+    }
+        
+    public function updateCart()
+    {
+        $this->total = $this->getCartTotal();
+        $this->discount = $this->getTotalDiscount();
+        $this->save();
+    }
+
+    public function getCartTotal()
+    {
+        $items = $this->getItems();
+        $price = 0;
+        foreach ($items->getData() as $key => $item) {
+            $price += $item->price;
+        }
+        return $price;
+    }
+
+    public function getTotalDiscount()
+    {
+        $items = $this->getItems();
+        $discount = 0;
+        foreach ($items->getData() as $key => $item) {
+            $discount += $item->discount;
+        }
+        return $discount;
     }
 
 

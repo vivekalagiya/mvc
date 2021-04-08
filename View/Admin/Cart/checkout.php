@@ -4,7 +4,7 @@
 <?php $items = $cart->getItems();?>
 <?php $shippingMethods = $this->getCart()->getShippingMethod();?>
 <?php $paymentMethods = $this->getCart()->getPaymentMethod();?>
-<?php //echo '<pre>'; print_r($items); die; ?>
+<?php //echo '<pre>'; print_r($shippingAddress); die; ?>
 
 <div class="container wrapper">
     <div class="row cart-head">
@@ -87,31 +87,31 @@
                         <div class="form-group">
                             <div class="col-md-12"><strong>Address:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="billing[address]" class="form-control" value="<?= $billingAddress->address ?>" />
+                                <input type="text" name="billing[address]" class="form-control" value="<?= $billingAddress->address ?>" required />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>City:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="billing[city]" class="form-control" value="<?= $billingAddress->city ?>" />
+                                <input type="text" name="billing[city]" class="form-control" value="<?= $billingAddress->city ?>" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>State:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="billing[state]" class="form-control" value="<?= $billingAddress->state ?>" />
+                                <input type="text" name="billing[state]" class="form-control" value="<?= $billingAddress->state ?>" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Country:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="billing[country]" value="<?= $billingAddress->country ?>" />
+                                <input type="text" class="form-control" name="billing[country]" value="<?= $billingAddress->country ?>" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Zip Code:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="billing[zipCode]" class="form-control" value="<?= $billingAddress->zipCode ?>" />
+                                <input type="text" name="billing[zipCode]" class="form-control" value="<?= $billingAddress->zipCode ?>" required/>
                             </div>
                         </div>
                         <div>
