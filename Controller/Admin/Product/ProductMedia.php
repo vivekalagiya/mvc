@@ -2,12 +2,6 @@
 
 namespace Controller\Admin\Product;
 
-
-
-
-
-
-
 class ProductMedia extends \Controller\Core\Admin{
 
     public function editAction() {

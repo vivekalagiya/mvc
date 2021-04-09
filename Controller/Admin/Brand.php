@@ -59,7 +59,16 @@ class Brand extends \Controller\Core\Admin
                 $brand->status = 0;
             }
             $brand->createdDate = date('Y-m-d h:i:s');
+
+            $image = $_FILES['brandImage']['name'];
+            $tempName = $_FILES['brandImage']['tmp_name'];
+            $subPath = 'skin\Images\Brand\\';
+            $path = \Mage::getBaseDir($subPath);
+            move_uploaded_file($tempName, $path.$image);
+            
+            $brand->brandImage = $image;
             $brand->save();
+
             $this->redirect('Brand','index');
             exit(0);
         }
