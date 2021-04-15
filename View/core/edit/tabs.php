@@ -6,10 +6,12 @@
 <?php foreach ($tabs as $key => $tab) : ?>
     <?php if($key != $this->getDefaultTab()) : ?>
     <?php if($this->getRequest()->getGet('id')) : ?>
-    <a class="btn" href="<?php echo $tab['url'] ?>"><?php echo $tab['label'] ?></a><br><br>
+    <?php /*  <a class="btn" href="<?php echo $tab['url'] ?>"><?php echo $tab['label'] ?></a><br><br> */ ?>
+    <button class="btn" onclick="object.setUrl('<?php echo $tab['url'] ?>').resetParams().load();"><?php echo $tab['label'] ?></button><br><br>
     <?php endif; ?>
     <?php else: ?>
-    <a class="btn" href="<?php echo $tab['url'] ?>"><?php echo $tab['label'] ?></a><br><br>
+    <?php /*  <a class="btn" href="<?php echo $tab['url'] ?>"><?php echo $tab['label'] ?></a><br><br> */ ?>
+    <button class="btn" onclick="object.setUrl('<?php echo $tab['url'] ?>').resetParams().load();"><?php echo $tab['label'] ?></button><br><br>
     <?php endif; ?>
 <?php endforeach; ?>
 

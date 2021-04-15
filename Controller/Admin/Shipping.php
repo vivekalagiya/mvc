@@ -7,12 +7,26 @@ class Shipping extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $shippingGrid = \Mage::getBlock('Block\Admin\Shipping\grid');
-        $content->addChild($shippingGrid, 'shippingGrid');
-        $this->renderLayout();
+        $shippingGrid = \Mage::getBlock('Block\Admin\Shipping\grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $shippingGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $shippingGrid = \Mage::getBlock('Block\Admin\Shipping\grid');
+        // $content->addChild($shippingGrid, 'shippingGrid');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -26,14 +40,27 @@ class Shipping extends \Controller\Core\Admin{
                 }
             }
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-    
-            $content = $layout->getContent();
-            $shippingEdit = \Mage::getBlock('Block\Admin\Shipping\Edit')->setShipping($shipping);
-            $content->addChild($shippingEdit, 'shippingEdit');
+            $shippingEdit = \Mage::getBlock('Block\Admin\Shipping\Edit')->setShipping($shipping)->toHtml();
             
-            $this->renderLayout();
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $shippingEdit
+                ]
+            ];
+            
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            // $content = $layout->getContent();
+            // $content->addChild($shippingEdit, 'shippingEdit');
+            
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
@@ -61,12 +88,12 @@ class Shipping extends \Controller\Core\Admin{
             }
             $shipping->createdDate = date('Y-m-d h:i:s');
             $shipping->save();
-            $this->redirect('Shipping','index');
-            exit(0);
         }
         catch(\Exception $e) {
-                echo $e->getMessage();
+            echo $e->getMessage();
         }
+        $this->redirect('Shipping','index');
+        exit(0);
     }
 
     public function deleteAction() {
@@ -79,11 +106,11 @@ class Shipping extends \Controller\Core\Admin{
             $query = "DELETE FROM `shippings` WHERE `shippings`.`shipping_id` = {$shipping_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Shipping','index');
         }
         catch(\Exception $e) {
             echo $e->getMessage();
         }
+        $this->redirect('Shipping','index');
     }
 
     public function statusAction() {
@@ -103,12 +130,12 @@ class Shipping extends \Controller\Core\Admin{
                       WHERE `shippings`.`shipping_id` = {$shipping_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Shipping','index');
-            exit(0);
         }
         catch(\Exception $e) {
             $e->getMessage();
         }
+        $this->redirect('Shipping','index');
+        exit(0);
         
         
     }

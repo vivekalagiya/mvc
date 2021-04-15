@@ -162,7 +162,7 @@ class Table extends \Model\Core\Table\Collection {
         if(!$row) {
             return null;
         }
-        $row = $this->setOriginalData($row);
+        $this->setOriginalData($row);
         return $this;
         
     }

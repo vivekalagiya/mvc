@@ -9,11 +9,11 @@
   <div class=" head container">
   	<h2>Manage Product</h2>
   </div>
-  <form class="form" name='form' method="post" action="<?php echo $this->getUrl()->getUrl('','save',['id' => $product->product_id]) ?>" >
+  <form class="form" name='form' method="post" action="<?php echo $this->getUrl()->getUrl('Product','save') ?>" >
     <table>
   	  	<tr class="form-group">
             <td><label>SKU</label></td>
-            <td>
+            <td>  
                 <input type="text" class="form-control" name="product[sku]" value="<?php echo $product->sku; ?>" required>
             </td>
   	    </tr>
@@ -57,7 +57,7 @@
             </td> 
   	    </tr>
     </table>
-         <button type="submit" class="btn" >Save</button>
+         <input type="button" class="btn" onclick="object.setForm(this).load();" value="Save">
 
   </form>
 </body>

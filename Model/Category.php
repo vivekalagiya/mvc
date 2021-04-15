@@ -39,14 +39,18 @@ class Category extends \Model\Core\Table {
         $categoryPathId = $categoryPathId.'=';
         $query = "SELECT * FROM `category` WHERE `path_id` LIKE '{$categoryPathId}%' ORDER BY `path_id` ASC ";
         $categories = $this->getAdapter()->fetchAll($query);
-        foreach ($categories as $key => $category) {
-            $category = \Mage::getModel('Model\category')->load($category['category_id']);
-            if($parent_id) {
-                $category->parent_id = $parent_id;
+        if($categories) {
+            foreach ($categories as $key => $category) {
+                $category = \Mage::getModel('Model\category')->load($category['category_id']);
+                if($parent_id) {
+                    $category->parent_id = $parent_id;
+                }
+                $category->updatePathId($category);
             }
-            $category->updatePathId($category);
         }
     }
+
+    
 
 
 

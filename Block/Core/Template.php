@@ -3,7 +3,7 @@
 namespace Block\Core;
 
 
-class Template 
+class Template
 {
     protected $children = [];
     protected $controller = Null;

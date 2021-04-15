@@ -2,8 +2,6 @@
 
 namespace Block\Core;
 
-
-
 class Layout extends Template 
 {
     public function __construct()

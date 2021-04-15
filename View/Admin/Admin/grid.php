@@ -1,4 +1,4 @@
-<?php $admin = $this->getAdmin()->getData();?>
+<?php $admins = $this->getAdmin()->getData();?>
 
 <html>
 
@@ -10,14 +10,14 @@
 
 <body>
  
-        <h1>Admin Table</h1>
-
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Admin', 'edit'); ?>>Add Admin</a> <br><br>
-        
+        <div style = "display:flex">
+           <div><h1>Admin Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Admin', 'edit'); ?>').load();" href="javascript:void(0)">Add Admin</a></div>
+        </div>
         <table class="table" id="table1" name="table1">
             <thead class="thead">
                 <tr>
-                    <th>Admin_id</th>
+                    <th>Admin id</th>
                     <th>Username</th>
                     <th>password</th>
                     <th>Change status</th>
@@ -26,22 +26,21 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($admin as $key => $value) { ?>
+                <?php foreach ($admins as $key => $admin) { ?>
                         <tr>
-                            <td><?php echo $value->admin_id; ?></td>
-                            <td><?php echo $value->userName; ?></td>
-                            <td><?php echo $value->password; ?></td>
+                            <td><?php echo $admin->admin_id; ?></td>
+                            <td><?php echo $admin->userName; ?></td>
+                            <td><?php echo $admin->password; ?></td>
                             <td>
-                                <?php if(!$value->status) { ?>
-                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Admin','status', ['id' => $value->admin_id, 'status' => $value->status]); ?>>Enable</a></td>
+                                <?php if(!$admin->status) { ?>    
+                                    <a class="btn btn-success" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Admin','status', ['id' => $admin->admin_id, 'status' => $admin->status]); ?>').load()" href="javascript:void(0)" >Enable</a>
                                 <?php } else { ?>
-                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Admin','status', ['id' => $value->admin_id, 'status' => $value->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Admin','status', ['id' => $admin->admin_id, 'status' => $admin->status]); ?>').load()" href="javascript:void(0)" >Diasble</a>
                                 <?php } ?>
                             </td>
-                            <td><?php echo $value->createdDate; ?></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Admin','edit', ['id' => $value->admin_id]); ?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Admin','delete', ['id' => $value->admin_id]); ?>>delete</a></td>
-
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Admin','edit', ['id' => $admin->admin_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Admin','delete', ['id' => $admin->admin_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            
                         </tr>
               <?php }
                  ?>   

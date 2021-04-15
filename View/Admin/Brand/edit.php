@@ -25,7 +25,7 @@
         <tr class="form-group">
             <td><label>Brand Image</label></td>
             <td>
-                <input class="form-control" type="file" name="brandImage" value="<?php echo $brand->brandImage ?>" required>
+                <input class="form-control" type="file" name="brandImage" value="<?php echo $brand->brandImage ?>" >
             </td>
   	    </tr>
           <tr class="form-group">
@@ -43,13 +43,8 @@
               </select>
             </td>
   	    </tr>
-        
-        
-        
     </table>
-               
-             
-         <button type="submit" class="btn" >Save</button>
+         <input type="button" class="btn" onclick="object.setForm(this).load();" value="Save">
 
   </form>
 </body>

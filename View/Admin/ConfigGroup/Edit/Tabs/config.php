@@ -13,7 +13,7 @@
  
         <h1>Config Table</h1>
         <form method="post" action="<?php echo $this->getUrl()->getUrl('ConfigGroup\Config', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
-        <input type="submit" class="btn" value="Update"> 
+         <input type="button" class="btn" onclick="object.setForm(this).load();" value="Update">
         
                 <a class="btn" onclick="addRow()">Add Config</a> <br><br>
                 
@@ -49,7 +49,7 @@
                             <td><input type="text" name ="exist[<?php echo $config->config_id; ?>][title]" value="<?php echo $config->title; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $config->config_id; ?>][code]" value="<?php echo $config->code; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $config->config_id; ?>][value]" value="<?php echo $config->value; ?>"></td>
-                            <td><a class="btn" name="removeConfig" href="<?php echo $this->geturl()->getUrl('ConfigGroup\config', 'delete', ['config_id' => $config->config_id, 'group_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
+                            <td><a class="btn btn-danger" name="removeConfig" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('ConfigGroup\config', 'delete', ['config_id' => $config->config_id, 'group_id' => $this->getRequest()->getGet('id')]); ?>').load()" href="javascript:void(0)" >Remove</a></td>
                         </tr>
                 <?php endforeach; ?>
                         </tbody>
@@ -65,7 +65,7 @@
                 <td><input type="text" name ="new[code][]" value=""></td>
                 <td><input type="text" name ="new[value][]" value=""></td>
                 
-                <td><a class="btn" onclick="removeRow(this)">Remove</a></td>
+                <td><a class="btn btn-danger" onclick="removeRow(this)">Remove</a></td>
             </tr>
         </table>
     </div>

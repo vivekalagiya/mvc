@@ -7,9 +7,11 @@
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-        <h1>Category Table</h1>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Category', 'edit'); ?>>Add Category</a><br><br>
+        <div style = "display:flex">
+           <div><h1>Category Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Category', 'edit'); ?>').load();" href="javascript:void(0)">Add Category</a></div>
+        </div>
         
         <table class="table" id="table1" name="table1">
             <thead class="thead">
@@ -36,10 +38,10 @@
                             <td><?php echo $category->path_id; ?></td>
                             <td><?php echo $category->description; ?></td>
                             <td>
-                                <?php if(!$category->status) { ?>
-                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Category','status', ['id' => $category->category_id, 'status' => $category->status]); ?>>Enable</a></td>
+                                <?php if(!$category->status) { ?>    
+                                    <a class="btn btn-success" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Category','status', ['id' => $category->category_id, 'status' => $category->status]); ?>').load()" href="javascript:void(0)" >Enable</a>
                                 <?php } else { ?>
-                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Category','status', ['id' => $category->category_id, 'status' => $category->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Category','status', ['id' => $category->category_id, 'status' => $category->status]); ?>').load()" href="javascript:void(0)" >Diasble</a>
                                 <?php } ?>
                             </td>
                             <td>
@@ -49,9 +51,9 @@
                                     <a>True</a></td>
                                 <?php } ?>
                             </td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Category','edit', [ 'id' => $category->category_id]); ?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Category','delete', ['id' => $category->category_id]); ?>>delete</a></td>
-
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Category','edit', ['id' => $category->category_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Category','delete', ['id' => $category->category_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            
                         </tr>   
               <?php endforeach; ?>   
               <?php endif; ?>   

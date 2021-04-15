@@ -76,7 +76,7 @@
         
     </table>
              
-        <br> <button type="submit" class="form-control btn">Save</button>
+         <input type="button" class="btn" onclick="object.setForm(this).load();" value="Save">
 
   </form>
 </body>

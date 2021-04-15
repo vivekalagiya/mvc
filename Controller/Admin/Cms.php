@@ -2,21 +2,30 @@
 
 namespace Controller\Admin;
 
-
-
-
-
-
 class Cms extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $cmsGrid = \Mage::getBlock('Block\Admin\Cms\grid');
-        $content->addChild($cmsGrid, 'cmsGrid');
-        $this->renderLayout();
+        $cmsGrid = \Mage::getBlock('Block\Admin\Cms\grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $cmsGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $cmsGrid = \Mage::getBlock('Block\Admin\Cms\grid');
+        // $content->addChild($cmsGrid, 'cmsGrid');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -29,15 +38,27 @@ class Cms extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
+            $cmsEdit = \Mage::getBlock('Block\Admin\Cms\Edit')->setCms($cms)->toHtml();
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $cmsEdit
+                ]
+            ];
+            
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
-            $content = $layout->getContent();
-            $cmsEdit = \Mage::getBlock('Block\Admin\Cms\Edit')->setCms($cms);
-            $content->addChild($cmsEdit, 'cmsEdit');
+            // $content = $layout->getContent();
+            // $content->addChild($cmsEdit, 'cmsEdit');
             
-            $this->renderLayout();
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());

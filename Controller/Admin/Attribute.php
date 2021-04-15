@@ -4,22 +4,30 @@ namespace Controller\Admin;
 
 class Attribute extends \Controller\Core\Admin{
 
-    public function testAction()
-    {
-        echo '<pre>';
-        $query = "SELECT * FROM `attribute` WHERE `entityType_id` = 'products' ";
-        $attributes = \Mage::getModel('Model\Attribute')->fetchAll($query);
-        print_r($attributes);
-    }
-
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $attributeGrid = \Mage::getBlock('Block\Admin\Attribute\grid');
-        $content->addChild($attributeGrid, 'AttributeGrid');
-        $this->renderLayout();
+        
+        $attributeGrid = \Mage::getBlock('Block\Admin\Attribute\Grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $attributeGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $attributeGrid = \Mage::getBlock('Block\Admin\Attribute\grid');
+        // $content->addChild($attributeGrid, 'AttributeGrid');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -33,15 +41,28 @@ class Attribute extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
+
+            $attributeEdit = \Mage::getBlock('Block\Admin\Attribute\Edit')->setAttribute($attribute)->toHtml();
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $attributeEdit
+                ]
+            ];
+            
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+            
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
-            $content = $layout->getContent();
-            $attributeEdit = \Mage::getBlock('Block\Admin\Attribute\Edit')->setAttribute($attribute);
-            $content->addChild($attributeEdit, 'attributeEdit');
+            // $content = $layout->getContent();
+            // $content->addChild($attributeEdit, 'attributeEdit');
               
-            $this->renderLayout();
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
@@ -110,15 +131,26 @@ class Attribute extends \Controller\Core\Admin{
             }
             $attribute = \Mage::getModel('Model\Attribute')->load($attribute_id);
 
+            $option = \Mage::getBlock('Block\Admin\Attribute\Option\Grid')->setAttribute($attribute)->toHtml();
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $option
+                ]
+            ];
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/one_column.php');
-            $content = $layout->getContent();
-            $option = \Mage::getBlock('Block\Admin\Attribute\Option\Grid')->setAttribute($attribute);
-            // echo '<pre>';
-            // print_r($option);die;
-            $content->addChild($option, 'option');
-            $this->renderLayout();
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+            
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/one_column.php');
+            // $content = $layout->getContent();
+            // // echo '<pre>';
+            // // print_r($option);die;
+            // $content->addChild($option, 'option');
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             echo $e->getMessage();

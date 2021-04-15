@@ -10,10 +10,11 @@
 
 <body>
  
-        <h1>Customer Table</h1>
+        <div style = "display:flex">
+           <div><h1>Customer Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Customer', 'edit',[],true); ?>').load();" href="javascript:void(0)">Add Customer</a></div>
+        </div>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('customer', 'edit'); ?>>Add Customer</a> <br><br>
-        
         <table class="table" id="table1" name="table1">
             <thead class="thead">
                 <tr>
@@ -25,34 +26,30 @@
                     <th>Mobile</th>
                     <th>Password</th>
                     <th>Change status</th>
-                    <th>created Date</th>
-                    <th>updated Date</th>
                     <th colspan='2'>Action</th>
                     
 
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($customers as $key => $value) { ?>
+                <?php foreach ($customers as $key => $customer) { ?>
                         <tr>
-                            <td><?php echo $value->customer_id; ?></td>
-                            <td><?php echo $value->firstName; ?></td>
-                            <td><?php echo $value->lastName; ?></td>
-                            <td><?php echo $value->email; ?></td>
-                            <td><?php echo $value->mobile; ?></td>
-                            <td><?php echo $value->password; ?></td>
+                            <td><?php echo $customer->customer_id; ?></td>
+                            <td><?php echo $customer->firstName; ?></td>
+                            <td><?php echo $customer->lastName; ?></td>
+                            <td><?php echo $customer->email; ?></td>
+                            <td><?php echo $customer->mobile; ?></td>
+                            <td><?php echo $customer->password; ?></td>
                             <td>
-                                <?php if(!$value->status) { ?>
-                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('customer','status', ['id' => $value->customer_id, 'status' => $value->status]) ?>>Enable</a></td>
+                                <?php if(!$customer->status) { ?>    
+                                    <a class="btn btn-success" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Customer','status', ['id' => $customer->customer_id, 'status' => $customer->status]); ?>').load()" href="javascript:void(0)" >Enable</a>
                                 <?php } else { ?>
-                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('customer','status', ['id' => $value->customer_id, 'status' => $value->status]) ?>>Disable</a></td>
+                                    <a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Customer','status', ['id' => $customer->customer_id, 'status' => $customer->status]); ?>').load()" href="javascript:void(0)" >Diasble</a>
                                 <?php } ?>
                             </td>
-                            <td><?php echo $value->createdDate; ?></td>
-                            <td><?php echo $value->updatedDate; ?></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('customer','edit', ['id' => $value->customer_id]); ?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('customer','delete', ['id' => $value->customer_id]); ?>>delete</a></td>
-
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Customer','edit', ['id' => $customer->customer_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Customer','delete', ['id' => $customer->customer_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            
                         </tr>
               <?php }
                  ?>   

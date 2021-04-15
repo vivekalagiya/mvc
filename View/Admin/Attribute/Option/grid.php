@@ -13,8 +13,7 @@
  
         <h1>Option Table</h1>
         <form method="post" action="<?php echo $this->getUrl()->getUrl('Attribute\Option', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
-        <input type="submit" class="btn" value="Update"> 
-        
+         <input type="button" class="btn" onclick="object.setForm(this).load();" value="Update">
         
                 <a class="btn" onclick="addRow()">Add Option</a> <br><br>
                 <?php if(!$option) : ?>
@@ -46,7 +45,7 @@
                         <tr>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][name]" value="<?php echo $option->name; ?>"></td>
                             <td><input type="text" name ="exist[<?php echo $option->option_id; ?>][sortOrder]" value="<?php echo $option->sortOrder; ?>"></td>
-                            <td><a class="btn" name="removeOption" href="<?php echo $this->geturl()->getUrl('Attribute\Option', 'delete', ['option_id' => $option->option_id, 'attribute_id' => $this->getRequest()->getGet('id')]); ?>">Remove</a></td>
+                            <td><a class="btn btn-danger" name="removeOption" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Attribute\Option', 'delete', ['option_id' => $option->option_id, 'attribute_id' => $this->getRequest()->getGet('id')]); ?>').load()" href="javascript:void(0)" >Remove</a></td>
                         </tr>
                 <?php endforeach; ?>
                         </tbody>
@@ -60,7 +59,7 @@
                 <td><input type="text" name ="new[name][]" value=""></td>
                 <td><input type="text" name ="new[sortOrder][]" value=""></td>
                 
-                <td><a class="btn" onclick="removeRow(this)">Remove</a></td>
+                <td><a class="btn btn-danger" onclick="removeRow(this)">Remove</a></td>
             </tr>
         </table>
     </div>

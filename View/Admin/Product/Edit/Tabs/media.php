@@ -2,8 +2,8 @@
 
 
 <form action="<?php echo $this->getUrl()->getUrl('Product\ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>"  method="post">
-<input type="submit" class="btn" value="Update" </a>
-<input type="submit" class="btn" value="Remove" </a>
+<input type="button" class="btn" onclick="object.setForm(this).load();" value="Update">
+<input type="" class="btn" value="Remove">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -36,10 +36,11 @@
 </table>
 </form>
 <div>
-    <form class="form" action="<?php echo $this->getUrl()->getUrl('Product\ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>" enctype="multipart/form-data" method="post">
+    <form class="form" acti on="<?php echo $this->getUrl()->getUrl('Product\ProductMedia','save', ['id' => $this->getRequest()->getGet('id')]); ?>" enctype="multipart/form-data" method="post">
         <div>
             <input type="file" class="btn" name="image"><br>
-            <input type="submit" class="btn" name="upload" value="upload">
+            <input type="button" class="btn" onclick="object.setForm(this).load();" value="Upload">
+            <!-- <input type="submit" class="btn" name="upload" value="upload"> -->
         </div>
     </form>
 </div>

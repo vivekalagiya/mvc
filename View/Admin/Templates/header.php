@@ -12,7 +12,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>  
 </head>
 <body>
 
@@ -20,19 +20,19 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav"> 
       <li><a class="btn">E-COM APP</a></li>&nbsp;
-      <li><a class="btn" href="">Home</a></li>&nbsp;
-      <li><a class="btn" href=<?php echo $controller->getUrl('Admin', 'index','',true) ?> >Admin</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Customer', 'index','',true) ?> >Customer</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Customer\CustomerGroup', 'index','',true) ?> >Customer Group</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Brand', 'index','',true) ?> >Brand</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Product', 'index','',true) ?> >Products</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Category', 'index','',true) ?> >Category</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Shipping', 'index','',true) ?> >Shipping Method</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Payment', 'index','',true) ?> >Payment Method</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Cms', 'index','',true) ?> >Cms</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('Attribute', 'index','',true) ?> >Attribute</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('ConfigGroup', 'index','',true) ?> >Configuration</a></li>
-      <li><a class="btn" href=<?php echo $controller->getUrl('cart', 'index','',true) ?> >Go to Cart</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Index', 'index',[],true) ?>').load();" href="javascript:void(0);" >Home</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Admin', 'index',[],true) ?>').load();" href="javascript:void(0);" >Admin</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Customer', 'index',[],true) ?>').load();" href="javascript:void(0);" >Customer</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Customer\CustomerGroup', 'index',[],true) ?>').load();" href="javascript:void(0);" >Customer Group</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Brand', 'index',[],true) ?>').load();" href="javascript:void(0);" >Brand</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Product', 'index',[],true) ?>').load();" href="javascript:void(0);" >Products</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Category', 'index',[],true) ?>').load();" href="javascript:void(0);" >Category</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Shipping', 'index',[],true) ?>').load();" href="javascript:void(0);" >Shipping Method</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Payment', 'index',[],true) ?>').load();" href="javascript:void(0);" >Payment Method</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Cms', 'index',[],true) ?>').load();" href="javascript:void(0);" >Cms</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('Attribute', 'index',[],true) ?>').load();" href="javascript:void(0);" >Attribute</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('ConfigGroup', 'index',[],true) ?>').load();" href="javascript:void(0);" >Configuration</a></li>
+      <li><a class="btn" onclick="object.setUrl('<?php echo $controller->getUrl('cart', 'index',[],true) ?>').load();" href="javascript:void(0);" >Go to Cart</a></li>
     </ul>
   </div>
 </nav>

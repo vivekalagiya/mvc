@@ -7,13 +7,30 @@ class Cart extends \Controller\core\Admin
 
     public function indexAction()
     {
-        $layout = $this->getlayout();
-        $layout->setTemplate('View/core/layout/one_column.php');
         $grid = \Mage::getBlock('Block\Admin\Cart\Grid');
         $cart = $this->getCart();
         $grid->setCart($cart);
-        $content = $layout->getContent()->addChild($grid);
-        $this->renderlayout();
+        $cartGrid = $grid->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $cartGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getlayout();
+        // $layout->setTemplate('View/core/layout/one_column.php');
+        // $grid = \Mage::getBlock('Block\Admin\Cart\Grid');
+        // $cart = $this->getCart();
+        // $grid->setCart($cart);
+        // $content = $layout->getContent()->addChild($grid);
+        // $this->renderlayout();
         
     }
 
@@ -30,12 +47,31 @@ class Cart extends \Controller\core\Admin
             if(!$addItem) {
                 throw new \Exception("Unable to add item.");
             }
-            
 
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
         }
-        $this->redirect(null, 'index');
+
+        
+        $grid = \Mage::getBlock('Block\Admin\Cart\Grid');
+        $cart = $this->getCart();
+        $grid->setCart($cart);
+        $cartGrid = $grid->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $cartGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+
+        // $this->redirect(null, 'index');
     }
     
     protected function getCart($customer_id = Null) {
@@ -83,17 +119,16 @@ class Cart extends \Controller\core\Admin
                 $cart->updateCart();
             }
             $this->getMessage()->setSuccess('Item update Successfully.');
-            $this->redirect('cart', 'index');
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('cart', 'index');
         }
+        $this->redirect('cart', 'index')    ;
     }
 
     public function deleteAction()
     {
         $cartItem_id = $this->getRequest()->getGet('id');
-        $cartItem = \Mage::getModel('Model\Cart\Item');
+        $cartItem = \Mage::getModel('Model\Cart\Item')->load($cartItem_id);
         $cartItem->delete($cartItem_id);
         $cartItem->getCart()->updateCart(); 
         $this->getMessage()->setSuccess('Item delete Successfully.');

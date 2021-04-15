@@ -11,12 +11,26 @@ class Payment extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $paymentGrid = \Mage::getBlock('Block\Admin\Payment\grid');
-        $content->addChild($paymentGrid, 'paymentGrid');
-        $this->renderLayout();
+        $paymentGrid = \Mage::getBlock('Block\Admin\Payment\grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $paymentGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $paymentGrid = \Mage::getBlock('Block\Admin\Payment\grid');
+        // $content->addChild($paymentGrid, 'paymentGrid');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -30,14 +44,27 @@ class Payment extends \Controller\Core\Admin{
                 }
             }
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-    
-            $content = $layout->getContent();
-            $paymentEdit = \Mage::getBlock('Block\Admin\Payment\Edit')->setPayment($payment);
-            $content->addChild($paymentEdit, 'paymentEdit');
+            $paymentEdit = \Mage::getBlock('Block\Admin\Payment\Edit')->setPayment($payment)->toHtml();
+
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $paymentEdit
+                ]
+            ];
             
-            $this->renderLayout();
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            // $content = $layout->getContent();
+            // $content->addChild($paymentEdit, 'paymentEdit');
+            
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
@@ -66,13 +93,12 @@ class Payment extends \Controller\Core\Admin{
                 $payment->status = 0;
             }
             $payment->save();
-            $this->redirect('Payment','index');
-            exit(0);
         }
         catch(\Exception $e) {
-                echo $e->getMessage();
-
+            echo $e->getMessage();
+            
         }
+        $this->redirect('Payment','index');
     }
 
     
@@ -87,43 +113,13 @@ class Payment extends \Controller\Core\Admin{
             $query = "DELETE FROM `payments` WHERE `payments`.`payment_id` = {$payment_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Payment','index');
         }
         catch(\Exception $e) {
             echo $e->getMessage();
         }
         
+        $this->redirect('Payment','index');
 
-    }
-    
-    public function updateAction() {
-        try {
-            $this->setRequest();
-            if(!$this->request->isPost()) {
-                throw new \Exception ('Invalid Request.');
-            }
-            $this->request->getPost();
-            $payment_id = $_GET['id'];  
-            $paymentName = $_POST['paymentName'];
-            $code = $_POST['code'];
-            $description = $_POST['description'];
-            $status = $_POST['status'];
-            if($status == 'enabled') {
-                $status = 1;
-            } else {
-                $status = 0;
-            }
-            $query = "UPDATE `payments` SET `payment_id` = '{$payment_id}', `paymentName` = '{$paymentName}',
-                     `code` = '{$code}', `description` = '{$description}', `status` = '{$status}'
-                     WHERE `payments`.`payment_id` = {$payment_id}";
-            $adapter = new \Model\Core\Adapter();
-            $adapter->insert($query);
-            $this->redirect('Payment','index');
-            exit(0);
-
-        } catch(\Exception $e) {
-            echo $e->getMessage();
-        }
     }
 
     public function statusAction() {
@@ -142,13 +138,11 @@ class Payment extends \Controller\Core\Admin{
             $query = "UPDATE `payments` SET `payment_id` = '{$payment_id}', `status` = '{$status}' WHERE `payments`.`payment_id` = {$payment_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
-            $this->redirect('Payment','index');
-            exit(0);
         }
         catch(\Exception $e) {
             $e->getMessage();
         }
-        
+        $this->redirect('Payment','index');
         
     }
     

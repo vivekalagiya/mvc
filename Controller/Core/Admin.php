@@ -76,19 +76,21 @@ class Admin {
 
     public function getUrl($controllerName = Null, $actionName = Null, $params = [], $resetParams = false) {
         
-        
+        $final = $_GET;
+
+        if($resetParams) {
+            $final = [];
+        }
+
         if($controllerName == Null) {
             $controllerName = $_GET['c'];
         }
         if($actionName == Null) {
             $actionName = $_GET['a'];
-        }  
-        if($resetParams) {
-            $params = [];
-        } 
-                                                        
+        }                                            
         $final['c'] = $controllerName;
         $final['a'] = $actionName;
+            
         $final = array_merge($final, $params);
         $queryString = http_build_query($final);
         unset($final);

@@ -7,28 +7,68 @@ class Product extends \Controller\Core\Admin{
 
     public function testAction()
     {
-        $query = "SELECT * FROM `products` WHERE 1";
-        $product = \Mage::getModel('Model\Product')->fetchRow($query);
-        $product->productName = 'Mi Tv';
-        $product->sku = 456;
-        echo '<pre>';
-        print_r($product);
-        $product->save();
-        print_r($product);
+        $productGrid = \Mage::getBlock('Block\Admin\Product\grid')->toHtml(); 
+
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#productGrid',
+                'html' => $productGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response); 
+        
+    }
+
+    public function gridHtmlAction()
+    {
+        $productGrid = \Mage::getBlock('Block\Admin\Product\grid')->toHtml(); 
+
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $productGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
         
     }
 
     public function indexAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $productGrid = \Mage::getBlock('Block\Admin\Product\grid'); 
-        $content->addChild($productGrid, 'productGrid');
-        $this->renderLayout();
+        
+        $productGrid = \Mage::getBlock('Block\Admin\Product\grid');
+        $content = $productGrid->toHtml(); 
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $content
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $productGrid = \Mage::getBlock('Block\Admin\Product\grid'); 
+        // $content->addChild($productGrid, 'productGrid');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
         try {
+
             $id = $this->getRequest()->getGet('id');
             $product = \Mage::getModel('Model\Product');
             if($id) {
@@ -37,22 +77,36 @@ class Product extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
+            $productEdit = \Mage::getBlock('Block\Admin\Product\Edit')->setTableRow($product)->toHtml();
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/one_column.php');
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/one_column.php');
     
-            $content = $layout->getContent();
-            $productEdit = \Mage::getBlock('Block\Admin\Product\Edit')->setTableRow($product);
-            $content->addChild($productEdit, 'productEdit');
+            // $content = $layout->getContent();
+            // $content->addChild($productEdit, 'productEdit');
 
-            $this->renderLayout();
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Product','index');
+            $this->indexAction();
             exit(0);
         
         }
+
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $productEdit
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+
     }
 
 
@@ -80,8 +134,8 @@ class Product extends \Controller\Core\Admin{
             $model->createdDate = $createdDate;
             $model->updatedDate = $updatedDate;
             $model->save();
-            $this->redirect('Product','index');
-            exit(0);    
+            // $this->redirect('Product','index');
+            // exit(0);    
             
         }
         catch(\Exception $e) {
@@ -89,9 +143,11 @@ class Product extends \Controller\Core\Admin{
             $model = \Mage::getModel('Model\Admin\Message');
             $model->start();
             $model->setFailure($e->getMessage());
-            $this->redirect('Product','index');
-            exit(0);
+            // $this->redirect('Product','index');
+            // exit(0);
         }
+
+        $this->indexAction();
     }
     
     public function deleteAction() {
@@ -104,18 +160,21 @@ class Product extends \Controller\Core\Admin{
             $query = "DELETE FROM `products` WHERE `products`.`product_id` = {$product_id}";
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);
+
             $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setSuccess('Record Deleted Successfully.');
-            $this->redirect('Product','index');
+            // $this->redirect('Product','index');
         }
         catch(\Exception $e) {
             //echo $e->getMessage();
             $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setFailure($e->getMessage());
-            $this->redirect('Product','index');
+            // $this->redirect('Product','index');
         }
+
+        $this->indexAction();
 
     }
 
@@ -140,18 +199,19 @@ class Product extends \Controller\Core\Admin{
             $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setSuccess('Status Change Successfully.');
-            $this->redirect('Product','index');
-            exit(0);
+            // $this->redirect('Product','index');
+            // exit(0);
+
         }
         catch(\Exception $e) {
             // $e->getMessage();
             $model = \Mage::getModel('Model\Core\Message');
             $model->start();
             $model->setFailure($e->getMessage());
-            $this->redirect('Product','index');
-            
+            // $this->redirect('Product','index');
         }
-        
+
+        $this->indexAction();
         
     }
     

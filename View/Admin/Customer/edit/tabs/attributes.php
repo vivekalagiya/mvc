@@ -1,6 +1,6 @@
 <?php $attributes = $this->getAttributes(); ?>
 <?php //echo '<pre>'; print_r($attributes); ?>
-    <form class="form" method="post" action="<?= $this->getUrl()->getUrl('Customer\Attributes', 'save', ['id' => $this->getRequest()->getGet('id') ]) ?>">
+    <form class="form" method="post" action="<?= $this->getUrl()->getUrl('Customer\Attributes', 'save') ?>">
     <table class="table" border="1">
      <?php foreach ($attributes as $key => $attribute) : ?>
     <?php //print_r($options = $attribute->getOptions()); ?>
@@ -63,7 +63,7 @@
         
         <?php endforeach; ?>
     </table>
-    <br><input type="submit" class="btn" value="Submit">
+         <br><button type="button" class="btn" onclick="object.setForm(this).load();" >Submit</button>
     </form>
 
 

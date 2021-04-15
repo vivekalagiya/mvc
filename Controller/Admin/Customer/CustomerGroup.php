@@ -2,41 +2,63 @@
 
 namespace Controller\Admin\Customer;
 
-
-
-
-
-
 class CustomerGroup extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Grid');
-        $content->addChild($customerGroup, 'customerGroup');
-        $this->renderLayout();
+        
+        $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $customerGroup
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Grid');
+        // $content->addChild($customerGroup, 'customerGroup');
+        // $this->renderLayout();
 
     }
 
 
     public function editAction() {
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
 
-        $content = $layout->getContent();
-        $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Edit');
-        $content->addChild($customerGroup, 'customerGroup');
+        $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Edit')->toHtml();
         
-        $this->renderLayout();
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $customerGroup
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+
+        // $content = $layout->getContent();
+        // $content->addChild($customerGroup, 'customerGroup');
+        // $this->renderLayout();
             
     }
 
     public function saveAction() {
 
         try {
-            echo '<pre>';
             if(!$this->getRequest()->isPost()) {
                 throw new \Exception("Invalid Save Request.");
             }
@@ -50,9 +72,10 @@ class CustomerGroup extends \Controller\Core\Admin{
             $customerGroup->setData($postData);
             
             $customerGroup->save();
-            $this->redirect('Customer\CustomerGroup','index');
+            $this->redirect('Customer\CustomerGroup','index'); 
             
         }
+
         catch(\Exception $e) {
             $customerGroup = \Mage::getModel('Model\Admin\Message');
             $customerGroup->start();
@@ -76,7 +99,6 @@ class CustomerGroup extends \Controller\Core\Admin{
             $this->redirect('Customer\CustomerGroup','index');
         }
         catch(\Exception $e) {
-            //echo $e->getMessage();
             $customerGroup = \Mage::getModel('Model\Core\Message');
             $customerGroup->start();
             $customerGroup->setFailure($e->getMessage());

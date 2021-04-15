@@ -7,15 +7,28 @@ class Order extends \Controller\core\Admin
 
     public function indexAction()
     {
-        $layout = $this->getlayout();
-        $layout->setTemplate('View/core/layout/one_column.php');
+        // $layout = $this->getlayout();
+        // $layout->setTemplate('View/core/layout/one_column.php');
         $grid = \Mage::getBlock('Block\Admin\Order\Grid');
 
         $order_id = $this->getRequest()->getGet('id');
         $order = \Mage::getModel('Model\Order')->load($order_id);
-        $grid->setOrder($order);
-        $content = $layout->getContent()->addChild($grid);
-        $this->renderlayout();
+        $orderGrid = $grid->setOrder($order)->toHtml();
+        // $content = $layout->getContent()->addChild($grid);
+        // $this->renderlayout();
+
+        $response = [
+            'status' => 'success',
+            'message' => 'i did.',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $orderGrid
+            ]
+        ];
+
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
         
     }
 

@@ -5,8 +5,12 @@
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-        <h1>Shipping Table</h1>
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Shipping', 'edit'); ?>>Add shipping</a> <br><br>
+
+        <div style = "display:flex">
+           <div><h1>Shipping Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Shipping', 'edit',[],true); ?>').load();" href="javascript:void(0)">Add Shipping</a></div>
+        </div>
+
         <table class="table" id="table1" name="table1"> 
             <thead class="thead">
                 <tr>
@@ -22,23 +26,23 @@
             </thead>
             <tbody>
                 <?php if($shippings) : ?>
-                <?php foreach ($shippings->getData() as $key => $value) : ?>
+                <?php foreach ($shippings->getData() as $key => $shipping) : ?>
                         <tr>
-                            <td><?php echo $value->shipping_id; ?></td>
-                            <td><?php echo $value->methodName; ?></td>
-                            <td><?php echo $value->code; ?></td>
-                            <td><?php echo $value->amount; ?></td>
-                            <td><?php echo $value->description; ?></td>
+                            <td><?php echo $shipping->shipping_id; ?></td>
+                            <td><?php echo $shipping->methodName; ?></td>
+                            <td><?php echo $shipping->code; ?></td>
+                            <td><?php echo $shipping->amount; ?></td>
+                            <td><?php echo $shipping->description; ?></td>
                             <td>
-                                <?php if(!$value->status) { ?>
-                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Shipping','status', ['id' => $value->shipping_id, 'status' => $value->status]); ?>>Enable</a></td>
+                                <?php if(!$shipping->status) { ?>    
+                                    <a class="btn btn-success" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Shipping','status', ['id' => $shipping->shipping_id, 'status' => $shipping->status]); ?>').load()" href="javascript:void(0)" >Enable</a>
                                 <?php } else { ?>
-                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Shipping','status', ['id' => $value->shipping_id, 'status' => $value->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Shipping','status', ['id' => $shipping->shipping_id, 'status' => $shipping->status]); ?>').load()" href="javascript:void(0)" >Diasble</a>
                                 <?php } ?>
                             </td>
-                            <td><?php echo $value->createdDate; ?></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Shipping','edit', ['id' => $value->shipping_id]);?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Shipping','delete', ['id' => $value->shipping_id]);?>>delete</a></td>
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Shipping','edit', ['id' => $shipping->shipping_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Shipping','delete', ['id' => $shipping->shipping_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            
                         </tr>
               <?php endforeach; ?> 
               <?php else : ?>

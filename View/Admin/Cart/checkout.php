@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div style="display: table; margin: auto;">
-                <span class="step step_complete"> <a href="<?= $this->getUrl()->getUrl('cart', 'index', ['id' => $cart->cart_id]); ?>" class="check-bc">Cart</a> <span class="step_line step_complete"> </span> <span class="step_line backline"> </span> </span>
+                <span class="step step_complete"> <a onclick="object.setUrl('<?= $this->getUrl()->getUrl('cart', 'index', ['id' => $cart->cart_id]); ?>').load();" href="javascript:void(0)" class="check-bc">Cart</a> <span class="step_line step_complete"> </span> <span class="step_line backline"> </span> </span>
                 <span class="step step_complete"> <a href="#" class="check-bc">Checkout</a> <span class="step_line "> </span> <span class="step_line step_complete"> </span> </span>
                 <span class="step_thankyou check-bc step_complete">Thank you</span>
             </div>
@@ -165,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-                     <input class="btn" type="submit" value="save" >
+                     <input class="btn" type="button" onclick="object.setForm(this).load();" value="save" >
             </div>
             <!--SHIPPING METHOD END-->
             <!--CREDIT CART PAYMENT-->
@@ -199,7 +199,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button  class="btn btn-primary btn-submit-fix" onclick="savePaymentMethod()">Save</button>
+                            <input type="button" class="btn btn-primary btn-submit-fix" onclick="savePaymentMethod(this)" href="javascript:void(0)" value="Save" >
                         </div>
                     </div>
                 </div>
@@ -222,14 +222,14 @@
                     
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button  class="btn btn-primary btn-submit-fix" onclick="saveShippingMethod()">Save</button>
+                            <input type="button"  class="btn btn-primary btn-submit-fix" onclick="saveShippingMethod(this)" href="javascript:void(0)" value="Save" >
                         </div>
                     </div>
                 </div>
             </div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button  class="btn btn-primary btn-submit-fix" onclick="placeOrder()">Place Order</button>
+                            <input type="button"  class="btn btn-primary btn-submit-fix" onclick="placeOrder(this)" href="javascript:void(0)" value="Place Order" >
                         </div>
                     </div>
             <!--SHIPPING METHOD END-->
@@ -241,22 +241,25 @@
 
 <script>
 
-var placeOrder = function() {
+var placeOrder = function(button) {
     var form = document.getElementById('checkoutForm');
     form.setAttribute('Action', '<?= $this->getUrl()->getUrl('Order', 'placeOrder', ['id' => $cart->cart_id ]); ?>');
-    form.submit();
+    object.setForm(button).load();
+    // form.submit();
 }
 
-var savePaymentMethod = function() {
+var savePaymentMethod = function(button) {
     var form = document.getElementById('checkoutForm');
     form.setAttribute('Action', '<?= $this->getUrl()->getUrl('', 'savePaymentMethod', ['id' => $cart->cart_id ]); ?>');
-    form.submit();
+    object.setForm(button).load();
+    // form.submit();
 }
 
-var saveShippingMethod = function() {
+var saveShippingMethod = function(button) {
     var form = document.getElementById('checkoutForm');
     form.setAttribute('Action', '<?= $this->getUrl()->getUrl('', 'saveShippingMethod', ['id' => $cart->cart_id ]); ?>');
-    form.submit();
+    object.setForm(button).load();
+    // form.submit();
 }
 
 </script>

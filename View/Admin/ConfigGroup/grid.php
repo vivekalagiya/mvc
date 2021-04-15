@@ -10,10 +10,11 @@
 
 <body>
  
-        <h1>Configuration Table</h1>
+        <div style = "display:flex">
+           <div><h1>Configuration Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('ConfigGroup', 'edit'); ?>').load();" href="javascript:void(0)">Add Configuration Group</a></div>
+        </div>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('ConfigGroup', 'edit'); ?>>Add Configuration Group</a> <br><br>
-        
         <table class="table" id="table1" name="table1">
             <thead class="thead">
                 <tr>
@@ -30,9 +31,9 @@
                         <tr>
                             <td><?php echo $configGroup->group_id; ?></td>
                             <td><?php echo $configGroup->name; ?></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('ConfigGroup','edit', ['id' => $configGroup->group_id]); ?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('ConfigGroup','delete', ['id' => $configGroup->group_id]); ?>>delete</a></td>
-
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('ConfigGroup','edit', ['id' => $configGroup->group_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('ConfigGroup','delete', ['id' => $configGroup->group_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            
                         </tr>
                 <?php endforeach; ?>
                 <?php endif; ?>   

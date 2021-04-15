@@ -54,7 +54,7 @@
             </td>
   	    </tr>
     </table>
-         <button type="submit" class="btn" >Save</button>
+         <input type="button" class="btn" onclick="object.setForm(this).load();" value="Save">
   </form>
 </body>
     

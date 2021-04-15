@@ -49,7 +49,7 @@ class Config extends \Controller\Core\Admin
         $group_id = $this->getRequest()->getGet('group_id');
         $config_id = $this->getRequest()->getGet('config_id');
         $config = \Mage::getModel('Model\ConfigGroup\Config')->delete($config_id);
-        $this->redirect('ConfigGroup','Edit',['id' => $group_id, 'tab' => 'configuration']);
+        $this->redirect('ConfigGroup','edit',['id' => $group_id, 'tab' => 'configuration']);
         
     }   
 }

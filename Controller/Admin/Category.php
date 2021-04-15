@@ -7,12 +7,26 @@ class Category extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $categoryGrid = \Mage::getBlock('Block\Admin\Category\grid');
-        $content->addChild($categoryGrid, 'categoryGrid');
-        $this->renderLayout();
+        $categoryGrid = \Mage::getBlock('Block\Admin\Category\grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $categoryGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $categoryGrid = \Mage::getBlock('Block\Admin\Category\grid');
+        // $content->addChild($categoryGrid, 'categoryGrid');
+        // $this->renderLayout();
 
     }
 
@@ -26,19 +40,31 @@ class Category extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
+            $categoryEdit = \Mage::getBlock('Block\Admin\Category\Edit')->setTableRow($category)->toHtml();
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/one_column.php');
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $categoryEdit
+                ]
+            ];
+            
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
     
-            $content = $layout->getContent();
-            $categoryEdit = \Mage::getBlock('Block\Admin\Category\Edit')->setTableRow($category);
-            $content->addChild($categoryEdit, 'categoryEdit');
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/one_column.php');
+            // $content = $layout->getContent();
+            // $content->addChild($categoryEdit, 'categoryEdit');
             
-            $this->renderLayout();
+            // $this->renderLayout();  
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Category','index');
+            // $this->redirect('Category','index');
+            $this->indexAction();
             exit(0);
         
         }
@@ -59,19 +85,20 @@ class Category extends \Controller\Core\Admin{
             $postData = $this->getRequest()->getPost('category');
             $category->setData($postData);
             $category->save();
-
             $path_id = $category->path_id;            
             $category->updatePathId($category);
             $category->updateChildrenPathId($path_id);
-            $this->redirect('Category','index');
-            exit(0);                 
+            // $this->redirect('Category','index');
+            // exit(0);                 
         }
         
         catch(\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Category','index');
-            exit(0);
+            // $this->redirect('Category','index');
+            // exit(0);
         }
+
+        $this->indexAction();
         
     }
     
@@ -80,21 +107,23 @@ class Category extends \Controller\Core\Admin{
             $category_id = (int) $this->getRequest()->getGet('id');
             if(!$category_id) {
                 throw new \Exception("Invalid delete Request.");
-            }
+            }   
             
             $category = \Mage::getModel('Model\category')->load($category_id);
             $parent_id = $category->parent_id;
             $path_id = $category->path_id;
             $category->updateChildrenPathId($path_id, $parent_id);
             $category->delete($category_id);
-
+            
             $this->getMessage()->setSuccess('Record Deleted Successfully.');
-            $this->redirect('Category','index');
+            // $this->redirect('Category','index');
         }
         catch(\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Category','index');
+            // $this->redirect('Category','index');
         }
+        
+        $this->indexAction();
     }
     
     public function statusAction() {
@@ -116,13 +145,14 @@ class Category extends \Controller\Core\Admin{
             $adapter = new \Model\Core\Adapter();
             $adapter->insert($query);   
             $this->getMessage()->setSuccess('Status Change Successfully.');
-            $this->redirect('Category','index');
-            exit(0);
+            // $this->redirect('Category','index');
+            // exit(0);
         }
         catch(\Exception $e) {   
             $this->getMessage()->setFailure($e->getMessage());
-            $this->redirect('Category','index');   
+            // $this->redirect('Category','index');   
         }
+        $this->indexAction();
     }
             
 }

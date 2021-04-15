@@ -6,12 +6,28 @@ class Admin extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $adminGrid = \Mage::getBlock('Block\Admin\Admin\grid');
-        $content->addChild($adminGrid, 'adminGrid');
-        $this->renderLayout();
+        
+        $adminGrid = \Mage::getBlock('Block\Admin\Admin\Grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $adminGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $adminGrid = \Mage::getBlock('Block\Admin\Admin\grid');
+        // $content->addChild($adminGrid, 'adminGrid');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -24,15 +40,28 @@ class Admin extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
-
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
-    
-            $content = $layout->getContent();
-            $adminEdit = \Mage::getBlock('Block\Admin\Admin\Edit')->setAdmin($admin);
-            $content->addChild($adminEdit, 'adminEdit');
             
-            $this->renderLayout();
+            $adminEdit = \Mage::getBlock('Block\Admin\Admin\Edit')->setAdmin($admin)->toHtml();
+            
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $adminEdit
+                ]
+            ];
+            
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+    
+            // $content = $layout->getContent();
+            // $content->addChild($adminEdit, 'adminEdit');
+            
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());

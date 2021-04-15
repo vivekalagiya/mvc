@@ -10,10 +10,11 @@
 
 <body>
  
-        <h1>Cms Page</h1>
+        <div style = "display:flex">
+           <div><h1>Cms Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Cms', 'edit'); ?>').load();" href="javascript:void(0)">Add Cms</a></div>
+        </div>
 
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Cms', 'edit'); ?>>Add Cms</a> <br><br>
-        
         <table class="table" id="table1" name="table1">
             <thead class="thead">
                 <tr>

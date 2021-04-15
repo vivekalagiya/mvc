@@ -6,7 +6,7 @@ class ProductMedia extends \Controller\Core\Admin{
 
     public function editAction() {
         $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+        $layout->setTemplate('./View/core/layout/one_column.php');
 
         $content = $layout->getContent();
         $productEdit = \Mage::getBlock('Block\Admin\Product\Edit\Tabs\Media');
@@ -64,28 +64,24 @@ class ProductMedia extends \Controller\Core\Admin{
                     $remove = 0;
                 }
                 if($remove) {
-                    $query = "DELETE FROM `productMedia` WHERE `productMedia`.`image_id` = $image_id";
-                    $adapter = new \Model\Core\Adapter();
-                    $result = $adapter->delete($query);
+                    $productMedia->update($image_id);
                     
                 } else {
                     $query = "UPDATE `productMedia` SET `label` = '{$label}', `gallery` = '{$gallery}', `small` = '{$small}', `thumb` = '{$thumb}', `base` = '{$base}' WHERE `image_id` = {$image_id} ";
-                    $adapter = new \Model\Core\Adapter();
-                    $result = $adapter->update($query);
+                    $productMedia->update($query);
                 }
             }
         } else {
             $this->imageUpload();
         }
-        // $productMedia->save();
-        $this->redirect('Product\ProductMedia', 'edit', ['id' => $productMedia->product_id]);
+        // $this->redirect('Product\ProductMedia', 'edit', ['id' => $productMedia->product_id]);
         
     }
 
-    public function imageUpload() {
+    public function imageUpload(){
         $productMedia = \Mage::getModel('Model\Product\ProductMedia');
-        // echo '<pre>';
-        // print_r($_FILES['image']);die;
+        echo '<pre>';
+        print_r($_FILES);die;
         if($_FILES['image']) {
             $image = $_FILES['image']['name'];
             $tempName = $_FILES['image']['tmp_name'];
@@ -100,7 +96,7 @@ class ProductMedia extends \Controller\Core\Admin{
         // $this->redirect('Product\ProductMedia', 'edit', ['id' => $productMedia->product_id]);
     }
     
-    public function deleteAction() {
+    public function deleteAction(){
         
     }
     

@@ -6,12 +6,26 @@ class Brand extends \Controller\Core\Admin
 {
     public function indexAction()
     {
-        $layout = $this->getlayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $brand =  \Mage::getBlock('Block\Admin\Brand\Grid');
-        $content->addChild($brand);
-        $this->renderLayout();
+
+        $brandGrid = \Mage::getBlock('Block\Admin\Brand\Grid')->toHtml();
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $brandGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getlayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $brand =  \Mage::getBlock('Block\Admin\Brand\Grid');
+        // $content->addChild($brand);
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -25,14 +39,26 @@ class Brand extends \Controller\Core\Admin
                 }
             }
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/two_column_with_leftBar.php');
     
-            $content = $layout->getContent();
-            $brandEdit = \Mage::getBlock('Block\Admin\Brand\Edit')->setBrand($brand);
-            $content->addChild($brandEdit, 'brandEdit');
+            // $content = $layout->getContent();
+            // $content->addChild($brandEdit, 'brandEdit');
+
+
+            $brandEdit = \Mage::getBlock('Block\Admin\Brand\Edit')->setBrand($brand)->toHtml();
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $brandEdit
+                ]
+            ];
             
-            $this->renderLayout();
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
@@ -60,24 +86,26 @@ class Brand extends \Controller\Core\Admin
             }
             $brand->createdDate = date('Y-m-d h:i:s');
 
-            $image = $_FILES['brandImage']['name'];
-            $tempName = $_FILES['brandImage']['tmp_name'];
-            $subPath = 'skin\Images\Brand\\';
-            $path = \Mage::getBaseDir($subPath);
-            move_uploaded_file($tempName, $path.$image);
+            if(array_key_exists('brandImage', $_FILES)) {
+                $image = $_FILES['brandImage']['name'];
+                $tempName = $_FILES['brandImage']['tmp_name'];
+                $subPath = 'skin\Images\Brand\\';
+                $path = \Mage::getBaseDir($subPath);
+                move_uploaded_file($tempName, $path.$image);
+                $brand->brandImage = $image;
+            }
             
-            $brand->brandImage = $image;
             $brand->save();
 
-            $this->redirect('Brand','index');
-            exit(0);
         }
         catch(\Exception $e) {
-                echo $e->getMessage();
-
+            echo $e->getMessage();
         }
+        $this->redirect('Brand','index');
+        exit(0);
+        
     }
-
+    
     public function deleteAction() {
         try {
             $this->setRequest();
@@ -94,7 +122,6 @@ class Brand extends \Controller\Core\Admin
             echo $e->getMessage();
         }
         
-
     }
     
     public function statusAction() {

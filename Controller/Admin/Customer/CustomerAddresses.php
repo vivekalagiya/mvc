@@ -2,11 +2,6 @@
 
 namespace Controller\Admin\Customer;
 
-
-
-
-
-
 class CustomerAddresses extends \Controller\Core\Admin{
     
     public function saveAction() {
@@ -21,19 +16,18 @@ class CustomerAddresses extends \Controller\Core\Admin{
             if(!$customer_id) {
                 throw new \Exception("Invalid Id.");
             }
-            echo '<pre>';
             $shipping = $this->getRequest()->getPost('shipping');
             $billing = $this->getRequest()->getPost('billing');
             
-            $customerAddresses->setData($shipping);
-            $customerAddresses->addressType = 'shipping';
-            $customerAddresses->customer_id = $customer_id;
             
             $query = "SELECT * FROM `customerAddresses` WHERE `customer_id` = $customer_id AND `addressType` = 'shipping' ";
             if($address = $customerAddresses->fetchRow($query)) {
                 $customerAddresses->address_id = $address->address_id;
             }
-
+            
+            $customerAddresses->setData($shipping);
+            $customerAddresses->addressType = 'shipping';
+            $customerAddresses->customer_id = $customer_id;
             $customerAddresses->save();
             $customerAddresses->unsetData();
             
@@ -48,7 +42,7 @@ class CustomerAddresses extends \Controller\Core\Admin{
             $customerAddresses->customer_id = $customer_id;
             $customerAddresses->save();
             
-            $this->redirect('Customer','edit',['id' => $customerAddresses->customer_id]);
+            $this->redirect('Customer','edit');
         }
         catch(\Exception $e) {
             // echo $e->getMessage();

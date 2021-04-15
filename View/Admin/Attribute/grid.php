@@ -10,10 +10,10 @@
 
 <body>
  
-        <h1>Attribute Table</h1>
-
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Attribute', 'edit'); ?>>Add Attribute</a> <br><br>
-        
+        <div style = "display:flex">
+           <div><h1>Attribute Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Attribute', 'edit'); ?>').load();" href="javascript:void(0)">Add Attribute</a></div>
+        </div>
         <table class="table" id="table1" name="table1">
             <thead class="thead">
                 <tr>
@@ -42,9 +42,9 @@
                             <td><?php echo $attribute->backendType; ?></td>
                             <td><?php echo $attribute->sortOrder; ?></td>
                             <td><?php echo $attribute->backendModel; ?></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Attribute','edit', ['id' => $attribute->attribute_id]); ?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Attribute','delete', ['id' => $attribute->attribute_id, 'entityType_id' => $attribute->entityType_id, 'code' => $attribute->code]); ?>>delete</a></td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Attribute','option', ['id' => $attribute->attribute_id]); ?>>Option</a></td>
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Attribute','edit', ['id' => $attribute->attribute_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Attribute','delete', ['id' => $attribute->attribute_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Attribute','option', ['id' => $attribute->attribute_id]); ?>').load()" href="javascript:void(0)" >Option</a></td>
 
                         </tr>
                 <?php endforeach; ?>

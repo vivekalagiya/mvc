@@ -6,12 +6,26 @@ class ConfigGroup extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $configGroup = \Mage::getBlock('Block\Admin\ConfigGroup\grid');
-        $content->addChild($configGroup, 'configGroup');
-        $this->renderLayout();
+        $configGroup = \Mage::getBlock('Block\Admin\ConfigGroup\grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $configGroup
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $configGroup = \Mage::getBlock('Block\Admin\ConfigGroup\grid');
+        // $content->addChild($configGroup, 'configGroup');
+        // $this->renderLayout();
     }
 
     public function editAction() {  
@@ -25,15 +39,27 @@ class ConfigGroup extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
+            $configGroupEdit = \Mage::getBlock('Block\Admin\ConfigGroup\Edit')->setTableRow($configGroup)->toHtml();
+
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $configGroupEdit
+                ]
+            ];
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/one_column.php');
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
             
-            $content = $layout->getContent();
-            $configGroupEdit = \Mage::getBlock('Block\Admin\ConfigGroup\Edit')->setTableRow($configGroup);
-            $content->addChild($configGroupEdit, 'configGroupEdit');
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/one_column.php');
+            
+            // $content = $layout->getContent();
+            // $content->addChild($configGroupEdit, 'configGroupEdit');
               
-            $this->renderLayout();
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());

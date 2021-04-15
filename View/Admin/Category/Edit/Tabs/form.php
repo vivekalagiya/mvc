@@ -63,7 +63,7 @@
             </td> 
   	    </tr>
     </table>
-     <button type="submit" class="btn" >Save</button>
+    <a class="btn" onclick="object.setForm(this).load();" href="javascript:void(0)">Save</a>
   </form>
 </body>
     

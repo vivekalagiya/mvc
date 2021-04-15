@@ -5,8 +5,11 @@
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-        <h1>Brand Table</h1>
-        <a class="btn" href=<?php echo $this->getUrl()->getUrl('Brand', 'edit'); ?>>Add Brand</a> <br><br>
+
+        <div style = "display:flex">
+           <div><h1>Brand Table</h1></div>
+           <div class="add"><a class="btn" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Brand', 'edit'); ?>').load();" href="javascript:void(0)">Add Brand</a></div>
+        </div>
         <table class="table" id="table1" name="table1"> 
             <thead class="thead">
                 <tr>
@@ -25,15 +28,16 @@
                             <td><?php echo $value->brandName; ?></td>
                             <td><?php echo $value->brandImage; ?></td>
                             <td>
-                                <?php if(!$value->status) { ?>
-                                    <a class="btn btn-success" href=<?php echo $this->getUrl()->getUrl('Brand','status', ['id' => $value->brand_id, 'status' => $value->status]); ?>>Enable</a></td>
+                                <?php if(!$value->status) { ?>    
+                                    <a class="btn btn-success" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Brand','status', ['id' => $value->brand_id, 'status' => $value->status]); ?>').load()" href="javascript:void(0)" >Enable</a>
                                 <?php } else { ?>
-                                    <a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Brand','status', ['id' => $value->brand_id, 'status' => $value->status]); ?>>Disable</a></td>
+                                    <a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Brand','status', ['id' => $value->brand_id, 'status' => $value->status]); ?>').load()" href="javascript:void(0)" >Diasble</a>
                                 <?php } ?>
                             </td>
-                            <td><a class="btn btn-edit" href=<?php echo $this->getUrl()->getUrl('Brand','edit', ['id' => $value->brand_id]);?> >edit</a></td>
-                            <td><a class="btn btn-danger" href=<?php echo $this->getUrl()->getUrl('Brand','delete', ['id' => $value->brand_id]);?>>delete</a></td>
-                        </tr>
+                            <td><a class="btn btn-edit" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Brand','edit', ['id' => $value->brand_id]); ?>').load()" href="javascript:void(0)" >edit</a></td>
+                            <td><a class="btn btn-danger" onclick="object.setUrl('<?php echo $this->getUrl()->getUrl('Brand','delete', ['id' => $value->brand_id]); ?>').load()" href="javascript:void(0)" >Delete</a></td>
+                            
+                             </tr>
               <?php endforeach; ?> 
               <?php else : ?>
                 <tr><td>No records found.</td></tr>

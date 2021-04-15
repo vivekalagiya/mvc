@@ -17,8 +17,6 @@ class Mage {
     public static function init() {
         \Controller\Core\Front::init();
     }
-
-    
     
     public function getController($className)
     {

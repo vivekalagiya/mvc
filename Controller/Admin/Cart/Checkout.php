@@ -6,10 +6,12 @@ class Checkout extends \Controller\Core\Admin
 {
     public function indexAction()
     {
+        // $customerGroup = \Mage::getBlock('Block\Admin\Customer\CustomerGroup\Grid')->toHtml();
+        
         $cart_id = $this->getRequest()->getGet('id');
-        $layout = $this->getLayout();
-        $layout->setTemplate('View/core/layout/one_column.php');
-        $content = $layout->getContent();
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('View/core/layout/one_column.php');
+        // $content = $layout->getContent();
         $cart = \Mage::getModel('Model\Cart')->load($cart_id);
         if(!$cart) {
             $cart = \Mage::getModel('Model\Cart');
@@ -18,9 +20,22 @@ class Checkout extends \Controller\Core\Admin
             $this->getMessage()->setFailure('select atleast one item.');
             $this->redirect('cart', 'index', ['id' => $cart_id]);
         }
-        $checkout = \Mage::getBlock('Block\Admin\Cart\Checkout')->setCart($cart);
-        $content->addChild($checkout);
-        $this->renderLayout();
+
+        $checkout = \Mage::getBlock('Block\Admin\Cart\Checkout')->setCart($cart)->toHtml();
+        // $content->addChild($checkout);
+        // $this->renderLayout();
+
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $checkout
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
     }
     
     public function saveAction()
@@ -88,7 +103,7 @@ class Checkout extends \Controller\Core\Admin
             }
         }
         
-        $this->redirect('', 'index', ['id' => $cart_id]);
+        $this->redirect('', 'index');
     }
     
     public function savePaymentMethodAction()
@@ -98,7 +113,7 @@ class Checkout extends \Controller\Core\Admin
         $payment_id = $this->getRequest()->getPost('paymentMethod');
         $cart->payment_id = $payment_id;
         $cart->save();
-        $this->redirect('', 'index', ['id' => $cart_id]);
+        $this->redirect('Cart\Checkout', 'index');
     }
     
     public function saveShippingMethodAction()
@@ -112,7 +127,7 @@ class Checkout extends \Controller\Core\Admin
         $cart->shipping_id = $shipping_id;
         $cart->shippingAmount = $shipping->amount;
         $cart->save();
-        $this->redirect('', 'index', ['id' => $cart_id]);
+        $this->redirect('', 'index');
     }
 
 }

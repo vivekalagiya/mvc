@@ -2,12 +2,6 @@
 
 namespace Controller\Admin\Product;
 
-
-
-
-
-
-
 class Attributes extends \Controller\Core\Admin{
 
     public function saveAction()

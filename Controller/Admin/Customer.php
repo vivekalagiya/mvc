@@ -12,12 +12,26 @@ class Customer extends \Controller\Core\Admin{
 
     public function indexAction() {
 
-        $layout = $this->getLayout();
-        $layout->setTemplate('./View/core/layout/one_column.php');
-        $content = $layout->getContent();
-        $customerGrid = \Mage::getBlock('Block\Admin\Customer\grid');
-        $content->addChild($customerGrid, 'customerGrid');
-        $this->renderLayout();
+        $customerGrid = \Mage::getBlock('Block\Admin\Customer\grid')->toHtml();
+        
+        $response = [
+            'status' => 'success',
+            'message' => 'i can do',
+            'element' => [
+                'selector' => '#contentHtml',
+                'html' => $customerGrid
+            ]
+        ];
+        
+        header("Content-type: application/json; charset=utf-8");
+        echo json_encode($response);
+
+        // $layout = $this->getLayout();
+        // $layout->setTemplate('./View/core/layout/one_column.php');
+        // $content = $layout->getContent();
+        // $customerGrid = \Mage::getBlock('Block\Admin\Customer\grid');
+        // $content->addChild($customerGrid, 'customerGrid');
+        // $this->renderLayout();
 
     }
 
@@ -31,15 +45,27 @@ class Customer extends \Controller\Core\Admin{
                     throw new \Exception("Invalid Id", 1);
                 }
             }
+            $customerEdit = \Mage::getBlock('Block\Admin\Customer\Edit')->setTableRow($customer)->toHtml();
+        
+            $response = [
+                'status' => 'success',
+                'message' => 'i can do',
+                'element' => [
+                    'selector' => '#contentHtml',
+                    'html' => $customerEdit
+                ]
+            ];
+        
+            header("Content-type: application/json; charset=utf-8");
+            echo json_encode($response);
             
-            $layout = $this->getLayout();
-            $layout->setTemplate('./View/core/layout/one_column.php');
+            // $layout = $this->getLayout();
+            // $layout->setTemplate('./View/core/layout/one_column.php');
     
-            $content = $layout->getContent();
-            $customerEdit = \Mage::getBlock('Block\Admin\Customer\Edit')->setTableRow($customer);
-            $content->addChild($customerEdit, 'customerEdit');
+            // $content = $layout->getContent();
+            // $content->addChild($customerEdit, 'customerEdit');
             
-            $this->renderLayout();
+            // $this->renderLayout();
             
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());

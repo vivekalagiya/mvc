@@ -26,6 +26,6 @@
         <?php endif; ?>
   </tbody>
 </table>
-    <input type="submit" class="btn" value="submit">
+    <input type="button" class="btn" onclick="object.setForm(this).load();" value="Submit">
 </form>
 

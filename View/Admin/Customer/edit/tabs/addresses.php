@@ -9,6 +9,7 @@
 </head>
 <body>
   <form class="form" name='form' method="POST" action="<?php echo $this->getUrl()->getUrl('Customer\CustomerAddresses', 'save', ['id' => $this->getRequest()->getGet('id')]) ?>">
+  
   <table>
         <tr>
           <td colspan="2"><h2>Shipping Address</h2></td>
@@ -80,7 +81,7 @@
             </td>
   	    </tr>
     </table>
-         <br><button type="submit" class="btn" >Save</button>
+         <br><button type="button" class="btn" onclick="object.setForm(this).load();" >Save</button>
   </form>
 </body>
     
